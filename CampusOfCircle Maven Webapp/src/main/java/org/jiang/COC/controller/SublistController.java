@@ -50,7 +50,7 @@ public class SublistController{
 			request.setAttribute("errorMsg", "参数传输错误");
 //			request.getRequestDispatcher("/WEB-INF/jsp/sublistStudent.jsp").forward(request, response);
 			return "sublistStudent";
-		}
+		} 
 		int currentPage = Constant.DEFAULT_PAGE_NUM; //显示第几页数据
 		if(pageNumStr!=null && !"".equals(pageNumStr.trim())){
 			currentPage = Integer.parseInt(pageNumStr);
