@@ -17,9 +17,9 @@
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
         <!--第一步：开启注解功能，并且进行项目扫描，加载service及其以下的注解类-->
   		<mvc:annotation-driven /> 
-  		<context:component-scan base-package="org.cherry.CampusCircle" />
+  		<context:component-scan base-package="org.jiang.COC" />
   		<!--第二步：首先添加jdbc资源文件，并配置datasource进行解析--><!-- 详见请滑至底端 -->
-		<context:property-placeholder location="classpath*:jdbc.properties" />
+		<context:property-placeholder location="classpath*:jdbc.properties" ignore-unresolvable="true"/>
 		<!--扫描到资源文件，进行datesource配置-->
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="false">
 			<property name="driverClassName" value="${jdbc.driverClassName}" />
@@ -50,14 +50,27 @@
 			<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
 			<property name="validationQuery" value="${jdbc.validationQuery}" />
 		</bean>
-  		<!--第三步：添加一个bean，整合hibernate核心配置和连接池-->
+  		<!--扫描一个hibernate的属性的配置文件-->
+		<context:property-placeholder location="classpath*:hibernate.properties" ignore-unresolvable="true" />
 		<bean id="sessionFactory"  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
  			<!--①把连接池注入到session工厂-->
 			<property name="dataSource" ref="dataSource" />
-			<!--②-把hibernate.cfg.xml文件注入session工厂-->
-			<property name="configLocation" >
-				<value>classpath:hibernate.cfg.xml</value>
+			<!--②-把hibernate.cfg.xml文件里面的属性配置用spring方式配置-->
+			<property name="hibernateProperties">
+				<props>
+					<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+					<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+					<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+					<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+					<!-- 开启二级缓存 ehcache -->
+					<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+					<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+					<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+					<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.cache.provider_configuration_file_resource_path}</prop>
+				</props>
 			</property>
+			<!--①引入实体类-->
+    		<property name="packagesToScan" value="org.jiang.COC.model"/>
 		</bean>
 		<!--第四步：添加事物管理的bean文件 -->
 		<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">

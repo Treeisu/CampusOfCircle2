@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
         <!--第一步：开启注解功能，扫描Controller下的类，加载controller的注解类-->
 		<mvc:annotation-driven />
-        <context:component-scan base-package="org.cherry.CampusCircle.controller" />
+        <context:component-scan base-package="org.jiang.COC.controller" />
         <!--第二步：进行前端页面资源过滤，引用静态资源这样在页面引入js、css等文件的路径填写js/test.js这样就好了-->
 		<mvc:resources location="/resources/js/" mapping="/js/**" />
 		<mvc:resources location="/resources/css/" mapping="/css/**" />

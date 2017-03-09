@@ -27,10 +27,8 @@ public class SublistController{
 	private StudentService studentService;
 	@Autowired
 	private HttpServletRequest request;
-	@Resource
-	private Page<Student> result;
-	@Resource
-	private Student searchModel;
+	
+
 
 	
 //	@RequestMapping(value="/SublistServlet",method=RequestMethod.GET)
@@ -40,10 +38,10 @@ public class SublistController{
 //		this.findList(stuName, genderStr, pageNumStr);
 //	}
 	@RequestMapping(value="/SublistServlet",method={RequestMethod.POST,RequestMethod.GET})
-	public String findList(@RequestParam("stuName")String stuName,
-							@RequestParam("gender")String genderStr,
-							@RequestParam("pageNum")String pageNumStr)throws ServletException, IOException {
-		
+	public String findList()throws ServletException, IOException {
+		String stuName=request.getParameter("stu_Name");
+		String genderStr=request.getParameter("gender");
+		String pageNumStr=request.getParameter("pageNum");
 		int gender = Constant.DEFAULT_GENDER;
 		if(genderStr!=null && !"".equals(genderStr.trim())){
 			gender = Integer.parseInt(genderStr);
@@ -64,10 +62,12 @@ public class SublistController{
 			pageSize = Integer.parseInt(pageSizeStr);
 		}
 		// 组装查询条件
+		Student searchModel=new Student();
 		searchModel.setStuName(stuName);
 		searchModel.setGender(gender);	
 		//调用service 获取查询结果
 //		studentService=new SublistStudentServiceImpl();
+		Page<Student> result=new Page<Student>();
 		result = studentService.findStudent(searchModel,currentPage,pageSize);
 		// 返回结果到页面
 		request.setAttribute("result", result);

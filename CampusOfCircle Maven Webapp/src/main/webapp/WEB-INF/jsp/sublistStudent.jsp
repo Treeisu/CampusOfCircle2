@@ -95,7 +95,7 @@ function initPage(){
 		<div>
 			<form action="<%=context%>/sublist/SublistServlet"   id="stuForm"  method="post">
 				姓名
-				<input type="text" name="stuName" id="stu_name" style="width:120px" value="${stuName }">
+				<input type="text" name="stu_Name" id="stu_name" style="width:120px" value="${stuName }">
 				&nbsp;
 				性别
 				<select name="gender" id="gender" style="width:80px">

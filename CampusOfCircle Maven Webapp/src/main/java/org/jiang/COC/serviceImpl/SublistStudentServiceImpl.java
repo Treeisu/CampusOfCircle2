@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 public class SublistStudentServiceImpl implements StudentService {
 	@Autowired
 	private StudentDao studentDao;
-	@Resource
 	private Page<Student> result;
 	public Page<Student> findStudent(Student searchModel, int pageNum,int pageSize) {
 		result = studentDao.findStudent(searchModel, pageNum,pageSize);
