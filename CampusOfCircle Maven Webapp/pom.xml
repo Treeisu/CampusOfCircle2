@@ -16,7 +16,7 @@
 
   
   <dependencies>
-  <!-- spring管理的依赖开始 -->
+  <!--  spring管理的依赖开始 -->
 		<!-- IOC容器支持  -->
 		<dependency>
 			<groupId>org.springframework</groupId>
