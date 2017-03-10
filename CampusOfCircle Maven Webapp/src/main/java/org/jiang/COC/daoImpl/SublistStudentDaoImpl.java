@@ -20,12 +20,12 @@ public class SublistStudentDaoImpl implements StudentDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
-	private Page<Student> pager;
 	
 	
 
 	public Page<Student> findStudent(Student searchModel, int pageNum,int pageSize) {
 		List<Student> allStudenList = getAllStudent(searchModel);
+		Page<Student> pager=new Page<Student>();
 		pager.setCurrentPage(pageNum);
 		pager.setPageSize(pageSize);
 		pager.setListShow(allStudenList);
