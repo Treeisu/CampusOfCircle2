@@ -57,24 +57,42 @@ public class SublistStudentDaoImpl implements StudentDao {
 			query.setParameter("mygender", gender);
 			result=query.list();
 			session.close();
+		}else{
+			if(!(stuName != null && !stuName.equals(""))&&!(gender == Constant.GENDER_FEMALE || gender == Constant.GENDER_MALE)){
+				Query query= session.createQuery(hql1);
+				result=query.list();
+				session.close();
+			}else{
+				if((stuName != null && !stuName.equals(""))&&!(gender == Constant.GENDER_FEMALE || gender == Constant.GENDER_MALE)){
+					Query query= session.createQuery(hql2);
+					query.setString("myname", stuName);
+					result=query.list();
+					session.close();
+				}else{
+					Query query= session.createQuery(hql3);
+					query.setParameter("mygender", gender);
+					result=query.list();
+					session.close();
+				}
+			}
 		}
-		else if (!(stuName != null && !stuName.equals(""))&&(gender == Constant.GENDER_FEMALE || gender == Constant.GENDER_MALE)) {
-			Query query= session.createQuery(hql3);
-			query.setParameter("mygender", gender);
-			result=query.list();
-			session.close();
-		}
-		else if (!(stuName != null && !stuName.equals(""))&&!(gender == Constant.GENDER_FEMALE || gender == Constant.GENDER_MALE)) {
-			Query query= session.createQuery(hql2);
-			query.setString("myname", stuName);
-			result=query.list();
-			session.close();
-		}
-		else{
-			Query query= session.createQuery(hql1);
-			result=query.list();
-			session.close();
-		}
+//		else if (!(stuName != null && !stuName.equals(""))&&(gender == Constant.GENDER_FEMALE || gender == Constant.GENDER_MALE)) {
+//			Query query= session.createQuery(hql3);
+//			query.setParameter("mygender", gender);
+//			result=query.list();
+//			session.close();
+//		}
+//		else if (!(stuName != null && !stuName.equals(""))&&!(gender == Constant.GENDER_FEMALE || gender == Constant.GENDER_MALE)) {
+//			Query query= session.createQuery(hql2);
+//			query.setString("myname", stuName);
+//			result=query.list();
+//			session.close();
+//		}
+//		else{
+//			Query query= session.createQuery(hql1);
+//			result=query.list();
+//			session.close();
+//		}
 		return result;
 	}
 }
