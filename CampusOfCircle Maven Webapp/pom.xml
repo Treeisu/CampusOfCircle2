@@ -247,7 +247,7 @@
 		    <version>3.0.1</version>
 		</dependency>
 			<!-- jstl标签的使用   -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
@@ -256,7 +256,7 @@
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
-		</dependency> -->
+		</dependency>
 <!-- servlet支持 -->
 
     <dependency>

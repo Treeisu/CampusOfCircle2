@@ -50,12 +50,14 @@
 			<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
 			<property name="validationQuery" value="${jdbc.validationQuery}" />
 		</bean>
+  		
   		<!--扫描一个hibernate的属性的配置文件-->
 		<context:property-placeholder location="classpath*:hibernate.properties" ignore-unresolvable="true" />
+		
 		<bean id="sessionFactory"  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
  			<!--①把连接池注入到session工厂-->
 			<property name="dataSource" ref="dataSource" />
-			<!--②-把hibernate.cfg.xml文件里面的属性配置用spring方式配置-->
+			<!-- ②-把hibernate.cfg.xml文件里面的属性配置用spring方式配置 -->
 			<property name="hibernateProperties">
 				<props>
 					<prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -69,12 +71,12 @@
 					<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.cache.provider_configuration_file_resource_path}</prop>
 				</props>
 			</property>
-			<!--①引入实体类-->
+			<!-- ①引入实体类 -->
     		<property name="packagesToScan" value="org.jiang.COC.model"/>
 		</bean>
 		<!--第四步：添加事物管理的bean文件 -->
 		<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-			<property name="sessionFactory" ref="sessionFactory" />
+			<property name="sessionFactory" ref="sessionFactory"/>
 		</bean>
   		<!--第五步：针对事务的传播特性进行配置 ，为了让数据进行回滚，-->	
 		<!--作用就是:比如A转钱给B中途发生异常，不能A钱少了，B却没增加钱。-->

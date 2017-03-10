@@ -3,14 +3,31 @@ package org.jiang.COC.controller;
 import java.io.IOException;
 
 
+
+
+
+
+
+
+
+
+
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+
+
+
+
+
+
+import org.apache.logging.log4j.*;
 import org.jiang.COC.common.Constant;
 import org.jiang.COC.common.Page;
 import org.jiang.COC.common.StringUtil;
 import org.jiang.COC.model.Student;
-import org.jiang.COC.service.StudentService;
+import org.jiang.COC.serviceImpl.SublistStudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,17 +37,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 
+
 @Controller
 @RequestMapping(value="/sublist")
 public class SublistController{
+	static Logger logger=LogManager.getLogger(SublistController.class.getName());
 	@Autowired
-	private StudentService studentService;
-	@Autowired
+	private SublistStudentServiceImpl studentService;
+	@Resource
 	private HttpServletRequest request;
-	
-
-
-	
 //	@RequestMapping(value="/SublistServlet",method=RequestMethod.GET)
 //	public void findList2(@RequestParam("stuName")String stuName,
 //							@RequestParam("gender")String genderStr,
