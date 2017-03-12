@@ -20,7 +20,9 @@
         <context:component-scan base-package="org.jiang.COC.controller" />
         <!--第二步：进行前端页面资源过滤，引用静态资源这样在页面引入js、css等文件的路径填写js/test.js这样就好了-->
 		<mvc:resources location="/resources/js/" mapping="/js/**" />
+		<mvc:resources location="/resources/js/common" mapping="/js/common/**" />
 		<mvc:resources location="/resources/css/" mapping="/css/**" />
+		<mvc:resources location="/resources/css/common" mapping="/css/common/**" />
 		<mvc:resources location="/resources/img/" mapping="/img/**" />
 		<mvc:resources location="/resources/headphotos/" mapping="/headphotos/**" />
         <!--第三步：配置前缀和后缀，这样controller中return的跳转页面就可以直接写名字，并且不用加.jsp结尾-->
