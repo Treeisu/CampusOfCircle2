@@ -23,7 +23,8 @@ if(getParam("a")=='0')
 }
 
 	});
-	
+
+
 function logintab(){
 	scrollTo(0);
 	$('#switch_qlogin').removeClass("switch_btn_focus").addClass('switch_btn');
@@ -33,6 +34,14 @@ function logintab(){
 	$('#web_qr_login').css('display','block');
 	
 }
+
+//注册按钮提交表单需要改变url
+$(function(){
+	$('#reg').click(function(){
+		$("#login_form").attr("action","/user/reg");//设置form的action为新的请求
+		$("#login_form").submit();
+	});
+})
 
 
 //根据参数名获得该参数 pname等于想要的参数名 

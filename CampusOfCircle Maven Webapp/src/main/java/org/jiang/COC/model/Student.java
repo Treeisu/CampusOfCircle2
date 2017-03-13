@@ -14,7 +14,7 @@ public class Student implements Serializable {
 	@Transient
 	private static final long serialVersionUID = 4061717892088141595L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id",length=11,nullable=false,columnDefinition="int")
 	private int id;//学锟斤拷ID
 	@Column(name="stu_name",length=16,nullable=false,columnDefinition="varchar")

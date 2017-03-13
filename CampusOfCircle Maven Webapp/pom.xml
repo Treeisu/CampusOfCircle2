@@ -7,8 +7,8 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>CampusOfCircle Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  
    
+     
   <properties> 
   	<spring.version>4.3.2.RELEASE</spring.version>
   	<hibernate.version>4.3.11.Final</hibernate.version>
@@ -120,12 +120,12 @@
 		    <groupId>log4j</groupId>
 		    <artifactId>log4j</artifactId>
 		    <version>1.2.17</version>
-		</dependency>
-		<dependency>
+		</dependency> 
+		<dependency> 
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-api</artifactId>
 		    <version>1.7.21</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-log4j12</artifactId>
@@ -133,7 +133,7 @@
 		</dependency>
 <!-- spring管理的依赖结束  -->
 
-<!-- hibernate依赖开始  -->   
+<!-- hibernate依赖开始  -->    
 		<dependency> 
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -216,11 +216,11 @@
 		    <version>2.4</version>
 		</dependency>
 		<!-- jackson可以将java对象hejson、xml文档相互转化 -->
-		<dependency>
+		<dependency> 
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.7.5</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -252,18 +252,18 @@
 		    <version>3.0.1</version>
 		</dependency>
 			<!-- jstl标签的使用   -->
-		<dependency>
+		<dependency> 
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-		</dependency>
-		<dependency>
+		</dependency> 
+		<dependency> 
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
 <!-- servlet支持 -->
-
+ 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

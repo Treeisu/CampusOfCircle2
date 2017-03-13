@@ -13,13 +13,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <title>CampusOfCircle</title> 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
-	<script type="text/javascript" src="js/login.js"></script>
+	<link href="css/common/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/common/mycommon.css" rel="stylesheet" type="text/css"/>
 	<link href="css/login.css" rel="stylesheet" type="text/css" />
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
   </head>
   
   <body>
@@ -41,23 +37,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                
                
                <div class="login-box">
-    
-            
+       
 			<div class="login_form">
-				<form action="" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
+				<form action="/user/log" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
                <input type="hidden" name="to" value="log"/>
                 <div class="uinArea" id="uinArea">
                 <label class="input-tips" for="u">帐号：</label>
-                <div class="inputOuter" id="uArea">
-                    
-                    <input type="text" id="u" name="username" class="inputstyle"/>
+                <div class="inputOuter" id="uArea">   
+                    <input type="text" id="u" name="loguserPhone" class="inputstyle" placeholder="请输入手机号用于登录"/>
                 </div>
                 </div>
                 <div class="pwdArea" id="pwdArea">
                <label class="input-tips" for="p">密码：</label> 
-               <div class="inputOuter" id="pArea">
-                    
-                    <input type="password" id="p" name="p" class="inputstyle"/>
+               <div class="inputOuter" id="pArea"> 
+                    <input type="password" id="p" name="logpassworld" class="inputstyle" placeholder="输入密码"/>
                 </div>
                 </div>
                
@@ -83,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	
                     <label for="user"  class="input-tips2">用户名：</label>
                     <div class="inputOuter2">
-                        <input type="text" id="user" name="user" maxlength="16" class="inputstyle2"/>
+                        <input type="text" id="user" name="userNickName" maxlength="16" class="inputstyle2" placeholder="请输入昵称"/>
                     </div>
                     
                 </li>
@@ -91,27 +84,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <li>
                 <label for="passwd" class="input-tips2">密码：</label>
                     <div class="inputOuter2">
-                        <input type="password" id="passwd"  name="passwd" maxlength="16" class="inputstyle2"/>
+                        <input type="password" id="passwd"  name="password" maxlength="16" class="inputstyle2" placeholder="输入密码"/>
                     </div>
                     
                 </li>
                 <li>
-                <label for="passwd2" class="input-tips2">确认密码：</label>
+                <label for="passwd2" class="input-tips2 "style="font-size:15px ;">确认密码：</label>
                     <div class="inputOuter2">
-                        <input type="password" id="passwd2" name="" maxlength="16" class="inputstyle2" />
+                        <input type="password" id="password2" name="password2" maxlength="16" class="inputstyle2" placeholder="确认输入"/>
                     </div>
-                    
                 </li>
                 
                 <li>
-                 <label for="qq" class="input-tips2">QQ：</label>
+                 <label for="qq" class="input-tips2">手机号：</label>
                     <div class="inputOuter2">
-                       
-                        <input type="text" id="qq" name="qq" maxlength="10" class="inputstyle2"/>
+                        <input type="text" id="qq" name="userPhone" maxlength="10" class="inputstyle2" placeholder="请输入11位手机号码"/>
                     </div>
                    
-                </li>
-                
+                </li>                
                 <li>
                     <div class="inputArea">
                         <input type="button" id="reg"  style="margin-top:10px;margin-left:85px;" class="button_blue" value="同意协议并注册"/> <a href="#" class="zcxy" target="_blank">注册协议</a>
@@ -128,5 +118,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!--注册end-->
 </div>
 <div class="welcome">*欢迎加入校园圈子*</div>
+
+	<script type="text/javascript" src="js/common/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/common/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>
