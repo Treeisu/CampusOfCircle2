@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
@@ -55,6 +57,20 @@ public class UserController {
 		model.addAttribute("user",user);//相当于request.setAttribute();
 		return "index";
 		
+	}
+	
+	/**
+	 * 前台ajax传过来的数据，根据phone查找用户是否存在
+	 * @param model
+	 * @param userPassword
+	 * @param userPhone
+	 */
+	@RequestMapping(value="/phone",produces={"application/json;charset=UTF-8"})//指定返回数据的编码
+	@ResponseBody()
+	public User Phones(ModelMap model,@RequestBody()String userPhone){
+		User user=new User();
+		user=userserviceImpl.findUserByPhone(userPhone);
+		return user;	
 	}
 	
 }

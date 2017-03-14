@@ -24,7 +24,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="login" style="margin-top:50px;">
     
     <div class="header">
-        <div class="switch" id="switch"><a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
+        <div class="switch" id="switch">
+        	<a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
 			<a class="switch_btn" id="switch_login" href="javascript:void(0);" tabindex="8">快速注册</a><div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
         </div>
     </div>    
@@ -50,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="pwdArea" id="pwdArea">
                <label class="input-tips" for="p">密码：</label> 
                <div class="inputOuter" id="pArea"> 
-                    <input type="password" id="p" name="logpassworld" class="inputstyle" placeholder="输入密码"/>
+                    <input  type="password" id="p" name="logpassworld" class="inputstyle" placeholder="输入密码"/>
                 </div>
                 </div>
                
@@ -76,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	
                     <label for="user"  class="input-tips2">用户名：</label>
                     <div class="inputOuter2">
-                        <input type="text" id="user" name="userNickName" maxlength="16" class="inputstyle2" placeholder="请输入昵称"/>
+                        <input type="text"  id="user" name="userNickName" maxlength="16" class="inputstyle2" placeholder="请输入昵称：4-16位字符"/>
                     </div>
                     
                 </li>
@@ -84,27 +85,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <li>
                 <label for="passwd" class="input-tips2">密码：</label>
                     <div class="inputOuter2">
-                        <input type="password" id="passwd"  name="password" maxlength="16" class="inputstyle2" placeholder="输入密码"/>
+                        <input type="password"  id="passwd"  name="password" maxlength="16" class="inputstyle2" placeholder="输入密码"/>
                     </div>
                     
                 </li>
                 <li>
                 <label for="passwd2" class="input-tips2 "style="font-size:15px ;">确认密码：</label>
                     <div class="inputOuter2">
-                        <input type="password" id="password2" name="password2" maxlength="16" class="inputstyle2" placeholder="确认输入"/>
+                        <input type="password"  id="passwd2" name="password2" maxlength="16" class="inputstyle2" placeholder="确认输入"/>
                     </div>
                 </li>
                 
                 <li>
                  <label for="qq" class="input-tips2">手机号：</label>
                     <div class="inputOuter2">
-                        <input type="text" id="qq" name="userPhone" maxlength="10" class="inputstyle2" placeholder="请输入11位手机号码"/>
+                        <input type="text" id="qq" title="" name="userPhone" maxlength="11" class="inputstyle2" placeholder="请输入11位手机号码"/>
                     </div>
                    
                 </li>                
                 <li>
                     <div class="inputArea">
-                        <input type="button" id="reg"  style="margin-top:10px;margin-left:85px;" class="button_blue" value="同意协议并注册"/> <a href="#" class="zcxy" target="_blank">注册协议</a>
+                        <input type="button" id="reg" style="margin-top:10px;margin-left:85px;" class="button_blue" value="同意协议并注册"/> <a href="#" class="zcxy" target="_blank">注册协议</a>
                     </div>
                     
                 </li><div class="cl"></div>
