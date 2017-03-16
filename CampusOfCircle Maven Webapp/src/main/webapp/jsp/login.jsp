@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                <div class="login-box">
        
 			<div class="login_form">
-				<form action="/user/log" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
+				<form action="user/log" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
                <input type="hidden" name="to" value="log"/>
                 <div class="uinArea" id="uinArea">
                 <label class="input-tips" for="u">帐号：</label>
@@ -78,6 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <label for="user"  class="input-tips2">用户名：</label>
                     <div class="inputOuter2">
                         <input type="text"  id="user" name="userNickName" maxlength="16" class="inputstyle2" placeholder="请输入昵称：4-16位字符"/>
+                        <div id="userinfo"></div>
                     </div>
                     
                 </li>
@@ -86,6 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <label for="passwd" class="input-tips2">密码：</label>
                     <div class="inputOuter2">
                         <input type="password"  id="passwd"  name="password" maxlength="16" class="inputstyle2" placeholder="输入密码"/>
+                        <div id="pwdinfo"></div>
                     </div>
                     
                 </li>
@@ -93,6 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <label for="passwd2" class="input-tips2 "style="font-size:15px ;">确认密码：</label>
                     <div class="inputOuter2">
                         <input type="password"  id="passwd2" name="password2" maxlength="16" class="inputstyle2" placeholder="确认输入"/>
+                    	<div id="pwdinfo2"></div>
                     </div>
                 </li>
                 
@@ -100,6 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <label for="qq" class="input-tips2">手机号：</label>
                     <div class="inputOuter2">
                         <input type="text" id="qq" title="" name="userPhone" maxlength="11" class="inputstyle2" placeholder="请输入11位手机号码"/>
+                    	<div id="phoneinfo"></div>
                     </div>
                    
                 </li>                

@@ -26,8 +26,8 @@ $(function(){
 		
 		
 //判断部分******************************************		
-		var flag==1;
-		if(flag==1){
+		
+	
 			//用户名进行判断
 			$('#user').focusout(function(){
 				//用户名不能为空
@@ -36,7 +36,7 @@ $(function(){
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
-					$('#userCue').html("<font color='red'><b>×用户名不能为空</b></font>");
+					$('#userinfo').html("<font color='red'><b>×用户名不能为空</b></font>");
 					return false;
 				}
 				//用户名长度为4-16位
@@ -46,10 +46,11 @@ $(function(){
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
-					$('#userCue').html("<font color='red'><b>×用户名位4-16字符</b></font>");
+					$('#userinfo').html("<font color='red'><b>×用户名位4-16字符</b></font>");
 					return false;
 				}
 				else{
+					$('#userinfo').html("");
 					$('#user').focus().css({
 						border: "1px solid blue",
 						boxShadow: "0 0 2px blue"
@@ -66,10 +67,11 @@ $(function(){
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
-					$('#userCue').html("<font color='red'><b>×密码不能小于" + pwdnum + "位</b></font>");
+					$('#pwdinfo').html("<font color='red'><b>×密码不能小于" + pwdnum + "位</b></font>");
 					return false;
 				}
 				else{
+					$('#pwdinfo').html("");
 					$('#passwd').focus().css({
 						border: "1px solid blue",
 						boxShadow: "0 0 2px blue"
@@ -85,10 +87,11 @@ $(function(){
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
-					$('#userCue').html("<font color='red'><b>×两次密码不一致！</b></font>");
+					$('#pwdinfo2').html("<font color='red'><b>×两次密码不一致！</b></font>");
 					return false;
 				}
 				else{
+					$('#pwdinfo2').html("");
 					$('#passwd2').focus().css({
 						border: "1px solid blue",
 						boxShadow: "0 0 2px blue"
@@ -102,36 +105,64 @@ $(function(){
 				var phoneNum =$('#qq').val();//手机号码
 				var flag = reg.test(phoneNum);
 				if(flag){
-					$('#qq').focus().css({
-						border: "1px solid blue",
-						boxShadow: "0 0 2px blue"
+					$('#phoneinfo').html("");
+					$('#qq').mouseout(function(){
+						$.ajax({
+							type:"POST",
+							url:"user/phone",
+							dataType:"json",
+							data:{"userPhone":$("#qq").val()},
+							success:function(data){
+								if(data==null){
+									$('#qq').focus().css({
+										border: "1px solid blue",
+										boxShadow: "0 0 2px blue"
+									});
+								}else{
+									$('#qq').focus().css({
+										border: "1px solid red",
+										boxShadow: "0 0 2px red"
+									});
+									$('#phoneinfo').html("<font color='red'><b>×该手机号已经注册</b></font>");
+								}
+							}
+						});
 					});
-					$('#userCue').html("<font color='blue'><b>可注册</b></font>");
+					
 				}else{
 					$('#qq').focus().css({
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
-					$('#userCue').html("<font color='red'><b>×手机号码格式不正确</b></font>");
+					$('#phoneinfo').html("<font color='red'><b>×手机号码格式不正确</b></font>");
 					return false;
 				}
+				
 		});	
-	}else{
-		flag==2;
-	}
-		
+				
 		
 		
 		//注册按钮改变url******************************************	
 		$('#reg').click(function(){
-			var code=$('#userCue').val();
-			if(code.equlse("可注册")){
-				$("#login_form").attr("action","/user/reg");//设置form的action为新的请求
-				$("#login_form").submit();
-			}else{
+			var infonull=$('#phoneinfo').html()==""&&$('#pwdinfo2').html()==""&&$('#pwdinfo').html()==""&&$('#userinfo').html()=="";
+			var inputnoutnull=$('#qq').val()==""||$('#passwd2').val()==""||$('#passwd').val()==""||$('#user').val()=="";
+			if(inputnoutnull){
 				$("#login_form").attr("action","");//设置form的action为新的请求
-				$('#userCue').html("<font color='red'><b>请填正确写完注册信息</b></font>");
+				$('#userCue').html("<font color='red'><b>您还未填写注册信息</b></font>");
+			}else{
+				if(infonull){
+					
+						
+					$("#login_form").attr("action","user/reg");//设置form的action为新的请求
+					$("#login_form").submit();
+						
+				}else{
+					$("#login_form").attr("action","");//设置form的action为新的请求
+					$('#userCue').html("<font color='red'><b>请填正确写注册信息</b></font>");
+				}
 			}
+			
+			
 				
 		});
 

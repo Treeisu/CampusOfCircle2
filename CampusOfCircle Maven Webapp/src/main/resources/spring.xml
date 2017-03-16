@@ -62,15 +62,12 @@
 			<!-- <property name="configLocation" value="classpath:hibernate.cfg.xml"></property> -->
 			<property name="hibernateProperties">
 				<props>
+			
 					<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 					<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 					<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
 					<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-					<!-- 开启二级缓存 ehcache -->
-					<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
-					<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
-					<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
-					<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.cache.provider_configuration_file_resource_path}</prop>
+					
 				</props>
 			</property>
 			<!-- ①引入实体类 -->
@@ -80,29 +77,27 @@
 		<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 			<property name="sessionFactory" ref="sessionFactory"/>
 		</bean>
-  		<!--第五步：针对事务的传播特性进行配置 ，为了让数据进行回滚，-->	
-		<!--作用就是:比如A转钱给B中途发生异常，不能A钱少了，B却没增加钱。-->
-		<tx:advice id="txAdvice" transaction-manager="transactionManager">
-			<tx:attributes>
-				<tx:method name="*" />
-				<tx:method name="get*" read-only="true" />
-				<tx:method name="find*" read-only="true" />
-				<tx:method name="select*" read-only="true" />
-				<tx:method name="delete*" propagation="REQUIRED" />
-				<tx:method name="update*" propagation="REQUIRED" />
-				<tx:method name="add*" propagation="REQUIRED" />
-				<tx:method name="insert*" propagation="REQUIRED" />
-				<tx:method name="*" propagation="REQUIRED" />
-			</tx:attributes>
-		</tx:advice>
-		<!--第六步：织入事务入口，表示给service下面的方法织入我们配置好的事务，这样service 里面的方法就可以保证统一性-->
-		<aop:config>
-			<aop:pointcut id="allServiceMethod"
-				expression="execution(* org.cherry.CampusCircle.serviceImpl.*.*(..))" />
-			<aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice" />
-		</aop:config>
-		<!--第五步：针对事务的传播特性进行配置 ！！！扫描注解，方式二！！！-->
-		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+		<!--第五步：dao层针对事务的传播特性进行配置 ！！！扫描注解，方式二！！！-->
+		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	  		<!--第五步：service层针对事务的传播特性进行配置 ，为了让数据进行回滚，--><!--作用就是:比如A转钱给B中途发生异常，不能A钱少了，B却没增加钱。-->
+			<tx:advice id="txAdvice" transaction-manager="transactionManager">
+				<tx:attributes>
+					<tx:method name="*" />
+					<tx:method name="get*" read-only="true" />
+					<tx:method name="find*" read-only="true" />
+					<tx:method name="select*" read-only="true" />
+					<tx:method name="delete*" propagation="REQUIRED" />
+					<tx:method name="update*" propagation="REQUIRED" />
+					<tx:method name="add*" propagation="REQUIRED" />
+					<tx:method name="insert*" propagation="REQUIRED" />
+					<tx:method name="*" propagation="REQUIRED" />
+				</tx:attributes>
+			</tx:advice>
+			<aop:config>
+				<aop:pointcut id="allServiceMethod" expression="execution(* org.jiang.CoC.serviceImpl..*.*(..))" />
+				<aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice" />
+			</aop:config>
+		
       	
 
 </beans>

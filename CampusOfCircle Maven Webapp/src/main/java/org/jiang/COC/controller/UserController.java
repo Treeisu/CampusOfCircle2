@@ -32,7 +32,6 @@ public class UserController {
 	private HttpServletRequest httpServletRequest;
 
 	@RequestMapping(value="/reg")
-
 	public String regist(ModelMap model,
 						@RequestParam("userNickName")String userNickName,
 						@RequestParam("password2")String userPassword2,
@@ -69,7 +68,11 @@ public class UserController {
 	@ResponseBody()
 	public User Phones(ModelMap model,@RequestBody()String userPhone){
 		User user=new User();
+		System.out.println(userPhone);
 		user=userserviceImpl.findUserByPhone(userPhone);
+		if(user==null){
+			System.out.println("没有该号码");
+		}
 		return user;	
 	}
 	

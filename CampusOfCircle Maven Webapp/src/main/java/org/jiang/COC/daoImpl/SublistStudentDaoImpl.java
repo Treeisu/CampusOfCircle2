@@ -44,9 +44,9 @@ public class SublistStudentDaoImpl implements StudentDao {
 		 session=sessionFactory.openSession();
 		List<Student> result = new ArrayList<Student>();
 		String hql1 = "from Student";
-		String hql2 = "from Student and stuName like :myname";
-		String hql3 = "from Student and gender like :mygender";
-		String hql4 = "from Student and stuName like :myname and gender=:mygender";
+		String hql2 = "from Student where stuName like :myname";
+		String hql3 = "from Student where gender like :mygender";
+		String hql4 = "from Student where stuName like :myname and gender=:mygender";
 		
 		String stuName = searchModel.getStuName();
 		int gender = searchModel.getGender();
