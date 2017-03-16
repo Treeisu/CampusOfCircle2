@@ -1,7 +1,11 @@
 package org.jiang.COC.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jiang.COC.model.User;
 import org.jiang.COC.serviceImpl.UserServiceImpl;
@@ -50,7 +54,7 @@ public class UserController {
 						@RequestParam("logpassworld")String userPassword,
 						@RequestParam("loguserPhone")String userPhone){
 		User user=new User();
-		user=userserviceImpl.findUserByPhone(userPhone);
+
 		
 		
 		model.addAttribute("user",user);//相当于request.setAttribute();
@@ -64,16 +68,18 @@ public class UserController {
 	 * @param userPassword
 	 * @param userPhone
 	 */
-	@RequestMapping(value="/phone",produces={"application/json;charset=UTF-8"})//指定返回数据的编码
+	@RequestMapping(value="/phone")//指定返回数据的编码
 	@ResponseBody()
-	public User Phones(ModelMap model,@RequestBody()String userPhone){
-		User user=new User();
-		System.out.println(userPhone);
-		user=userserviceImpl.findUserByPhone(userPhone);
-		if(user==null){
-			System.out.println("没有该号码");
+	public List<User> Phones(HttpServletRequest request,HttpServletResponse response ){
+		String userPhone=request.getParameter("userPhone");
+		List<User> userList=new ArrayList<User>();	
+		userList=userserviceImpl.findUserByPhone(userPhone);
+		if(userList.size()>0){
+			System.out.println(userList.get(0));
+			
 		}
-		return user;	
+//		System.out.println("没有该号码");
+		return userList;	
 	}
 	
 }

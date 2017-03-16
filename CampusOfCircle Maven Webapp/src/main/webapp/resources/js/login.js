@@ -29,10 +29,10 @@ $(function(){
 		
 	
 			//用户名进行判断
-			$('#user').focusout(function(){
+			$('#user').blur(function(){
 				//用户名不能为空
 				if ($('#user').val() == "") {
-					$('#user').focus().css({
+					$('#user').css({
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
@@ -42,7 +42,7 @@ $(function(){
 				//用户名长度为4-16位
 				if ($('#user').val().length < 4 || $('#user').val().length > 16) {
 
-					$('#user').focus().css({
+					$('#user').css({
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
@@ -51,7 +51,7 @@ $(function(){
 				}
 				else{
 					$('#userinfo').html("");
-					$('#user').focus().css({
+					$('#user').css({
 						border: "1px solid blue",
 						boxShadow: "0 0 2px blue"
 
@@ -59,11 +59,11 @@ $(function(){
 				}
 			});
 			//密码进行判断
-			$('#passwd').focusout(function(){
+			$('#passwd').blur(function(){
 				var pwdnum=6;
 				//对注册时输入的密码进行判断
 				if ($('#passwd').val().length < pwdnum) {
-					$('#passwd').focus().css({
+					$('#passwd').css({
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
@@ -72,7 +72,7 @@ $(function(){
 				}
 				else{
 					$('#pwdinfo').html("");
-					$('#passwd').focus().css({
+					$('#passwd').css({
 						border: "1px solid blue",
 						boxShadow: "0 0 2px blue"
 
@@ -80,10 +80,10 @@ $(function(){
 				}
 			});
 			//密码二次进行判断
-			$('#passwd2').focusout(function(){
+			$('#passwd2').blur(function(){
 				//确认密码的判断
-				if ($('#passwd2').val() != $('#passwd').val()) {
-					$('#passwd2').focus().css({
+				if (($('#passwd2').val() != $('#passwd').val())||$('#passwd2').val()=="") {
+					$('#passwd2').css({
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});
@@ -92,7 +92,7 @@ $(function(){
 				}
 				else{
 					$('#pwdinfo2').html("");
-					$('#passwd2').focus().css({
+					$('#passwd2').css({
 						border: "1px solid blue",
 						boxShadow: "0 0 2px blue"
 
@@ -100,26 +100,27 @@ $(function(){
 				}
 			});
 			//手机号进行判断
-			$('#qq').focusout(function(){
+			$('#qq').blur(function(){
 				var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
 				var phoneNum =$('#qq').val();//手机号码
 				var flag = reg.test(phoneNum);
 				if(flag){
 					$('#phoneinfo').html("");
-					$('#qq').mouseout(function(){
+					$('#qq').focusout(function(){
 						$.ajax({
 							type:"POST",
 							url:"user/phone",
 							dataType:"json",
 							data:{"userPhone":$("#qq").val()},
 							success:function(data){
-								if(data==null){
-									$('#qq').focus().css({
+								var user=data[0];
+								if(user==null){
+									$('#qq').css({
 										border: "1px solid blue",
 										boxShadow: "0 0 2px blue"
 									});
 								}else{
-									$('#qq').focus().css({
+									$('#qq').css({
 										border: "1px solid red",
 										boxShadow: "0 0 2px red"
 									});
@@ -130,7 +131,7 @@ $(function(){
 					});
 					
 				}else{
-					$('#qq').focus().css({
+					$('#qq').css({
 						border: "1px solid red",
 						boxShadow: "0 0 2px red"
 					});

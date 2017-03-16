@@ -1,5 +1,7 @@
 package org.jiang.COC.service;
 
+import java.util.List;
+
 import org.jiang.COC.model.User;
 
 
@@ -21,5 +23,5 @@ public interface UserService {
 	 * @param phone
 	 * @return
 	 */
-	public User findUserByPhone(String phone); 
+	public List<User> findUserByPhone(String phone); 
 }

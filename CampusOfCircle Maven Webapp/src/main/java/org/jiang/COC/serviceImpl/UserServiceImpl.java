@@ -1,5 +1,8 @@
 package org.jiang.COC.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jiang.COC.daoImpl.UserDaoImpl;
 import org.jiang.COC.model.User;
 import org.jiang.COC.service.UserService;
@@ -23,11 +26,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUserByPhone(String phone) {
+	public List<User> findUserByPhone(String phone) {
 		// TODO Auto-generated method stub
-		User user=new User();
-		user=userDaoIpml.findByPhone(phone);
-		return user;
+		List<User> list=new ArrayList<User>();
+		list=userDaoIpml.findByPhone(phone);
+		return list;
 	}
 
 }

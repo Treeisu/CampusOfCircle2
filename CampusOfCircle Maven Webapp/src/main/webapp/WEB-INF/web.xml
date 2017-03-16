@@ -28,8 +28,9 @@
   		</init-param>
 	</filter>
 <!-- 过滤器设置编码 -->
-	
-	
+
+
+
 <!-- 此servlet拦截所有请求交给springMVC.XML处理 -->
 	<filter-mapping>
 	  <filter-name>CharacterEncodingFilter</filter-name>

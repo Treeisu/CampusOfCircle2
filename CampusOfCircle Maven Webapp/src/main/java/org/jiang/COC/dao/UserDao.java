@@ -1,5 +1,7 @@
 package org.jiang.COC.dao;
 
+import java.util.List;
+
 import org.jiang.COC.model.User;
 
 /**
@@ -13,5 +15,5 @@ public interface UserDao {
 	 * @param user
 	 */
 	public void saveUser(User user);
-	public User findByPhone(String userPhone);
+	public List<User> findByPhone(String userPhone);
 }
