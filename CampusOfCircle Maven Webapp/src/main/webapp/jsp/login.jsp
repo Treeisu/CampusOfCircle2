@@ -40,7 +40,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                <div class="login-box">
        
 			<div class="login_form">
-				<form action="user/log" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
+				<form action="user/log"  id="login_form" name="loginform" accept-charset="utf-8" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
+               <div id="log_msg_div" class="text-center"style="color: red">
+               		<c:if test="${msg!=null}"><c:out value="${msg}"></c:out></c:if>
+                </div>
                <input type="hidden" name="to" value="log"/>
                 <div class="uinArea" id="uinArea">
                 <label class="input-tips" for="u">帐号：</label>
@@ -68,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!--注册-->
     <div class="qlogin" id="qlogin" style="display: none; ">
    
-    <div class="web_login"><form name="form2" id="regUser" accept-charset="utf-8"  action="" method="post">
+    <div class="web_login"><form name="form2" id="reg_form" accept-charset="utf-8"  action="" method="post">
 	      <input type="hidden" name="to" value="reg"/>
 		      		       <input type="hidden" name="did" value="0"/>
         <ul class="reg_form" id="reg-ul">
@@ -124,7 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <div class="welcome">*欢迎加入校园圈子*</div>
 
-	<script type="text/javascript" src="js/common/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/common/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
 </body>

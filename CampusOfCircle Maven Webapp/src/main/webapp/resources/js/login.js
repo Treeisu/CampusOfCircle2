@@ -26,8 +26,12 @@ $(function(){
 		
 		
 //判断部分******************************************		
+		//login模块提示信息消失
+		$('#u').click(function(){
+			$('#log_msg_div').hide();
+		});
 		
-	
+		
 			//用户名进行判断
 			$('#user').blur(function(){
 				//用户名不能为空
@@ -113,12 +117,14 @@ $(function(){
 							dataType:"json",
 							data:{"userPhone":$("#qq").val()},
 							success:function(data){
-								var user=data[0];
-								if(user==null){
+//								console.log(data[0].userNickName);
+
+								if(data[0]==null){
 									$('#qq').css({
 										border: "1px solid blue",
-										boxShadow: "0 0 2px blue"
+										boxShadow: "0 0 2px blue"	
 									});
+									$('#userCue').html("<font color='blue'><b>√可注册</b></font>");
 								}else{
 									$('#qq').css({
 										border: "1px solid red",
@@ -148,17 +154,17 @@ $(function(){
 			var infonull=$('#phoneinfo').html()==""&&$('#pwdinfo2').html()==""&&$('#pwdinfo').html()==""&&$('#userinfo').html()=="";
 			var inputnoutnull=$('#qq').val()==""||$('#passwd2').val()==""||$('#passwd').val()==""||$('#user').val()=="";
 			if(inputnoutnull){
-				$("#login_form").attr("action","");//设置form的action为新的请求
+				$("#reg_form").attr("action","");//设置form的action为新的请求
 				$('#userCue').html("<font color='red'><b>您还未填写注册信息</b></font>");
 			}else{
 				if(infonull){
 					
 						
-					$("#login_form").attr("action","user/reg");//设置form的action为新的请求
-					$("#login_form").submit();
+					$("#reg_form").attr("action","user/reg");//设置form的action为新的请求
+					$("#reg_form").submit();
 						
 				}else{
-					$("#login_form").attr("action","");//设置form的action为新的请求
+					$("#reg_form").attr("action","");//设置form的action为新的请求
 					$('#userCue').html("<font color='red'><b>请填正确写注册信息</b></font>");
 				}
 			}

@@ -8,6 +8,7 @@ import org.jiang.COC.model.User;
 import org.jiang.COC.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 /**
  * 
  * @author cherry
@@ -20,12 +21,15 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Override
+	@Transactional
 	public void saveUser(User user) {
 		// TODO Auto-generated method stub
-		userDaoIpml.saveUser(user);
+			userDaoIpml.saveUser(user);
+		
 	}
 
 	@Override
+	@Transactional
 	public List<User> findUserByPhone(String phone) {
 		// TODO Auto-generated method stub
 		List<User> list=new ArrayList<User>();

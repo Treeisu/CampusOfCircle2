@@ -1,6 +1,7 @@
 package org.jiang.COC.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,30 +35,53 @@ public class UserController {
 	@Resource
 	private HttpServletRequest httpServletRequest;
 
+
 	@RequestMapping(value="/reg")
 	public String regist(ModelMap model,
 						@RequestParam("userNickName")String userNickName,
+						@RequestParam("password")String userPassword,
 						@RequestParam("password2")String userPassword2,
 						@RequestParam("userPhone")String userPhone){
 		User user=new User();
 		user.setUserNickName(userNickName);
 		user.setUserPassword(userPassword2);
 		user.setUserPhone(userPhone);
-		userserviceImpl.saveUser(user);
-		
-		model.addAttribute("user",user);//相当于request.setAttribute();
-		return "login";
+		Date date=new Date();
+		user.setUserRegisterDate(date);
+		List<User> list=userserviceImpl.findUserByPhone(user.getUserPhone());
+		if(list.size()==0){
+			userserviceImpl.saveUser(user);
+			model.addAttribute("user",user);//相当于request.setAttribute();
+			return "login";
+		}else{
+			String msg="该号码已经注册";
+			return msg;
+		}
+	
 	}
 	@RequestMapping(value="/log")
 	public String login(ModelMap model,
 						@RequestParam("logpassworld")String userPassword,
 						@RequestParam("loguserPhone")String userPhone){
-		User user=new User();
-
+		User u=new User();
+		List<User> list=userserviceImpl.findUserByPhone(userPhone);
+		if(list.size()==0){
+			String msg="该账号未注册，请先注册后登录！";
+			model.addAttribute("msg",msg);
+			return "login";
+		}else{
+			u=list.get(0);
+			if(u.getUserPassword().equals(userPassword)){
+				model.addAttribute("user",u);//相当于request.setAttribute();
+				return "login";	
+			}
+			else{
+				String msg="密码输入错误,请核对密码";
+				model.addAttribute("msg",msg);
+				return "login";
+			}
+		}
 		
-		
-		model.addAttribute("user",user);//相当于request.setAttribute();
-		return "index";
 		
 	}
 	
@@ -74,11 +97,7 @@ public class UserController {
 		String userPhone=request.getParameter("userPhone");
 		List<User> userList=new ArrayList<User>();	
 		userList=userserviceImpl.findUserByPhone(userPhone);
-		if(userList.size()>0){
-			System.out.println(userList.get(0));
-			
-		}
-//		System.out.println("没有该号码");
+		
 		return userList;	
 	}
 	

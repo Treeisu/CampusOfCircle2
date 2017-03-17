@@ -29,7 +29,7 @@
 		<!--controller中return的页面都会在/WEB-INF/jsp/*.jsp去寻找对应的jsp文件-->
     	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-	        <property name="prefix" value="/WEB-INF/jsp/"/>
+	        <property name="prefix" value="/jsp/"/>
 	        <property name="suffix" value=".jsp"/>
     	</bean>
 
