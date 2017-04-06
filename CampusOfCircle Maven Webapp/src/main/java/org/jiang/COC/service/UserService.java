@@ -24,4 +24,5 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> findUserByPhone(String phone); 
+	public void updateUser(User user);
 }

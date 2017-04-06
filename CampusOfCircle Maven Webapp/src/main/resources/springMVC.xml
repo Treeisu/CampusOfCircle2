@@ -32,5 +32,12 @@
 	        <property name="prefix" value="/jsp/"/>
 	        <property name="suffix" value=".jsp"/>
     	</bean>
-
+    	<!-- 上传图片 -->
+		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+		<!-- 读取配置文件 -->
+		<bean class="org.jiang.COC.common.PropertiesUtil">
+			<property name="location">
+				<value>classpath:mypath.properties</value>
+			</property>
+		</bean>
 </beans>

@@ -37,4 +37,11 @@ public class UserServiceImpl implements UserService {
 		return list;
 	}
 
+	@Override
+	@Transactional
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		userDaoIpml.updateUser(user);
+	}
+
 }

@@ -2,12 +2,15 @@ package org.jiang.COC.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.jiang.COC.common.UploadUtil;
 import org.jiang.COC.model.User;
 import org.jiang.COC.serviceImpl.UserServiceImpl;
 import org.slf4j.Logger;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * 用户请求有关的表
@@ -32,9 +37,6 @@ public class UserController {
 	//private static Logger logger = LoggerFactory.getLogger(SublistController.class);
 	@Autowired
 	private UserServiceImpl userserviceImpl;
-	@Resource
-	private HttpServletRequest httpServletRequest;
-
 
 	@RequestMapping(value="/reg")
 	public String regist(ModelMap model,HttpServletRequest request,HttpServletResponse response,
@@ -99,5 +101,51 @@ public class UserController {
 		
 		return userList;	
 	}
+	@RequestMapping(value="/basicChange")
+	public String basicChange(ModelMap model,HttpServletRequest request,HttpServletResponse response,
+						@RequestParam("nickname")String userNickName,
+						@RequestParam("email")String userEmail,
+						@RequestParam("province")String province,
+						@RequestParam("city")String city,
+						@RequestParam("sex")int userSex,
+						@RequestParam("school")String userSchool,
+						@RequestParam("major")String userMajor,
+						@RequestParam("uclass")String userClass,
+						@RequestParam("intro")String userDescription){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		String userAddress=province+" "+city;
+		user.setUserNickName(userNickName);
+		user.setUserEmail(userEmail);
+		user.setUserAddress(userAddress);
+		user.setUserSchool(userSchool);
+		user.setUserMajor(userMajor);
+		user.setUserClass(userClass);
+		user.setUserDescription(userDescription);
+		user.setUserSex(userSex);
+		userserviceImpl.updateUser(user);		
+		
+		return "userIndex";		
+	}
+	@RequestMapping(value="/faceChange")
+	public String faceChange(ModelMap model,HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 
+		 Iterator<String> iterator = muliRequest.getFileNames();
+		 String fileName = iterator.next();
+		 MultipartFile file = muliRequest.getFile(fileName);
+		 String Imgpath = UploadUtil.uploadFile(file,"img/HeadImg");
+		 
+		 
+		 user.setUserImage(Imgpath);		 
+		 userserviceImpl.updateUser(user);		
+		
+		return "userIndex";		
+	}
+	
+	
+	
+	
 	
 }

@@ -48,5 +48,12 @@ public class UserDaoImpl implements UserDao {
 		list=query.list();
 		return list;
 	}
+	@Override
+	@Transactional
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		session.update(user);
+	}
 
 }

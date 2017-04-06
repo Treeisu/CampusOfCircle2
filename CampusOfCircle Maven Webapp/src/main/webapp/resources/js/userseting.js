@@ -27,8 +27,7 @@ $(function(){
 	});
 
 	//所在地默认选项(根据user的地址来选择，address就是user的地址)
-	var adds=$('#userSex').val();
-	alert(address);
+	var adds=$('#userAdd').text();
 	var address= new Array(); 
 	address = adds.split(" ");
 	$('select[name=province]').val(address[0]);
@@ -45,6 +44,17 @@ $(function(){
 			$('select[name=city]').html(str);
 		}
 	});
+	//性别默认设置
+	var sex_p=$('#usersex_p').text();
+	if(sex_p==1){
+		$('#usersex_p').next().next().find('input:eq(0)').attr('checked', 'checked');
+		$('#usersex_p').next().next().find('input:eq(0)').parent().addClass('active');
+	}else{
+		$('#usersex_p').next().next().find('input:eq(1)').attr('checked', 'checked');
+		$('#usersex_p').next().next().find('input:eq(1)').parent().addClass('active');
+	}
+	
+	
 		//头像上传预览
 		$('#faceupload').on('change',function(){
 			var f1 = document.getElementById('faceupload').files[0];

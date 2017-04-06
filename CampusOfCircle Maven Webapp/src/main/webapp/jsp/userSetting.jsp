@@ -104,16 +104,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</ul>
 		<!--基本信息修改-->
 		<div class='form'>
-			<form action="" method='post'>
+			<form action="user/basicChange" method='post' >
 				<div>
     				<label for=""><span>*</span>昵称：</label>
     				<input type="text" name='nickname' value='<c:out value="${user.userNickName}"/>' class='input'/>
     			</div>
     			<div>
     				<label for=""><span>*</span>邮箱：</label>
-    				<input type="text" name='truename' value='<c:out value="${user.userEmail}"/>' class='input'/>
+    				<input type="text" name='email' value='<c:out value="${user.userEmail}"/>' class='input'/>
     			</div>
     			<div id="sex_div">
+    				<p id="usersex_p" style="display:none"><c:out value="${user.userSex}"/></p>
 	    			<label for="">性别：</label>
 	    			<div class="btn-group btn-group-xs" data-toggle="buttons">
 		    			<label class="btn btn-info"><input type="radio" name='sex' value='1' />&nbsp;男</label>
@@ -132,13 +133,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</div>
     			<div>
     				<label for=""><span>*</span>学校：</label>
-    				<input type="text" name='truename' value='<c:out value="${user.userSchool}"/>' class='input'/>
+    				<input type="text" name='school' value='<c:out value="${user.userSchool}"/>' class='input'/>
     				<br />
     				<label for="">专业：</label>
-    				<input type="text" name='truename' value='<c:out value="${user.userMajor}"/>' class='input'/>
+    				<input type="text" name='major' value='<c:out value="${user.userMajor}"/>' class='input'/>
     				<br />
     				<label for="">班级：</label>
-    				<input type="text" name='truename' value='<c:out value="${user.userClass}"/>' class='input'/>
+    				<input type="text" name='uclass' value='<c:out value="${user.userClass}"/>' class='input'/>
     			</div>
     			<div>
     				<label for="" class='intro'>介绍自己：</label>
@@ -152,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!--基本信息修改-->
 		<!--头像修改-->
 		<div class='form' style="display: none;">
-			<form action="" method="post">
+			<form action="user/faceChange" method="post" enctype="multipart/form-data">
 				<div class='edit-face'>
 	    				<img src="<c:out value="${user.userImage}"/>" width='180' height='180' id='face-img'/>
 	    				<div>
@@ -167,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!--头像修改-->
 		<!--密码修改-->
 		<div class='form' style="display: none;">
-			<form action="" method='post' name='editPwd'>
+			<form action="user/pawdChange" method='post' name='editPwd'>
 				<div class='account'>登录手机：<span>15576768878</span></div>
 				<div>
     				<label for=""><span class='red'>*</span>旧密码：</label>
