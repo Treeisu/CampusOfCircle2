@@ -16,9 +16,9 @@ public class Student implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id",length=11,nullable=false,columnDefinition="int")
-	private int id;//学锟斤拷ID
+	private int id;
 	@Column(name="stu_name",length=16,nullable=false,columnDefinition="varchar")
-	private String stuName;//学锟斤拷锟斤拷锟斤拷
+	private String stuName;
 	@Column(name="age",length=11,nullable=true,columnDefinition="int")
 	private int age;//学锟斤拷锟斤拷锟斤拷
 	@Column(name="gender",length=11,nullable=true,columnDefinition="int")

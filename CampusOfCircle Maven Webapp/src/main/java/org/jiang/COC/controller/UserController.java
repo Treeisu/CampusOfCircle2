@@ -37,7 +37,7 @@ public class UserController {
 
 
 	@RequestMapping(value="/reg")
-	public String regist(ModelMap model,
+	public String regist(ModelMap model,HttpServletRequest request,HttpServletResponse response,
 						@RequestParam("userNickName")String userNickName,
 						@RequestParam("password")String userPassword,
 						@RequestParam("password2")String userPassword2,
@@ -56,11 +56,10 @@ public class UserController {
 		}else{
 			String msg="该号码已经注册";
 			return msg;
-		}
-	
+		}	
 	}
 	@RequestMapping(value="/log")
-	public String login(ModelMap model,
+	public String login(ModelMap model,HttpServletRequest request,HttpServletResponse response,
 						@RequestParam("logpassworld")String userPassword,
 						@RequestParam("loguserPhone")String userPhone){
 		User u=new User();
@@ -72,8 +71,8 @@ public class UserController {
 		}else{
 			u=list.get(0);
 			if(u.getUserPassword().equals(userPassword)){
-				model.addAttribute("user",u);//相当于request.setAttribute();
-				return "login";	
+				model.addAttribute("user",u);//相当于request.setAttribute();				
+				return "userIndex";	
 			}
 			else{
 				String msg="密码输入错误,请核对密码";

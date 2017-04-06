@@ -263,7 +263,13 @@
 			<version>1.1.2</version>
 		</dependency>
 <!-- servlet支持 -->
- 
+ <!-- 上传图片   -->  
+	<dependency> 
+	      <groupId>commons-fileupload</groupId>
+	      <artifactId>commons-fileupload</artifactId>
+	      <version>1.3.1</version>
+	</dependency>
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -271,7 +277,12 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
- 
+	<!-- 上传图片   -->  
+	<dependency> 
+	      <groupId>commons-fileupload</groupId>
+	      <artifactId>commons-fileupload</artifactId>
+	      <version>1.3.1</version>
+	</dependency> 
   
   <build>
   	<finalName>CampusOfCircle</finalName>

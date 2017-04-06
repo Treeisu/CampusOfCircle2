@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>CampusOfCircle</title> 
+    <title>CampusOfCircle-登录</title> 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link href="css/common/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="css/common/mycommon.css" rel="stylesheet" type="text/css"/>
@@ -127,8 +127,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <div class="welcome">*欢迎加入校园圈子*</div>
 
+	
+</body>
 	<script type="text/javascript" src="js/common/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
-</body>
 </html>
