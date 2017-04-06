@@ -1,0 +1,738 @@
+@charset "utf-8";
+* {
+	padding: 0px;
+	margin: 0px;
+	font-size: 13px;
+	color: #444;
+	font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";
+}
+body {
+  padding-top: 150px;
+  background: url("../img/CoCBackground1.png") center 0 no-repeat fixed;
+}
+template {
+  display: none;
+}
+nav {
+  opacity: 0.7;
+  z-index: 1000;
+}
+nav div.container div.navbar-header a {
+  line-height: 35px;
+}
+nav div.container div.navbar-header a i.logo {
+  display: inline-block;
+  width: 50px;
+  height: 32px;
+  background-image: url("../img/campusofcircle_logo.ico");
+  margin-left: -20px;
+}
+
+nav div.container ul li {
+  margin-right: 15px;
+}
+nav div.container ul li i {
+  display: inline-block;
+  background-image: url("../img/icon1.png");
+  width: 25px;
+  height: 25px;
+  margin-right: -15px;
+}
+
+
+/**
+ * 定位到导航栏的icon图标
+ */
+nav div.container ul li i.ui-center {
+  background-position-x: 260px;
+  background-position-y: 225px;
+}
+nav div.container ul li i.ui-home {
+  background-position-x: 157px;
+  background-position-y: 199px;
+}
+nav div.container ul li i.ui-friends {
+  background-position-x: 260px;
+  background-position-y: 278px;
+}
+nav div.container ul li i.ui-dress {
+  background-position-x: 155px;
+  background-position-y: 147px;
+}
+nav div.container ul li i.ui-music {
+  background-position-x: 161px;
+  background-position-y: 95px;
+  background-color: #D18B00;
+  width: 30px;
+  height: 30px;
+  border-right: 1px solid #eee;
+}
+/**
+ * 定位到icon图标
+ */
+
+
+
+
+
+
+
+
+nav div.container ul li.one a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #EF9618;
+}
+nav div.container ul li.two a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #0986E2;
+}
+nav div.container ul li.three a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #E34200;
+}
+nav div.container ul li.four a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #00974A;
+}
+nav div.container ul li.five a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #3E207A;
+}
+nav div.container ul li.six a.music-active {
+  display: inline-block;
+  background-image: url("../img/2-music-sonic.gif");
+  background-color: #D18B00;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-position: center;
+  width: 25px;
+  height: 20px;
+  margin-left: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+nav div.container ul li.seven {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+nav div.container ul li.seven span.search {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-image: url("../img/search3.png");
+  background-repeat: no-repeat;
+  left: 85%;
+  top: 10px;
+}
+nav div.container ul li.eight {
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3E207A;
+  margin-left: 150px;
+}
+nav div.container ul li.eight a{
+	  display: inline-block;
+	  line-height: 25px;
+	  font-family: "Adobe Caslon Pro";
+	  font-weight: 600;
+}
+nav div.container ul li.eight a:hover{
+	  	cursor:pointer;
+}
+nav div.container ul li.eight ul.dropdown-menu{
+  z-index: 1000;
+  min-width: 110px;
+  text-align: center;
+}
+#head_mycollapse #head_mycollapse_ul > li:hover .dropdown-menu {
+	display: block;
+}
+#li_user_dropdown:hover .dropdown-menu {
+	display: block;
+}
+
+/*
+ * 消息通知显示
+ */
+#head_li_news{
+	width:36px;
+	background:#FFFFFF;
+	border-left:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+}
+
+
+
+
+
+/**
+ * body部分公共样式
+ */
+/*ul, ol {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+	color:#0a8cd2;
+}
+img {
+	border:none;
+}
+table {
+	border-collapse: collapse;
+}
+input,textarea,select,button{
+	outline:none;
+}*/
+.main{
+	width:980px;
+	height:auto;
+	overflow: hidden;
+	margin:0 auto;
+	margin-top: -30px;
+	background: url(../img/main_bg.png) repeat-y;
+}
+.fleft{
+	float:left;
+}
+.fright{
+	float:right;
+}
+.clear{
+	clear:both;
+}
+
+.cur_bg{
+	background:#000;
+	opacity:0.8;
+	filter:alpha(opacity = 80);
+}
+.close{
+	display: block;
+	width:16px;
+	height:16px;
+	background:url(../img/icon2.png) no-repeat -75px -200px;
+	margin: 7px 10px;
+	cursor: pointer;
+}
+.remark {
+	color : #8B8B85;
+}
+
+
+.iconII{
+	display:inline-block;
+	background:url(../img/icon1.png);
+}
+.iconII-comment{
+	width:16px;
+	height:16px;
+	background-position: -225px -104px;
+}
+.iconII-praise{
+	width:16px;
+	height:16px;
+	background-position: -225px -53px;
+}
+.iconII-praise2{
+	width:16px;
+	height:16px;
+	background-position: -225px -27px;
+}
+.iconII-turn{
+	width:16px;
+	height:16px;
+	background-position: -225px -132px;
+}
+.iconII-collection{
+	width:16px;
+	height:16px;
+	background-position: -198px -234px;
+}
+.iconII-collection2{
+	width:16px;
+	height:16px;
+	background-position: -225px -182px;
+}
+.iconII-delete{
+	width:16px;
+	height:16px;
+	background-position: -614px -155px;
+}
+.icon{
+	display:inline-block;
+	background:url(../img/icon2.png);
+}
+.icon-write{
+	width:15px;
+	height:14px;
+	background-position: -50px 0;
+}
+.icon-msg{
+	width:15px;
+	height:14px;
+	background-position: -50px -50px;
+}
+.icon-msg-cur{
+	width:15px;
+	height:14px;
+	background-position: -50px -75px;
+}
+.icon-setup{
+	width:15px;
+	height:16px;
+	background-position: -50px -100px;
+}
+.icon-setup-cur{
+	width:15px;
+	height:16px;
+	background-position: -50px -125px;
+}
+.icon-home{
+	width:19px;
+	height:18px;
+	background-position: -1px -26px;
+}
+.icon-at{
+	width:19px;
+	height:18px;
+	background-position: 0 -50px;
+}
+.icon-comment{
+	width:19px;
+	height:18px;
+	background-position: -1px -75px;
+}
+.icon-comment2{
+	width:19px;
+	height:18px;
+	background-position: -26px -75px;
+}
+.icon-like{
+	width:19px;
+	height:18px;
+	background-position: -1px -226px;
+}
+.icon-like2{
+	width:19px;
+	height:18px;
+	background-position: -26px -226px;
+}
+.icon-turn{
+	width:19px;
+	height:18px;
+	background-position: -1px -201px;
+}
+.icon-letter{
+	width:19px;
+	height:18px;
+	background-position: -1px -100px;
+}
+.icon-keep{
+	width:19px;
+	height:18px;
+	background-position: -1px -125px;
+}
+.icon-group{
+	width:16px;
+	height:18px;
+	background-position: 0 -175px;
+}
+.icon-phiz{
+	width:15px;
+	height:15px;
+	cursor: pointer;
+	background-position: 250px 0;
+}
+.icon-picture{
+	width:15px;
+	height:14px;
+	cursor: pointer;
+	background-position: 250px -25px;
+}
+.icon-packup{
+	width:7px;
+	height:11px;
+	background-position: -175px 0;
+}
+.icon-bigpic{
+	width:10px;
+	height:10px;
+	background-position: -175px -25px;
+}
+.icon-totop{
+	width:12px;
+	height:12px;
+	background-position: -75px -100px;
+	margin-bottom: 5px;
+}
+.icon-news{
+	width:12px;
+	height:12px;
+}
+.icon-girl {
+	width: 12px;
+	height: 12px;
+	background-position: -301px -25px;
+}
+.icon-boy {
+	width: 12px;
+	height: 12px;
+	background-position: -301px 0px;
+}
+
+
+
+
+
+/**
+ * body部分公共样式
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer {
+  margin-top: 70px;
+}
+footer a {
+  color: #fff;
+}
+footer div.container {
+  background-color: #5aaaaa;
+  opacity: .5;
+}
+footer div.container div.up ul {
+  margin-top: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+footer div.container div.up ul li {
+  padding-right: 8px;
+}
+footer div.container div.up ul li:not(:last-child):after {
+  content: "|";
+  color: #fff;
+  padding: 0 0 0 10px;
+}
+footer div.container div.mid {
+  font-size: 14px;
+}
+footer div.container div.mid ul li {
+  padding: 0;
+  color: #fff;
+}
+footer div.container div.down {
+  font-size: 13px;
+}
+footer div.container div.down ul li {
+  color: #fff;
+  padding: 0;
+}
+footer div.container div.down ul li:last-child:before {
+  content: "|";
+  color: #fff;
+  padding: 0 10px;
+}
+
+
+/*右侧*/
+#right{
+	width:229px;
+	height:auto;
+	overflow: hidden;
+	border-left: 1px solid #D7EEFB;
+	float: right;
+	background:#FAFAFA;
+}
+#right .edit_tpl{
+	width:229px;
+	height:20px;
+}
+#right .edit_tpl a{
+	display: block;
+	float: right;
+	width: 20px;
+	height:20px;
+	background:url(../img/index/send_shuoshuo.png) no-repeat -280px 0px;
+}
+
+#right .edit_tpl a:hover{
+	background-position: -280px -24px;
+}
+#right .user_face{
+	width:210px;
+	height:80px;
+	padding:0 15px;
+}
+#right .user_face dt{
+	width:80px;
+	height:80px;
+	float: left;
+}
+#right .user_face dd{
+	width:85px;
+	height:30px;
+	float: right;
+}
+#right .user_face dd a{
+	display: block;
+	line-height:30px;
+	font-weight: bold;
+	color:#333333;
+	text-decoration: none;
+}
+#right .user_face dd a:hover{
+	color:#2B96E1;
+}
+#right .num_list{
+	width:199px;
+	height:35px;
+	padding:15px;
+	list-style: none;
+	margin-top: -20px;
+}
+#right .num_list li{
+	float: left;
+	padding:0 5px;
+	border-right:1px solid #E6E6E6;
+	text-align: center;
+	cursor: pointer;
+}
+#right .num_list li span:hover{
+	color:#2B96E1;
+}
+#right .num_list li a{
+	text-decoration: none;
+}
+#right .num_list li strong{
+	display: block;
+	font-family: tahoma;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 26px;
+}
+#right .num_list .noborder{
+	border-right:none;
+}
+#right .maybe{
+	width:229px;
+	height:auto;
+	margin-top:45px;
+}
+#right .maybe a{
+	text-decoration: none;
+}
+#right .maybe fieldset{
+	border:0;
+	border-top:1px solid #E6E6E6;
+	padding-left:15px;
+}
+#right .maybe fieldset legend{
+	padding:0 5px;
+	color:#333333;
+	font-weight: bold;
+}
+#right .maybe fieldset ul{
+	padding-top:10px;
+	list-style: none;
+}
+#right .maybe fieldset ul li{
+	height: 30px;
+	padding:10px 5px;
+}
+#right .maybe fieldset ul li dl{
+	width:140px;
+	height:30px;
+	float: left;
+}
+#right .maybe fieldset ul li dl dt{
+	width:30px;
+	height:30px;
+	margin-right:10px;
+	float: left;
+}
+#right .maybe fieldset ul li dl dd{
+	width:100px;
+	height:15px;
+	line-height: 15px;
+	color:#2B96E1;
+	float: left;
+}
+#right .maybe fieldset ul li dl dd a{
+	color:#333333;
+}
+#right .maybe fieldset ul li dl dd a:hover{
+	color:#2B96E5;
+}
+#right .maybe fieldset ul li .heed_btn{
+	display: inline-block;
+	width:60px;
+	height:20px;
+	line-height: 20px;
+	text-align: center;
+	border:1px solid #ccc;
+	cursor: pointer;
+	background: #f2f2f2;
+	border-radius: 3px;
+}
+#right .maybe fieldset ul li .heed_btn strong{
+	font-weight: bold;
+	font-size: 14px;
+	color:#FDAE2A;
+}
+#right .post{
+	width:229px;
+	height:auto;
+	overflow: hidden;
+	margin-top:20px;
+}
+#right .post_line{
+	width:229px;
+	height:29px;
+	border-bottom:1px solid #E6E6E6;
+}
+#right .post span{
+	display: block;
+	width:44px;
+	height:30px;
+	font-weight: bold;
+	text-align: center;
+	line-height:30px;
+	background:url(../img/index/line.png) no-repeat 0 -107px #fafafa;
+	margin-left: 20px;
+}
+#right .post ul{
+	width:200px;
+	height: auto;
+	margin-left:29px;
+	list-style: none;
+}
+#right .post ul li{
+	padding:10px 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 320px) and (max-width: 767px) {
+  nav div.container form {
+    display: none;
+  }
+  nav div.container ul {
+    text-align: center;
+  }
+}
+@media (min-width: 320px) and (max-width: 992px) {
+  nav div.container ul li {
+    margin-right: 20px;
+  }
+  nav div.container ul li i {
+    display: inline-block;
+    background-image: url("../img/icon1.png");
+    width: 25px;
+    height: 25px;
+    margin-right: -15px;
+  }
+  nav div.container ul li.seven {
+    display: none;
+  }
+  nav div.container ul li.eight {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 993px) {
+  nav div.container ul li {
+    margin-right: 20px;
+  }
+  nav div.container ul li i {
+    display: inline-block;
+    background-image: url("../img/icon1.png");
+    width: 25px;
+    height: 25px;
+    margin-right: -15px;
+  }
+  
+  nav div.container ul li.seven {
+    margin-top: 20px;
+  }
+}
+@media (min-width: 994px) and (max-width: 1200px) {
+  nav div.container ul li.eight {
+    display: none;
+  }
+}
+@media (min-width: 1201px) {
+  main section {
+    margin-left: 160px;
+  }
+  main section dl dd span.nular {
+    margin-left: 60px;
+    margin-top: 20px;
+  }
+  main section dl dd p.content {
+    margin-left: 60px;
+  }
+  main section dl dd img {
+    margin-left: 60px;
+    width: 780px;
+  }
+  main section dl dd a.like {
+    margin-left: 80px;
+  }
+  main section:before {
+    background-image: url("../img/user.png");
+    /*left:173px;*/
+  }
+}
