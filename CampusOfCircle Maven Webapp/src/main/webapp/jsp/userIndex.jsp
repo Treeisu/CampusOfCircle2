@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
                 <li class="seven"> <input type="text" class="form-control" placeholder="搜索用户/动态/校园"><span class="search"></span></li>
                 <li id="li_user_dropdown" class="eight">
-                	<img src="<c:out value="${user.userImage}"/>" alt="">
+                	<img src="<c:out value="${user.userImage}"/>" alt="" style="width:36px;height:36px">
                 	<a id="li_a_dropdown" ><c:out value="${user.userNickName}"/>&nbsp;<span class="caret"></span></a>
                 	<ul class="dropdown-menu pull-right">
                 		<li><a href="jsp/userSetting.jsp">账号设置</a></li>
@@ -535,7 +535,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div id="right">
 	<div class="edit_tpl"><a class='set_model' href="#setTheme_modal"  data-toggle="modal"></a></div> 
 	<dl class="user_face">
-        <dt><a href=""><img src="img/pictureStyle/CoCBackground3.jpg" width='80' height='80' alt="" /></a></dt>
+        <dt><a href=""><img src="<c:out value="${user.userImage}"/>" width='80' height='80' alt="" /></a></dt>
         <dd><a href=""><c:out value="${user.userNickName}"/></a></dd>
     </dl>
 	

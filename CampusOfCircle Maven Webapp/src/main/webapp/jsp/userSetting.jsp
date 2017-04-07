@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
                 <li class="seven"> <input type="text" class="form-control" placeholder="搜索用户/动态/校园"><span class="search"></span></li>
                 <li id="li_user_dropdown" class="eight">
-                	<img src="img/touxiang.png" alt="">
+                	<img src="<c:out value="${user.userImage}"/>" alt="" style="width:32px;height:32px">
                 	<a id="li_a_dropdown" ><c:out value="${user.userNickName}"/>&nbsp;<span class="caret"></span></a>
                 	<ul class="dropdown-menu pull-right">
                 		<li><a href="">账号设置</a></li>
@@ -168,22 +168,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!--头像修改-->
 		<!--密码修改-->
 		<div class='form' style="display: none;">
-			<form action="user/pawdChange" method='post' name='editPwd'>
+			<form action="" method='post' name='editPwd' id='pwdform'>
 				<div class='account'>登录手机：<span>15576768878</span></div>
 				<div>
     				<label for=""><span class='red'>*</span>旧密码：</label>
-    				<input type="password" name='old' class='input'/>
+    				<input type="password" name='pwd1' class='input' id="pwd1" value=''/>
     			</div>
     			<div>
     				<label for=""><span class='red'>*</span>新密码：</label>
-    				<input type="password" name='new' class='input' id='new'/>
+    				<input type="password" name='pwd2' class='input' id='pwd2' value=''/>
     			</div>
     			<div>
     				<label for=""><span class='red'>*</span>确认密码：</label>
-    				<input type="password" name='newed' class='input'/>
+    				<input type="password" name='pwd3' class='input' id="pwd3" value=''/>
     			</div>
     			<div>
-    				<input type="submit" value='保存修改' class='edit-sub btn btn-success'/>
+    				<input type="button" value='保存修改' class='edit-sub btn btn-success' id="changepwd"/>
     			</div>
 			</form>
 		</div>

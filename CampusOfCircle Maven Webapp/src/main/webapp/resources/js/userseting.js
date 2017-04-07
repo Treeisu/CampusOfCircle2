@@ -61,7 +61,37 @@ $(function(){
 			var pic_src = window.URL.createObjectURL(f1);
 			$(this).parents('.edit-face').find('#face-img').attr('src',pic_src);	
 		});
-	
+		//密码修改
+		$('#changepwd').on('click',function(){
+			if($("#pwd2").val()!=$("#pwd3").val()){
+				var divs="<div class='alert alert-danger' role='alert'> <button class='close' type='button' data-dismiss='alert'>&times;</button>两次密码不一致！</div>";
+				$('#changepwd').parent().parent().parent().find('form').before(divs);
+			}else{
+				$.ajax({
+					type:"POST",
+					url:"user/pwdChange",
+					dataType:"json",
+					data:{"pwd1":$("#pwd1").val(),"pwd3":$("#pwd3").val()},
+					success:function(data){
+//						console.log(data);
+						if(data==0){
+							var divs1="<div class='alert alert-danger' role='alert'> <button class='close' type='button' data-dismiss='alert'>&times;</button>原密码错误！</div>";
+							$('#changepwd').parent().parent().parent().find('form').before(divs1);
+						}else{
+							var divs2="<div class='alert alert-success' role='alert'> <button class='close' type='button' data-dismiss='alert'>&times;</button>密码修改成功!</div>";
+							$('#changepwd').parent().parent().parent().find('form').before(divs2);
+							$('#pwdform').find('input[type=password]').val("");
+						}
+						
+					}
+				});
+			}
+			
+			
+			
+			
+			
+		});
 	
 	
 	

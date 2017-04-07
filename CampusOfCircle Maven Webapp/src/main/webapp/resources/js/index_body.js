@@ -1,6 +1,16 @@
 
 $(function(){
 		/**
+		 * 用户退出
+		 */
+		$('#li_user_dropdown').find('ul').hover(function(){
+			var a_exit=$(this).children(':last').find('a');
+			a_exit.attr('href','user/exit');
+		});
+		
+		
+		
+		/**
 		 * 左边列表状态选中
 		 */
 		$('#left_nav_a > a').click(function(e){

@@ -32,14 +32,25 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  */
 @Controller
 @RequestMapping(value="/user")
-@SessionAttributes(value="user")//可以将model中的对象加入到session中
+//@SessionAttributes(value="user")//可以将model中的对象加入到session中
 public class UserController {
 	//private static Logger logger = LoggerFactory.getLogger(SublistController.class);
 	@Autowired
 	private UserServiceImpl userserviceImpl;
 
+	@RequestMapping(value="/userIndexTo")
+	public String indexTo(){
+		return "userIndex";
+	}
+	@RequestMapping(value="/indexTo")
+	public String To(){
+		return "../index";
+	}
+	
+	
+	
 	@RequestMapping(value="/reg")
-	public String regist(ModelMap model,HttpServletRequest request,HttpServletResponse response,
+	public String regist(HttpServletRequest request,HttpServletResponse response,
 						@RequestParam("userNickName")String userNickName,
 						@RequestParam("password")String userPassword,
 						@RequestParam("password2")String userPassword2,
@@ -53,32 +64,37 @@ public class UserController {
 		List<User> list=userserviceImpl.findUserByPhone(user.getUserPhone());
 		if(list.size()==0){
 			userserviceImpl.saveUser(user);
-			model.addAttribute("user",user);//相当于request.setAttribute();
-			return "login";
+			
+			HttpSession session=request.getSession();
+			session.setAttribute("user", user);
+			request.setAttribute("user",user);//相当于request.setAttribute();
+			return "redirect:/user/userIndexTo";
 		}else{
 			String msg="该号码已经注册";
 			return msg;
 		}	
 	}
 	@RequestMapping(value="/log")
-	public String login(ModelMap model,HttpServletRequest request,HttpServletResponse response,
+	public String login(HttpServletRequest request,HttpServletResponse response,
 						@RequestParam("logpassworld")String userPassword,
 						@RequestParam("loguserPhone")String userPhone){
 		User u=new User();
 		List<User> list=userserviceImpl.findUserByPhone(userPhone);
 		if(list.size()==0){
 			String msg="该账号未注册，请先注册后登录！";
-			model.addAttribute("msg",msg);
+			request.setAttribute("msg",msg);
 			return "login";
 		}else{
 			u=list.get(0);
 			if(u.getUserPassword().equals(userPassword)){
-				model.addAttribute("user",u);//相当于request.setAttribute();				
-				return "userIndex";	
+				request.setAttribute("user",u);//相当于request.setAttribute();				
+				HttpSession session=request.getSession();
+				session.setAttribute("user", u);
+				return "redirect:/user/userIndexTo";	//让他重新去做一个请求
 			}
 			else{
 				String msg="密码输入错误,请核对密码";
-				model.addAttribute("msg",msg);
+				request.setAttribute("msg",msg);
 				return "login";
 			}
 		}
@@ -102,7 +118,7 @@ public class UserController {
 		return userList;	
 	}
 	@RequestMapping(value="/basicChange")
-	public String basicChange(ModelMap model,HttpServletRequest request,HttpServletResponse response,
+	public String basicChange(HttpServletRequest request,HttpServletResponse response,
 						@RequestParam("nickname")String userNickName,
 						@RequestParam("email")String userEmail,
 						@RequestParam("province")String province,
@@ -113,7 +129,7 @@ public class UserController {
 						@RequestParam("uclass")String userClass,
 						@RequestParam("intro")String userDescription){
 		 HttpSession session=request.getSession();
-		 User user=(User) session.getAttribute("user");
+		 User user=(User) session.getAttribute("user");		 
 		String userAddress=province+" "+city;
 		user.setUserNickName(userNickName);
 		user.setUserEmail(userEmail);
@@ -125,26 +141,57 @@ public class UserController {
 		user.setUserSex(userSex);
 		userserviceImpl.updateUser(user);		
 		
-		return "userIndex";		
+		
+		session.setAttribute("user", user);
+		return "redirect:/user/userIndexTo";		
 	}
 	@RequestMapping(value="/faceChange")
-	public String faceChange(ModelMap model,HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest){
+	public String faceChange(HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest){
 		 HttpSession session=request.getSession();
 		 User user=(User) session.getAttribute("user");
 		 
 		 Iterator<String> iterator = muliRequest.getFileNames();
 		 String fileName = iterator.next();
 		 MultipartFile file = muliRequest.getFile(fileName);
-		 String Imgpath = UploadUtil.uploadFile(file,"img/HeadImg");
+		 String Imgpath = UploadUtil.uploadFile(file,"/Upload-CoC/img/HeadImg");
 		 
 		 
 		 user.setUserImage(Imgpath);		 
 		 userserviceImpl.updateUser(user);		
 		
-		return "userIndex";		
+		session.setAttribute("user", user);
+		return "redirect:/user/userIndexTo";		
 	}
 	
-	
+	@RequestMapping(value="/pwdChange")
+	@ResponseBody()
+	public int pwdChange(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 String pwd1=request.getParameter("pwd1");
+		 String pwd3=request.getParameter("pwd3");
+		 System.out.println(pwd1+","+pwd3);
+		 if(!pwd1.equals(user.getUserPassword())){ 
+			 return 0;
+		 }else{
+			 user.setUserPassword(pwd3);
+			 userserviceImpl.updateUser(user);
+			 
+			 session.setAttribute("user", user);
+			 return 1;	
+		 }
+
+	}
+	@RequestMapping(value="/exit")
+	public String exitUser(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 if(user !=null){
+			 session.removeAttribute("user");
+			 request.removeAttribute("user");
+		 }
+		 return "redirect:/user/indexTo";
+	}
 	
 	
 	
