@@ -17,4 +17,5 @@ public interface UserDao {
 	public void saveUser(User user);
 	public List<User> findByPhone(String userPhone);
 	public void updateUser(User user);
+	public User getUserById(long userId);
 }

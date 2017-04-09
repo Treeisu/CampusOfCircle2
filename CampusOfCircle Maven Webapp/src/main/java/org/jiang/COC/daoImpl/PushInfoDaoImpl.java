@@ -1,67 +1,62 @@
 package org.jiang.COC.daoImpl;
 
 
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.jiang.COC.dao.UserDao;
-import org.jiang.COC.model.User;
+import org.jiang.COC.dao.PushInfoDao;
+import org.jiang.COC.model.PushInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 @Repository
-public class UserDaoImpl implements UserDao {
+public class PushInfoDaoImpl implements PushInfoDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
-	
-
-	/**
-	 * 保存单个User对象
-	 */
 	@Override
 	@Transactional
-	public void saveUser(User user) {
+	public void savePushInfo(PushInfo pushInfo) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		session.save(user);
+		session.save(pushInfo);
 	}
-	/**
-	 * 根据手机号查询User
-	 */
+
 	@SuppressWarnings("unchecked")
-	@Override	
+	@Override
 	@Transactional
-	public List<User> findByPhone(String userPhone) {
+	public List<PushInfo> findByuserIds(List<Long> userIds) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		String hql="from User where userPhone = :myphone";
+		String hql="from PushInfo where userId in(:myUserIds) order by wbPushDate desc";
 		Query query=session.createQuery(hql);
-		query.setParameter("myphone", userPhone);
-		List<User> list=new ArrayList<User>();
+		query.setParameterList("myUserIds", userIds);
+		List<PushInfo> list=new ArrayList<PushInfo>();
 		list=query.list();
 		return list;
 	}
+
 	@Override
 	@Transactional
-	public void updateUser(User user) {
+	public void deletePushInfo(PushInfo pushInfo) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		session.update(user);
+		session.delete(pushInfo);
 	}
+
 	@Override
 	@Transactional
-	public User getUserById(long userId) {
+	public PushInfo getPushIfoBywbId(long wbId) {
 		// TODO Auto-generated method stub
-		session= sessionFactory.getCurrentSession();
-		session.get(User.class, userId);
-		return (User) session.get(User.class, userId);
+		session=sessionFactory.getCurrentSession();
+		session.get(PushInfo.class,wbId);
+		return (PushInfo) session.get(PushInfo.class,wbId);
 	}
+	
+
+	
 
 }

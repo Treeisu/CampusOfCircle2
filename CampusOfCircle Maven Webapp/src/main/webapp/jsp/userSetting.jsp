@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -31,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" style="font-weight: 1000;"><i class="logo"></i></a>
+            <a class="navbar-brand" href="jsp/userIndex.jsp" style="font-weight: 1000;"><i class="logo"></i></a>
         </div>
         <div class="navbar-collapse collapse" id="head_mycollapse">
             <ul class="nav navbar-nav" id="head_mycollapse_ul">
@@ -44,10 +45,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <li id="li_user_dropdown" class="eight">
                 	<img src="<c:out value="${user.userImage}"/>" alt="" style="width:32px;height:32px">
                 	<a id="li_a_dropdown" ><c:out value="${user.userNickName}"/>&nbsp;<span class="caret"></span></a>
+                	<p id="userId_navbar" style="display:none"><c:out value="${user.userId}"/></p>
                 	<ul class="dropdown-menu pull-right">
-                		<li><a href="">账号设置</a></li>
+                		<li><a href="jsp/userSetting.jsp">账号设置</a></li>
                 		<li class="divider"></li>
-                		<li><a href="">模板设置</a></li>
+                		<li><a href="#setTheme_modal" data-toggle="modal">模板设置</a></li>
                 		<li class="divider"></li>
                 		<li><a href="">退出登录</a></li>
                 	</ul>

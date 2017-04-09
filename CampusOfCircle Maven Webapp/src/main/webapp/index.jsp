@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   <body>
     <h1>这里是校园圈子，欢迎你！</h1>
-	<a href="http://localhost:7075/CampusOfCircle/jsp/login.jsp"/>点击注册</a>
+	<a href="/CampusOfCircle/jsp/login.jsp"/>点击注册</a>
     
   </body>
 </html>

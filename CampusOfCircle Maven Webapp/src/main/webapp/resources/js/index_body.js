@@ -9,7 +9,6 @@ $(function(){
 		});
 		
 		
-		
 		/**
 		 * 左边列表状态选中
 		 */
@@ -201,12 +200,17 @@ $(function(){
 		});
 		//删除按钮显现
 		$('.weibo').hover(function () {
-				$(this).find('.del-li').show();
+				var blogUserId=$(this).find('#userId_p_init').text();
+				var uid=$('#head_mycollapse').find('#userId_navbar').text();
+				if(blogUserId=uid){
+					$(this).find('.del-li').show();
+				}	
 			}, function () {
 				$(this).find('.del-li').hide();
 			});
 			$('.del-li').click(function () {
-				var wid = $(this).attr('wid');
+				var weiboDiv=$(this).parents('.weibo');
+				var wid=weiboDiv.find('#wbId_p_init').text();
 				var content =$(this).parents('.weibo').find('.content p').html();
 				var name=$(this).parents('.weibo').find('.author a').html();
 				$('#delete_modal').find('.modal-body p').html(content);
@@ -214,6 +218,17 @@ $(function(){
 				$('#delete_modal').modal().toggle();
 				//删除节点，并且发送请求从数据库删除数据
 				$('#delete_modal').find('.modal-footer input').click(function(){
+					$.ajax({
+						type:"POST",
+						url:"blog/del",
+						dataType:"json",
+						data:{"wbId":wid},
+						success:function(data){
+//							console.log(data[0].userNickName);
+							alert("22");
+							weiboDiv.remove();							
+						}
+					});
 					
 					
 				});
@@ -408,7 +423,7 @@ $(function(){
 
 
 
-
+			
 });
 /**
  * 统计字数

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -29,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" style="font-weight: 1000;"><i class="logo"></i></a>
+            <a class="navbar-brand" href="jsp/userIndex.jsp" style="font-weight: 1000;"><i class="logo"></i></a>
         </div>
         <div class="navbar-collapse collapse" id="head_mycollapse">
             <ul class="nav navbar-nav" id="head_mycollapse_ul">
@@ -42,10 +43,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <li id="li_user_dropdown" class="eight">
                 	<img src="<c:out value="${user.userImage}"/>" alt="" style="width:36px;height:36px">
                 	<a id="li_a_dropdown" ><c:out value="${user.userNickName}"/>&nbsp;<span class="caret"></span></a>
+                	<p id="userId_navbar" style="display:none"><c:out value="${user.userId}"/></p>
                 	<ul class="dropdown-menu pull-right">
                 		<li><a href="jsp/userSetting.jsp">账号设置</a></li>
                 		<li class="divider"></li>
-                		<li><a href="">模板设置</a></li>
+                		<li><a href="#setTheme_modal" data-toggle="modal">模板设置</a></li>
                 		<li class="divider"></li>
                 		<li><a href="">退出登录</a></li>
                 	</ul>
@@ -100,8 +102,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class='send_title fleft'></div>
                 <div class='send_prompt fright'><span>你还可以输入<span id='send_num'>140</span>个字</span></div>
                 <div class='send_write' id='send_text'>
-                    <form action='' method='post' name='weibo' id="send_wb_textarea">
-                        <textarea sign='shuoshuo' name='content'id='sendshuoshuo_textarea' style=" outline: none;overflow-y:visible"></textarea>
+                    <form action='blog/push' method='post' name='weibo' id="send_wb_textarea" enctype="multipart/form-data">
+                        <textarea sign='shuoshuo' name='content' id='sendshuoshuo_textarea' style=" outline: none;overflow-y:visible"></textarea>
                         <span class='ta_right' id='ta_right_span'></span>
                         <div class='send_tool'>
                             <ul class='fleft'>
@@ -125,134 +127,144 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
             </div>
         <!--动态发布框end-->
-          <div class='view_line'>
+          <div class='view_line' style="margin-top:10px">
                 <strong ><small>圈子</small></strong>
             </div>
+            
 		<!--显示微博样式-->	
 			<!--首先做个判断，有就去遍历微博，没有就提示没有微博-->
-			<div class="weibo ">
-				<div class="face">
-					<a href="">
-                        <img src="img/pictureStyle/CoCBackground3.jpg" width='50' height='50'/>
-                    </a>
-				</div>
-				<div class="wb_cons">
-					<dl>
-						<!--用户名-->
-                        <dt class='author' style="">
-                            <a href="">姜小熙</a>
-                        </dt>
-                    	<!--发布内容-->
-                        <dd class='content'>
-                            <p>寒蝉凄切。对长亭晚，骤雨初歇。都门帐饮无绪，方留恋处、兰舟催发。执手相看泪眼，竟无语凝噎。念去去、千里烟波，暮霭沉沉楚天阔。多情自古伤离别，更那堪,冷落清秋节！今宵酒醒何处？杨柳岸、晓风残月。此去经年，应是良辰好景虚设。便纵有千种风情，更与何人说？</p>
-                        </dd>
-						<!--需要做判断有没有图片-->
-						<dd>
-							<div id="wb_img_div" class="wb_img">
-								<!--小图显示-->
-								<img src="img/sendWeiboPicture/004.jpg" class='mini_img' style="width: 200px;height: 150px;"/>
-								<!--隐藏框用于图片大小显示-->
-								<div class="img_tool" id="img_getbig" style="display: none;">
-                                    <ul style="list-style: none;">
-                                        <li>
-                                            <i class='icon icon-packup'></i>
-                                            <span class='packup'>&nbsp;收起</span>
-                                        </li>
-                                        <li>|</li>
-                                        <li>
-                                            <i class='icon icon-bigpic'></i>
-                                            <!--注意：这里需要填写上传图片后的存储地址-->
-                                            <a href="/后盾微博/img/sendWeiboPicture/002.jpg" target='_blank'>&nbsp;查看大图</a>
-                                        </li>
-                                    </ul>
-                               		<!--中图显示-->
-                                    <div class="img_info"><img src="img/sendWeiboPicture/004.jpg"/></div>
-                               </div> 
-							</div>
-						</dd>
-						<!--需要做判断有没有图片end-->
-					</dl>
-					<!--微博操作-->
-					<div class="wb_tool">
-						 <!--发布时间-->
-                        <span class="send_time">2017-03-24 19:03</span>
-						<ul style="list-style: none;">
-						<!--删除按钮显示，首先进行判断，鼠标hover到此处触发函数，并且js获取用户id和微博userid，当前用户是此微博user就可以显示删除，不是则添加class=hidden-->
-							<li class='del-li ' style="display: none;"><span class='del-weibo iconII iconII-delete' wid='{$v.id}'></span></li>
-                        <!--删除判断-->
-                            <li class="li_praise"><span class='iconII iconII-praise' id='' ></span><sup>(99+)</sup></li>
-                            <li class="li_showturn"><span class='iconII iconII-turn' id='' turnid=""></span><sup>(99+)</sup></li>
-                            <li class="li_showcomment_list"><span class='comment iconII iconII-comment' id=''></span><sup>(99+)</sup></li>
-                            <li class='li_collection'> <span class='iconII iconII-collection' wid=''></span></li>
-						</ul>
+	<c:if test="${blogs.size()>0}">
+		<c:forEach var="blog" items="${blogs}">
+			<c:if test="${blog.wbAuthorId==0}">
+				<div class="weibo">
+					<p id="userId_p_init" style="display:none"><c:out value="${blog.user.userId}"/></p>
+					<p id="wbId_p_init" style="display:none"><c:out value="${blog.wbId}"/></p>
+					<div class="face">
+						<a href="">
+	                        <img src="<c:out value="${blog.user.userImage}"/>" width='50' height='50'/>
+	                    </a>
 					</div>
-					<div class=' ' id='' style="display: none;background-color: #DFF0D8;line-height: 23px;"><span class="iconII iconII-praise2" style="font-size: 13px;color: #444;font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";"></span><span>&nbsp;&nbsp;我觉得很赞</span></div>
-					 <!--=====回复框=====-->
-					    <div class='comment_loading comment_load ' id='' style="display: none;"><img src="img/loading.gif">评论加载中，请稍候...</div>
-					    <div class='comment_modal comment_list ' id="" style="display: none;">
-					        <textarea name="" sign='' style="outline: none;overflow-y:visible"></textarea>
-					        <ul style="list-style: none;">
-					            <li class='phiz fleft' sign=''></li>
-					            <li class='comment_turn fleft'>
-						            <label >
-						            	<input type="checkbox" name=''/>同时转发到我的圈子
-						            </label>
-					            </li>
-					            <span style="margin-left: 160px;"><span id='comment1_num'>140</span>/140</span>
-					            <li class='comment_btn fright' wid='' uid='' id="sendcomment_btn">评论</li>  
-					        </ul>
-					    </div>
-					    <!--=====回复框=====-->
-					    <!--=====回复列表=====-->
-					    <div class="showcommentList" style="margin-top: 5px; display: none;">
-						    <div id="" class="comment_all" style="width:490px; margin-top: 5px;overflow: hidden;">
-						    	<div style="width: 30px; float: left;">
-						    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
-						    	</div>
-						    	<div class="commen_content_div" style="width: 460px;float: right;">
-						    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
-						    		<p>执手相看泪眼，竟无语凝噎</p>
-						    		<p class="comment_time">2014-02-19 14:36
-						    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;">回复</a>
-						    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
-						    		</p>
-						    		
-						    	</div>	
-						    </div>
-						    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
-						    	<div style="width:30px; float: left;">
-						    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
-						    	</div>
-						    	<div class="commen_content_div" style="width: 460px;float: right;">
-						    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
-						    		<p>执手相看泪眼，竟无语凝噎</p>
-						    		<p class="comment_time">2014-02-19 14:36
-						    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px;display: none;">回复</a>
-						    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
-						    		</p>
-						    		
-						    	</div>	
-						    </div>
-						    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
-						    	<div style="width:30px; float: left;">
-						    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
-						    	</div>
-						    	<div class="commen_content_div" style="width: 460px;float: right;">
-						    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
-						    		<p>执手相看泪眼，竟无语凝噎</p>
-						    		<p class="comment_time">2014-02-19 14:36
-						    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px;display: none;">回复</a>
-						    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
-						    		</p>
-						    		
-						    	</div>	
-						    </div>
+					<div class="wb_cons">
+						<dl>
+							<!--用户名-->
+	                        <dt class='author' style="">
+	                            <a href=""><c:out value="${blog.user.userNickName}"/></a>
+	                        </dt>
+	                    	<!--发布内容-->
+	                        <dd class='content'>
+	                            <p><c:out value="${blog.wbTextContent}"/></p>
+	                        </dd>
+							<!--需要做判断有没有图片-->
+							<c:if test="${!empty blog.wbImage}">
+							<dd>
+								<div id="wb_img_div" class="wb_img">
+									<!--小图显示-->
+									<img src="<c:out value="${blog.wbImage}"/>" class='mini_img' style="width: 200px;height: 150px;"/>
+									<!--隐藏框用于图片大小显示-->
+									<div class="img_tool" id="img_getbig" style="display: none;">
+	                                    <ul style="list-style: none;">
+	                                        <li>
+	                                            <i class='icon icon-packup'></i>
+	                                            <span class='packup'>&nbsp;收起</span>
+	                                        </li>
+	                                        <li>|</li>
+	                                        <li>
+	                                            <i class='icon icon-bigpic'></i>
+	                                            <!--注意：这里需要填写上传图片后的存储地址-->
+	                                            <a href="<c:out value="${blog.wbImage}"/>" target='_blank'>&nbsp;查看大图</a>
+	                                        </li>
+	                                    </ul>
+	                               		<!--中图显示-->
+	                                    <div class="img_info"><img src="<c:out value="${blog.wbImage}"/>"/></div>
+	                               </div> 
+								</div>
+							</dd>
+							</c:if>
+							<!--需要做判断有没有图片end-->
+						</dl>
+						<!--微博操作-->
+						<div class="wb_tool">
+							 <!--发布时间-->
+	                        <span class="send_time"><fmt:formatDate value="${blog.wbPushDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+							<ul style="list-style: none;">
+							<!--删除按钮显示，首先进行判断，鼠标hover到此处触发函数，并且js获取用户id和微博userid，当前用户是此微博user就可以显示删除，不是则添加class=hidden-->
+								<li class='del-li ' style="display: none;"><span class='del-weibo iconII iconII-delete' wid='<c:out value="${blog.wbId}"/>'></span></li>
+	                        <!--删除判断-->
+	                            <li class="li_praise"><span class='iconII iconII-praise' id='' ></span><sup>(99+)</sup></li>
+	                            <li class="li_showturn"><span class='iconII iconII-turn' id='' turnid=""></span><sup>(99+)</sup></li>
+	                            <li class="li_showcomment_list"><span class='comment iconII iconII-comment' id=''></span><sup>(99+)</sup></li>
+	                            <li class='li_collection'> <span class='iconII iconII-collection' wid=''></span></li>
+							</ul>
 						</div>
-					    <!--=====回复列表=====-->  
-					<!--=====回复框结束=====-->
+						<div class=' ' id='' style="display: none;background-color: #DFF0D8;line-height: 23px;"><span class="iconII iconII-praise2" style="font-size: 13px;color: #444;font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";"></span><span>&nbsp;&nbsp;我觉得很赞</span></div>
+						 <!--=====回复框=====-->
+						    <div class='comment_loading comment_load ' id='' style="display: none;"><img src="img/loading.gif">评论加载中，请稍候...</div>
+						    <div class='comment_modal comment_list ' id="" style="display: none;">
+						        <textarea name="" sign='' style="outline: none;overflow-y:visible"></textarea>
+						        <ul style="list-style: none;">
+						            <li class='phiz fleft' sign=''></li>
+						            <li class='comment_turn fleft'>
+							            <label >
+							            	<input type="checkbox" name=''/>同时转发到我的圈子
+							            </label>
+						            </li>
+						            <span style="margin-left: 160px;"><span id='comment1_num'>140</span>/140</span>
+						            <li class='comment_btn fright' wid='' uid='' id="sendcomment_btn">评论</li>  
+						        </ul>
+						    </div>
+						    <!--=====回复框=====-->
+						    <!--=====回复列表=====-->
+						    <div class="showcommentList" style="margin-top: 5px; display: none;">
+							    <div id="" class="comment_all" style="width:490px; margin-top: 5px;overflow: hidden;">
+							    	<div style="width: 30px; float: left;">
+							    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
+							    	</div>
+							    	<div class="commen_content_div" style="width: 460px;float: right;">
+							    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
+							    		<p>执手相看泪眼，竟无语凝噎</p>
+							    		<p class="comment_time">2014-02-19 14:36
+							    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;">回复</a>
+							    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
+							    		</p>
+							    		
+							    	</div>	
+							    </div>
+							    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
+							    	<div style="width:30px; float: left;">
+							    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
+							    	</div>
+							    	<div class="commen_content_div" style="width: 460px;float: right;">
+							    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
+							    		<p>执手相看泪眼，竟无语凝噎</p>
+							    		<p class="comment_time">2014-02-19 14:36
+							    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px;display: none;">回复</a>
+							    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
+							    		</p>
+							    		
+							    	</div>	
+							    </div>
+							    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
+							    	<div style="width:30px; float: left;">
+							    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
+							    	</div>
+							    	<div class="commen_content_div" style="width: 460px;float: right;">
+							    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
+							    		<p>执手相看泪眼，竟无语凝噎</p>
+							    		<p class="comment_time">2014-02-19 14:36
+							    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px;display: none;">回复</a>
+							    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
+							    		</p>
+							    		
+							    	</div>	
+							    </div>
+							</div>
+						    <!--=====回复列表=====-->  
+						<!--=====回复框结束=====-->
+					</div>
 				</div>
-			</div>
-			
+			</c:if>
+		</c:forEach>	
+	</c:if>
 			<!--===========================第二个，重复一遍==========================-->
 			<div class="weibo ">
 				<div class="face">
@@ -392,7 +404,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </dt>
                 		 <!--发布内容-->
                         <dd class='content'>
-                        	<p>天尽头， 何处有香丘？未若锦囊收艳骨，一抔净土掩风流；质本洁来还洁去，强于污淖陷渠沟。尔今死去侬收葬，未卜侬身何日丧？侬今葬花人笑痴，他年葬侬知是谁？试看春残花渐落，便是红颜老死时；一朝春尽红颜老，花落人亡两不知！</p>
+                        	<p>[哈哈]天尽头， 何处有香丘？未若锦囊收艳骨，一抔净土掩风流；质本洁来还洁去，强于污淖陷渠沟。尔今死去侬收葬，未卜侬身何日丧？侬今葬花人笑痴，他年葬侬知是谁？试看春残花渐落，便是红颜老死时；一朝春尽红颜老，花落人亡两不知！</p>
                         </dd>
                         <!--转发的原动态内容-->
 			                        		<!--做一个判断，如果原动态不存在就显示删除样式-->

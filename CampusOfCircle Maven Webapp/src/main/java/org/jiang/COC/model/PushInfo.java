@@ -24,7 +24,8 @@ public class PushInfo implements Serializable {
 	private static final long serialVersionUID = 4048529031442266867L;
 	@Transient
 	private PushInfo initPushInfo;//用来给业务层处理转发的原信息，加上一个@Transient数据库则不会产生列
-	
+	@Transient
+	private User user;//显示user信息的字段，加上一个@Transient数据库则不会产生列
 	
 	
 	@Id
@@ -45,7 +46,16 @@ public class PushInfo implements Serializable {
     private Date wbPushDate;
 	
     
-    public PushInfo getInitPushInfo() {
+    
+    
+    
+    public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public PushInfo getInitPushInfo() {
 		return initPushInfo;
 	}
 	public void setInitPushInfo(PushInfo initPushInfo) {
@@ -96,11 +106,12 @@ public class PushInfo implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public PushInfo(PushInfo initPushInfo, long wbId, long wbAuthorId,
-			long userId, String userNickName, String wbImage,
+	public PushInfo(PushInfo initPushInfo, User user, long wbId,
+			long wbAuthorId, long userId, String userNickName, String wbImage,
 			String wbTextContent, Date wbPushDate) {
 		super();
 		this.initPushInfo = initPushInfo;
+		this.user = user;
 		this.wbId = wbId;
 		this.wbAuthorId = wbAuthorId;
 		this.userId = userId;
@@ -114,11 +125,11 @@ public class PushInfo implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "PushInfo [initPushInfo=" + initPushInfo + ", wbId=" + wbId
-				+ ", wbAuthorId=" + wbAuthorId + ", userId=" + userId
-				+ ", userNickName=" + userNickName + ", wbImage=" + wbImage
-				+ ", wbTextContent=" + wbTextContent + ", wbPushDate="
-				+ wbPushDate + "]";
+		return "PushInfo [initPushInfo=" + initPushInfo + ", user=" + user
+				+ ", wbId=" + wbId + ", wbAuthorId=" + wbAuthorId + ", userId="
+				+ userId + ", userNickName=" + userNickName + ", wbImage="
+				+ wbImage + ", wbTextContent=" + wbTextContent
+				+ ", wbPushDate=" + wbPushDate + "]";
 	}
    
 	
