@@ -39,7 +39,9 @@ public class PushInfoServiceImpl implements PushInfoService {
 		list=pushInfoDaoImpl.findByuserIds(userIds);
 		for( PushInfo blog:list){
 			User user=userDaoImpl.getUserById(blog.getUserId());
-			blog.setUser(user);
+			if(user !=null){
+				blog.setUser(user);
+			}			
 		}
 		return list;
 	}
@@ -49,7 +51,10 @@ public class PushInfoServiceImpl implements PushInfoService {
 	public void deleteBywbId(long wbId) {
 		// TODO Auto-generated method stub
 		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
-		pushInfoDaoImpl.deletePushInfo(pushInfo);
+		if(pushInfo !=null){
+			pushInfoDaoImpl.deletePushInfo(pushInfo);
+		}
+		
 	}
 
 	@Override

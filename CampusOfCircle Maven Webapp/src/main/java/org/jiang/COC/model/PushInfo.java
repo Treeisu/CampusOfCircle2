@@ -21,7 +21,9 @@ import javax.persistence.Transient;
 @Table(name="tb_pushInfo")
 public class PushInfo implements Serializable {
 	@Transient
-	private static final long serialVersionUID = 4048529031442266867L;
+	private static final long serialVersionUID = -708207912208929312L;
+	
+
 	@Transient
 	private PushInfo initPushInfo;//用来给业务层处理转发的原信息，加上一个@Transient数据库则不会产生列
 	@Transient

@@ -200,12 +200,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 <!--=====回复框=====-->
 						    <div class='comment_loading comment_load ' id='' style="display: none;"><img src="img/loading.gif">评论加载中，请稍候...</div>
 						    <div class='comment_modal comment_list ' id="" style="display: none;">
-						        <textarea name="" sign='' style="outline: none;overflow-y:visible"></textarea>
+						        <textarea name="commentTextarea" sign='' style="outline: none;overflow-y:visible"></textarea>
 						        <ul style="list-style: none;">
 						            <li class='phiz fleft' sign=''></li>
 						            <li class='comment_turn fleft'>
 							            <label >
-							            	<input type="checkbox" name=''/>同时转发到我的圈子
+							            	<input type="checkbox" name='commentbyTurn'/>同时转发到我的圈子
 							            </label>
 						            </li>
 						            <span style="margin-left: 160px;"><span id='comment1_num'>140</span>/140</span>
@@ -215,48 +215,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						    <!--=====回复框=====-->
 						    <!--=====回复列表=====-->
 						    <div class="showcommentList" style="margin-top: 5px; display: none;">
+						    	<c:if test="${comments.size()>0}">
+						    	<c:forEach var="comment" items="${comments}">
 							    <div id="" class="comment_all" style="width:490px; margin-top: 5px;overflow: hidden;">
+							    	<p id="commentId_p_init" style="display:none"><c:out value="${comment.commentId}"/></p>
 							    	<div style="width: 30px; float: left;">
-							    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
+							    		<a id="" class="comment_img"><img src="<c:out value="${comment.commentUser.userImage}"/>" width='28' height='28'/></a>
 							    	</div>
 							    	<div class="commen_content_div" style="width: 460px;float: right;">
-							    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
-							    		<p>执手相看泪眼，竟无语凝噎</p>
-							    		<p class="comment_time">2014-02-19 14:36
+							    		<p id="commentuserId_p_init" style="display:none"><c:out value="${comment.userId}"/></p>
+							    		<p id="formUserId_p_init" style="display:none"><c:out value="${comment.fromCommentId}"/></p>
+							    		<a id="" class="commentname" style="text-decoration: none;float: left;"><c:out value="${comment.commentUser.userNickName}"/>：</a>
+							    		<p><c:out value="${comment.commentContent}"/></p>
+							    		<p class="comment_time"><fmt:formatDate value="${comment.commentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 							    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;">回复</a>
 							    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
-							    		</p>
-							    		
+							    		</p>							    		
 							    	</div>	
 							    </div>
-							    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
-							    	<div style="width:30px; float: left;">
-							    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
-							    	</div>
-							    	<div class="commen_content_div" style="width: 460px;float: right;">
-							    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
-							    		<p>执手相看泪眼，竟无语凝噎</p>
-							    		<p class="comment_time">2014-02-19 14:36
-							    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px;display: none;">回复</a>
-							    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
-							    		</p>
-							    		
-							    	</div>	
-							    </div>
-							    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
-							    	<div style="width:30px; float: left;">
-							    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
-							    	</div>
-							    	<div class="commen_content_div" style="width: 460px;float: right;">
-							    		<a id="" class="commentname" style="text-decoration: none;float: left;">姜小熙：</a>
-							    		<p>执手相看泪眼，竟无语凝噎</p>
-							    		<p class="comment_time">2014-02-19 14:36
-							    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px;display: none;">回复</a>
-							    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
-							    		</p>
-							    		
-							    	</div>	
-							    </div>
+							    </c:forEach>
+							    </c:if>				    							   
 							</div>
 						    <!--=====回复列表=====-->  
 						<!--=====回复框结束=====-->
@@ -491,7 +469,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <!--=====回复框=====-->
 					    <!--=====回复列表=====-->
 					    <div class="showcommentList" style="margin-top: 5px; display: none;">
-						    <div id="" class="comment_all" style="width:490px; margin-top: 5px;overflow: hidden;">
+						    <!-- <div id="" class="comment_all" style="width:490px; margin-top: 5px;overflow: hidden;">
 						    	<div style="width: 30px; float: left;">
 						    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
 						    	</div>
@@ -504,8 +482,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						    		</p>
 						    		
 						    	</div>	
-						    </div>
-						    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
+						    </div> -->
+						    <!-- <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
 						    	<div style="width:30px; float: left;">
 						    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
 						    	</div>
@@ -518,8 +496,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						    		</p>
 						    		
 						    	</div>	
-						    </div>
-						    <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
+						    </div> -->
+						    <!-- <div id="" class="comment_all" style="width:490px;margin-top: 5px;overflow: hidden;">
 						    	<div style="width:30px; float: left;">
 						    		<a id="" class="comment_img"><img src="img/pictureStyle/CoCBackground3.jpg" width='28' height='28'/></a>
 						    	</div>
@@ -532,7 +510,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						    		</p>
 						    		
 						    	</div>	
-						    </div>
+						    </div> -->
 						</div>
 					    <!--=====回复列表=====-->
                 </div>
@@ -682,7 +660,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <!--==========删除弹框=====已完成=====-->
 <div class="modal fade" id="delete_modal" >
 		<div class="modal-dialog ">
-			<form>
+			
 			<div class="modal-content"style="background-color: lightgray;">
 				 <div class="modal-header">
 				 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only close"></span></button>
@@ -693,15 +671,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 	<p ></p>
 				 </div>
 			   	 <div class="modal-footer">
-			   	 	<input type="submit" class="btn btn-danger" value="删除"/>
+			   	 	<button class="btn btn-danger" data-dismiss="modal">删除</button>
 			   	 	<button class="btn btn-default" data-dismiss="modal">取消</button>
 			   	 </div>
 			</div>
-			</form>
+			
 		</div>
 </div>
  <!--==========删除弹框====已完成======-->
- <!--==========删除弹框=====已完成=====-->
+ <!--==========收藏弹框=====已完成=====-->
 <div class="modal fade" id="collection_modal" >
 		<div class="modal-dialog ">
 			<div class=" alert alert-success">
@@ -709,7 +687,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 </div>
- <!--==========删除弹框====已完成======-->
+ <!--==========收藏弹框====已完成======-->
 
  <!--==========转发输入框已完成==========-->
     <div id='turnModal' style="display: none;">
@@ -739,7 +717,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
     </div>
 <!--==========转发输入框已完成==========-->
-
+						 			    							   
+							
 <!--==============================================主体左/中/右设计部分===============================================================================-->
 
 

@@ -31,8 +31,17 @@ public class PushInfoController {
 	@Autowired
 	private PushInfoServiceImpl pushInfoServiceImpl;
 	@RequestMapping(value="/userIndexTo")
-	public String indexTo(){
-		return "userIndex";
+	public ModelAndView indexTo(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user"); 
+		List<Long> userIds=new ArrayList<Long>();
+		 userIds.add(0, user.getUserId());
+		 List<PushInfo> blogs=new ArrayList<PushInfo>();
+		 blogs=pushInfoServiceImpl.findByuserIds(userIds);
+		 session.setAttribute("blogs", blogs);
+		 ModelAndView mav=new ModelAndView("userIndex");
+		 mav.addObject("blogs", blogs);
+		 return mav;
 	}
 	
 	@RequestMapping(value="/push")
@@ -71,22 +80,20 @@ public class PushInfoController {
 	}
 	@RequestMapping(value="/del")
 	@ResponseBody
-	public int delete(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response){
+	public int delete(HttpServletRequest request,HttpServletResponse response){
 		 HttpSession session=request.getSession();
 		 User user=(User) session.getAttribute("user");
 		 String uidstring=request.getParameter("wbId");
+		 int sta=0;
 		 long uid = Long.parseLong(uidstring);
 		 PushInfo push=pushInfoServiceImpl.getPushIfoBywbId(uid);
-		 if(push.getUserId()==user.getUserId()){
-			 pushInfoServiceImpl.deleteBywbId(uid);
+		 if(push !=null){
+			 if(push.getUserId()==user.getUserId()){
+				 pushInfoServiceImpl.deleteBywbId(uid);
+				 sta=1;
+			 }			 
 		 }
-		 List<Long> userIds=new ArrayList<Long>();
-		 userIds.add(0, user.getUserId());
-		 List<PushInfo> blogs=new ArrayList<PushInfo>();
-		 blogs=pushInfoServiceImpl.findByuserIds(userIds);
-		 session.setAttribute("blogs", blogs);
-		 
-		 return 1;	
+		 return sta;	
 	}
 	
 	
