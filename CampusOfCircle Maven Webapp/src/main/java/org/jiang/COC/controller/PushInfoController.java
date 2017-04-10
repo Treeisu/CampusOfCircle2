@@ -10,12 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jiang.COC.common.UploadUtil;
+import org.jiang.COC.model.Comment;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
+import org.jiang.COC.serviceImpl.CommentServiceImpl;
 import org.jiang.COC.serviceImpl.PushInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class PushInfoController {
 	@Autowired
 	private PushInfoServiceImpl pushInfoServiceImpl;
+	@Autowired
+	private CommentServiceImpl commentServiceImpl;
 	@RequestMapping(value="/userIndexTo")
 	public ModelAndView indexTo(HttpServletRequest request,HttpServletResponse response){
 		HttpSession session=request.getSession();
@@ -95,6 +100,50 @@ public class PushInfoController {
 		 }
 		 return sta;	
 	}
+	
+	/**
+	 * 发表评论
+	 */
+	@RequestMapping(value="/pushComment")
+	@ResponseBody
+	public List<Comment> pushComment(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		
+		 String wbIdstring=request.getParameter("wbId");
+		 long wbId=Long.parseLong(wbIdstring);
+		 String commentContent=request.getParameter("commentContent");
+		 String byTurn=request.getParameter("byTurn");
+		 if(byTurn.equals("true")){
+			 //此时要做转发操作；
+			 System.out.println("1111111");
+		 }
+		 Comment comment =new Comment();
+		 comment.setCommentContent(commentContent);
+		 comment.setCommentDate(new Date());
+		 comment.setUserId(user.getUserId());
+		 comment.setWbId(wbId);
+		 comment.setCommentUser(user);
+		 commentServiceImpl.saveComment(comment);
+		 
+		 List<Comment> comments=new ArrayList<Comment>();
+		 comments=commentServiceImpl.findCommentsBywbId(wbId);
+		 return comments;		 	
+	}
+	/**
+	 * 获得评论
+	 */
+	@RequestMapping(value="/getComments")
+	@ResponseBody
+	public ModelAndView getComments(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		
+		 
+		 return null;
+		 	
+	}
+	
 	
 	
 	

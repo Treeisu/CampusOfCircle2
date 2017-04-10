@@ -97,6 +97,27 @@ $(function(){
 	            }
 	  		}
 	  	}
+	  	//评论表情点击
+	  	var phizcom = $('.phiz_com');
+	  	for (var i = 0; i < phizcom.length; i++) {
+	  		phizcom[i].onclick = function () {
+	  			//定位表情框到对应位置
+				$('#phiz_modal').toggle().css({
+					'left' : $(this).offset().left,
+					'top' : $(this).offset().top + $(this).height() + 5
+	    		});
+	    		//为每个表情图片添加事件
+	            var phizImg = $("#phiz_modal img");
+	            var sign = this.getAttribute('sign');
+	            for (var i = 0; i < phizImg.length; i++){
+	            	phizImg[i].onclick = function () {
+					var content = $('textarea[sign = '+sign+']');
+					content.val(content.val() + '[' + $(this).attr('title') + ']');
+					$('#phiz_modal').hide();
+	            	}
+	            }
+	  		}
+	  	}
 	  	//关闭表情框
 		$('.close_phiz').hover(function () {
 			$(this).css('backgroundPosition', '-100px -200px');
@@ -235,62 +256,7 @@ $(function(){
 			});		
 		/**
 		 * 评论区
-		 */		
-		//评论操作，弹出评论框
-		$('.li_showcomment_list').click(function(){			
-			//获取评论内容
-			//提取当前评论按钮对应微博的ID号
-			var weiboDiv=$(this).parents('.weibo');
-			var wid=weiboDiv.find('#wbId_p_init').text();
-			weiboDiv.find('.comment_loading').show();//发送前先显示加载div
-			weiboDiv.find('.comment_modal').toggle();//发送前先评论输入div
-			//判断评论列表div是否隐藏，隐藏的话则让它显示
-			if(weiboDiv.find('.showcommentList').style.display=="none"){
-				weiboDiv.find('.comment_loading').hide();//隐藏加载div
-				weiboDiv.find('.showcommentList').show();//显示评论列表div				
-				//加载评论数据，异步提取评论内容
-				$.ajax({
-					type : 'post',
-					url : "blog/getComments",
-					dataType : "json",
-					data : {"wbId" : wid},					
-					success : function (data) {
-						if(data.lengt==0){//评论返回的列表不为空的时候
-							weiboDiv.find('.showcommentList').empty();
-							weiboDiv.find('.showcommentList').append('<p style="text-align:center;margin-top:20px;">此条圈子动态暂无评论</p>');							
-						}else{			    		
-					    	$.each(data,function(i,value){
-					    		//对返回的数组进行遍历
-					    		var commentdiv1="<div class='comment_all' style='width:490px; margin-top: 5px;overflow: hidden;'><p id='commentId_p_init' style='display:none'>";
-								var commentId=value.commentId;
-								var commentdiv2="</p><div style='width: 30px; float: left;'><a class='comment_img'><img src='";
-								var commentImg=value.commentUser.userImage;
-						    	var commentdiv3="' width='28' height='28'/></a></div><div class='commen_content_div' style='width: 460px;float: right;'><p id='commentuserId_p_init' style='display:none'>";
-						    	var commentUserId=value.userId;
-					    		var commentdiv4="</p><p id='formUserId_p_init' style='display:none'>";
-					    		var commentCommentId=value.fromCommentId;
-					    		var commentdiv5="</p><a class='commentname' style='text-decoration: none;float: left;'>";
-					    		var commentUserNickName=value.commentUser.userNickName;
-					    		var commentdiv6=":</a><p>";
-					    		var commentContent=value.commentContent;
-					    		var commentdiv7=" </p><p class='comment_time'><fmt:formatDate value='";
-					    		var commentTime=value.commentDate;
-					    		var commentdiv8="' pattern='yyyy-MM-dd HH:mm:ss'/><a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;'>删除</a></p></div>	</div>";
-					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
-					    		weiboDiv.find('.showcommentList').ppend(commentDIV);  		
-					    	});
-				    		
-						}												
-					}
-				});
-				
-			}else{
-				weiboDiv.find('.comment_loading').hide();//隐藏加载div
-				weiboDiv.find('.showcommentList').hide();//评论列表div
-			}
-				
-		}
-	});
+		 */	
 			//评论字数变化
 			$('.comment_list textarea').focus(function () {
 				$(this).css('borderColor', '#FF9B00');
@@ -309,37 +275,103 @@ $(function(){
 				$(this).next().children("span").html(msg+"/140");
 				
 			});
+		//评论操作，弹出评论框
+		$('.li_showcomment_list').click(function(){			
+			//获取评论内容
+			//提取当前评论按钮对应微博的ID号
+			var weiboDiv=$(this).parents('.weibo');
+			var wid=weiboDiv.find('#wbId_p_init').text();
+			weiboDiv.find('.comment_loading').show();//发送前先显示加载div
+			weiboDiv.find('.comment_modal').toggle();//发送前先评论输入div
+			//判断评论列表div是否隐藏，隐藏的话则让它显示
+			if(weiboDiv.find('.showcommentList').css('display')=="none"){
+				weiboDiv.find('.comment_loading').hide();//隐藏加载div
+				weiboDiv.find('.showcommentList').show();//显示评论列表div				
+				//加载评论数据，异步提取评论内容
+				$.ajax({
+					type : 'post',
+					url : "blog/getComments",
+					dataType : "json",
+					contentType:'application/json;charset=UTF-8',
+					data : {"wbId" : wid},					
+					success : function (data) {
+						var Arrs=eval(data);
+						if(Arrs.length==0){//评论返回的列表不为空的时候
+							weiboDiv.find('.showcommentList').empty();
+							weiboDiv.find('.showcommentList').append('<p style="text-align:center;margin-top:20px;">此条圈子动态暂无评论</p>');							
+						}else{			    		
+					    	$.each(Arrs,function(i,arr){
+					    		//对返回的数组进行遍历
+					    		var commentdiv1="<div class='comment_all' style='width:490px; margin-top: 5px;overflow: hidden;'><p id='commentId_p_init' style='display:none'>";
+								var commentId=arr.commentId;
+								var commentdiv2="</p><div style='width: 30px; float: left;'><a class='comment_img'><img src='";
+								var commentImg=arr.commentUser.userImage;
+						    	var commentdiv3="' width='28' height='28'/></a></div><div class='commen_content_div' style='width: 460px;float: right;'><p id='commentuserId_p_init' style='display:none'>";
+						    	var commentUserId=arr.userId;
+					    		var commentdiv4="</p><p id='formUserId_p_init' style='display:none'>";
+					    		var commentCommentId=arr.fromCommentId;
+					    		var commentdiv5="</p><a class='commentname' style='text-decoration: none;float: left;'>";
+					    		var commentUserNickName=arr.commentUser.userNickName;
+					    		var commentdiv6=":</a><p>";
+					    		var commentContent=arr.commentContent;
+					    		var commentdiv7=" </p><p class='comment_time'><fmt:formatDate value='";
+					    		var commentTime=arr.commentDate;
+					    		var commentdiv8="' pattern='yyyy-MM-dd HH:mm:ss'/><a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;'>删除</a></p></div>	</div>";
+					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
+					    		weiboDiv.find('.showcommentList').ppend(commentDIV);  		
+					    	});
+				    		
+						}												
+					},
+					error:function(){
+						weiboDiv.find('.showcommentList').empty();
+						weiboDiv.find('.showcommentList').append('<p style="text-align:center;margin-top:20px;">此条圈子动态暂无评论</p>');
+						}
+				});
+				
+			}else{
+				weiboDiv.find('.comment_loading').hide();//隐藏加载div
+				weiboDiv.find('.showcommentList').hide();//评论列表div
+			}
+	
+	});
+			
 			//提交评论
 			$('.comment_modal ul').find('#sendcomment_btn').click(function(){
+				var comlistDiv=$(this).parents('.weibo').find('.showcommentList');
 				var wbId=$(this).parents('.weibo').find('#wbId_p_init').text();
 				var commentContent=$(this).parents('.comment_modal').find('textarea').val();
-				var byTurn=$(this).parents('.comment_modal').find('input[type=checkbox]').val();
+				var byTurn=$(this).parents('.comment_modal').find('input[type=checkbox]').is(':checked');
 				$.ajax({
 					type : 'post',
 					url : "blog/pushComment",
 					dataType : "json",
-					data : {"wbId" : wid,"commentContent" : commentContent,"byTurn" : byTurn},					
-					success : function (data) {	
-						if(data != null){//发表评论成功的时候
-							var commentdiv1="<div class='comment_all' style='width:490px; margin-top: 5px;overflow: hidden;'><p id='commentId_p_init' style='display:none'>";
-							var commentId=data.commentId;
-							var commentdiv2="</p><div style='width: 30px; float: left;'><a class='comment_img'><img src='";
-							var commentImg=data.commentUser.userImage;
-					    	var commentdiv3="' width='28' height='28'/></a></div><div class='commen_content_div' style='width: 460px;float: right;'><p id='commentuserId_p_init' style='display:none'>";
-					    	var commentUserId=data.userId;
-				    		var commentdiv4="</p><p id='formUserId_p_init' style='display:none'>";
-				    		var commentCommentId=data.fromCommentId;
-				    		var commentdiv5="</p><a class='commentname' style='text-decoration: none;float: left;'>";
-				    		var commentUserNickName=data.commentUser.userNickName;
-				    		var commentdiv6=":</a><p>";
-				    		var commentContent=data.commentContent;
-				    		var commentdiv7=" </p><p class='comment_time'><fmt:formatDate value='";
-				    		var commentTime=data.commentDate;
-				    		var commentdiv8="' pattern='yyyy-MM-dd HH:mm:ss'/><a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;'>删除</a></p></div>	</div>";
+					data : {"wbId" : wbId,"commentContent" : commentContent,"byTurn" : byTurn},					
+					success : function (data) {
+						comlistDiv.empty();
+						var Arrs=eval(data);
+					    	$.each(Arrs,function(i,arr){
+					    		//对返回的数组进行遍历
+					    		var commentdiv1="<div class='comment_all' style='width:490px; margin-top: 5px;overflow: hidden;'><p id='commentId_p_init' style='display:none'>";
+								var commentId=arr.commentId;
+								var commentdiv2="</p><div style='width: 30px; float: left;'><a class='comment_img'><img src='";
+								var commentImg=arr.commentUser.userImage;
+						    	var commentdiv3="' width='28' height='28'/></a></div><div class='commen_content_div' style='width: 460px;float: right;'><p id='commentuserId_p_init' style='display:none'>";
+						    	var commentUserId=arr.userId;
+					    		var commentdiv4="</p><p id='formUserId_p_init' style='display:none'>";
+					    		var commentCommentId=arr.fromCommentId;
+					    		var commentdiv5="</p><a class='commentname' style='text-decoration: none;float: left;'>";
+					    		var commentUserNickName=arr.commentUser.userNickName;
+					    		var commentdiv6=":</a><p>";
+					    		var commentContent=arr.commentContent;
+					    		var commentdiv7=" </p><p class='comment_time'>";
+					    		var commentTime=arr.commentDate;
+					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;'>删除</a></p></div>	</div>";
+					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
+					    		comlistDiv.append(commentDIV);  		
+					    	});
 				    		
-				    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;				    		
-					    	$(this).parents('.weibo').find('.showcommentList').ppend(commentDIV);							
-						}												
+																		
 					}
 				});
 				

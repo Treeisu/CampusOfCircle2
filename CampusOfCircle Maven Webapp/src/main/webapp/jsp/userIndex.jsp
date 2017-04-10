@@ -200,12 +200,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 <!--=====回复框=====-->
 						    <div class='comment_loading comment_load ' id='' style="display: none;"><img src="img/loading.gif">评论加载中，请稍候...</div>
 						    <div class='comment_modal comment_list ' id="" style="display: none;">
-						        <textarea name="commentTextarea" sign='' style="outline: none;overflow-y:visible"></textarea>
+						        <textarea name="commentTextarea" sign='comment' style="outline: none;overflow-y:visible"></textarea>
 						        <ul style="list-style: none;">
-						            <li class='phiz fleft' sign=''></li>
+						            <li class='phiz phiz_com fleft' sign='comment'></li>
 						            <li class='comment_turn fleft'>
 							            <label >
-							            	<input type="checkbox" name='commentbyTurn'/>同时转发到我的圈子
+							            	<input type="checkbox" name='commentbyTurn' value="1"/>同时转发到我的圈子
 							            </label>
 						            </li>
 						            <span style="margin-left: 160px;"><span id='comment1_num'>140</span>/140</span>

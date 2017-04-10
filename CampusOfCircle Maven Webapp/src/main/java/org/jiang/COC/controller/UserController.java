@@ -67,8 +67,7 @@ public class UserController {
 			request.setAttribute("user",user);//相当于request.setAttribute();
 			return "redirect:/user/userIndexTo";
 		}else{
-			String msg="该号码已经注册";
-			return msg;
+			return "login";
 		}	
 	}
 	@RequestMapping(value="/log")

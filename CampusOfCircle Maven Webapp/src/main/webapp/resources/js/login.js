@@ -118,8 +118,8 @@ $(function(){
 							data:{"userPhone":$("#qq").val()},
 							success:function(data){
 //								console.log(data[0].userNickName);
-
-								if(data[0]==null){
+								var Arrs=eval(data);
+								if(Arrs[0]==null){
 									$('#qq').css({
 										border: "1px solid blue",
 										boxShadow: "0 0 2px blue"	
@@ -130,7 +130,7 @@ $(function(){
 										border: "1px solid red",
 										boxShadow: "0 0 2px red"
 									});
-									$('#phoneinfo').html("<font color='red'><b>×该手机号已经注册</b></font>");
+									$('#phoneinfo').html("<font color='red'><b>×该手机号"+Arrs[0].userPhone+"已经注册</b></font>");
 								}
 							}
 						});
