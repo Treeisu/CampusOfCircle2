@@ -16,6 +16,7 @@ public interface PushInfoDao {
 	 * @param user
 	 */
 	public void savePushInfo(PushInfo pushInfo);
+	public void updatePushInfo(PushInfo pushInfo);
 	public List<PushInfo> findByuserIds(List<Long> list);
 	public PushInfo getPushIfoBywbId(long wbId);
 	public void deletePushInfo(PushInfo pushInfo);

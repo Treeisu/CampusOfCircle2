@@ -46,12 +46,34 @@ public class PushInfo implements Serializable {
     private String wbTextContent;
     @Column(name = "wbPushDate",length=20)
     private Date wbPushDate;
-	
+    @Column(name = "praiseNum",length=20)
+	private	Long praiseNum;
+    @Column(name = "commentNum",length=20)
+	private	Long commentNum;
+    @Column(name = "turnNum",length=20)
+	private	Long turnNum;
+    @Column(name = "collectionNum",length=20)
+	private	Long collectionNum;
     
-    
-    
-    
-    public User getUser() {
+    public Long getPraiseNum() {
+		return praiseNum;
+	}
+	public void setPraiseNum(Long praiseNum) {
+		this.praiseNum = praiseNum;
+	}
+	public Long getCommentNum() {
+		return commentNum;
+	}
+	public void setCommentNum(Long commentNum) {
+		this.commentNum = commentNum;
+	}
+	public Long getTurnNum() {
+		return turnNum;
+	}
+	public void setTurnNum(Long turnNum) {
+		this.turnNum = turnNum;
+	}
+	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
@@ -108,9 +130,11 @@ public class PushInfo implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 	public PushInfo(PushInfo initPushInfo, User user, long wbId,
 			long wbAuthorId, long userId, String userNickName, String wbImage,
-			String wbTextContent, Date wbPushDate) {
+			String wbTextContent, Date wbPushDate, Long praiseNum,
+			Long commentNum, Long turnNum) {
 		super();
 		this.initPushInfo = initPushInfo;
 		this.user = user;
@@ -121,6 +145,9 @@ public class PushInfo implements Serializable {
 		this.wbImage = wbImage;
 		this.wbTextContent = wbTextContent;
 		this.wbPushDate = wbPushDate;
+		this.praiseNum = praiseNum;
+		this.commentNum = commentNum;
+		this.turnNum = turnNum;
 	}
 	public PushInfo() {
 		super();
@@ -131,8 +158,10 @@ public class PushInfo implements Serializable {
 				+ ", wbId=" + wbId + ", wbAuthorId=" + wbAuthorId + ", userId="
 				+ userId + ", userNickName=" + userNickName + ", wbImage="
 				+ wbImage + ", wbTextContent=" + wbTextContent
-				+ ", wbPushDate=" + wbPushDate + "]";
+				+ ", wbPushDate=" + wbPushDate + ", praiseNum=" + praiseNum
+				+ ", commentNum=" + commentNum + ", turnNum=" + turnNum + "]";
 	}
+	
    
 	
    

@@ -190,9 +190,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<!--删除按钮显示，首先进行判断，鼠标hover到此处触发函数，并且js获取用户id和微博userid，当前用户是此微博user就可以显示删除，不是则添加class=hidden-->
 								<li class='del-li ' style="display: none;"><span class='del-weibo iconII iconII-delete' wid='<c:out value="${blog.wbId}"/>'></span></li>
 	                        <!--删除判断-->
-	                            <li class="li_praise"><span class='iconII iconII-praise' id='' ></span><sup>(99+)</sup></li>
-	                            <li class="li_showturn"><span class='iconII iconII-turn' id='' turnid=""></span><sup>(99+)</sup></li>
-	                            <li class="li_showcomment_list"><span class='comment iconII iconII-comment' id=''></span><sup>(99+)</sup></li>
+	                            <li class="li_praise"><span class='iconII iconII-praise' id='' ></span><sup>(<c:out value="${blog.praiseNum}"/>)</sup></li>
+	                            <li class="li_showturn"><span class='iconII iconII-turn' id='' turnid=""></span><sup>(<c:out value="${blog.turnNum}"/>)</sup></li>
+	                            <li class="li_showcomment_list"><span class='comment iconII iconII-comment' id=''></span><sup>(<c:out value="${blog.commentNum}"/>)</sup></li>
 	                            <li class='li_collection'> <span class='iconII iconII-collection' wid=''></span></li>
 							</ul>
 						</div>

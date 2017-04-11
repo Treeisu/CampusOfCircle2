@@ -34,17 +34,6 @@ public class UserController {
 	//private static Logger logger = LoggerFactory.getLogger(SublistController.class);
 	@Autowired
 	private UserServiceImpl userserviceImpl;
-
-	@RequestMapping(value="/userIndexTo")
-	public String indexTo(){
-		return "userIndex";
-	}
-	@RequestMapping(value="/indexTo")
-	public String To(){
-		return "../index";
-	}
-	
-	
 	
 	@RequestMapping(value="/reg")
 	public String regist(HttpServletRequest request,HttpServletResponse response,
@@ -65,7 +54,7 @@ public class UserController {
 			HttpSession session=request.getSession();
 			session.setAttribute("user", user);
 			request.setAttribute("user",user);//相当于request.setAttribute();
-			return "redirect:/user/userIndexTo";
+			return "redirect:/userIndexTo";
 		}else{
 			return "login";
 		}	
@@ -86,7 +75,7 @@ public class UserController {
 				request.setAttribute("user",u);//相当于request.setAttribute();				
 				HttpSession session=request.getSession();
 				session.setAttribute("user", u);
-				return "redirect:/user/userIndexTo";	//让他重新去做一个请求
+				return "redirect:/userIndexTo";	//让他重新去做一个请求
 			}
 			else{
 				String msg="密码输入错误,请核对密码";
@@ -139,7 +128,7 @@ public class UserController {
 		
 		
 		session.setAttribute("user", user);
-		return "redirect:/user/userIndexTo";		
+		return "redirect:/userIndexTo";		
 	}
 	@RequestMapping(value="/faceChange")
 	public String faceChange(HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest){
@@ -156,7 +145,7 @@ public class UserController {
 		 userserviceImpl.updateUser(user);		
 		
 		session.setAttribute("user", user);
-		return "redirect:/user/userIndexTo";		
+		return "redirect:/userIndexTo";		
 	}
 	
 	@RequestMapping(value="/pwdChange")
@@ -186,7 +175,7 @@ public class UserController {
 			 session.removeAttribute("user");
 			 request.removeAttribute("user");
 		 }
-		 return "redirect:/user/indexTo";
+		 return "redirect:/indexTo";
 	}
 	
 	

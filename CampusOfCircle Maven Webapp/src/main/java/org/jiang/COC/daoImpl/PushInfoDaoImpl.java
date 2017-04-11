@@ -55,6 +55,13 @@ public class PushInfoDaoImpl implements PushInfoDao {
 		session.get(PushInfo.class,wbId);
 		return (PushInfo) session.get(PushInfo.class,wbId);
 	}
+
+	@Override
+	public void updatePushInfo(PushInfo pushInfo) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		session.update(pushInfo);
+	}
 	
 
 	

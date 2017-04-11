@@ -284,8 +284,7 @@ $(function(){
 			weiboDiv.find('.comment_loading').show();//发送前先显示加载div
 			weiboDiv.find('.comment_modal').toggle();//发送前先评论输入div
 			//判断评论列表div是否隐藏，隐藏的话则让它显示
-			if(weiboDiv.find('.showcommentList').css('display')=="none"){
-				weiboDiv.find('.comment_loading').hide();//隐藏加载div
+			if(weiboDiv.find('.showcommentList').css('display')=="none"){				
 				weiboDiv.find('.showcommentList').show();//显示评论列表div				
 				//加载评论数据，异步提取评论内容
 				$.ajax({
@@ -319,6 +318,7 @@ $(function(){
 					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 25px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 30px;display: none;'>删除</a></p></div>	</div>";
 					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
 					    		weiboDiv.find('.showcommentList').append(commentDIV);  		
+					    		weiboDiv.find('.comment_loading').hide();//隐藏加载div
 					    	});				    		
 						}												
 					},
@@ -367,8 +367,13 @@ $(function(){
 					    		var commentTime=timeStamp2String(arr.commentDate);
 					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 25px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 30px;display: none;'>删除</a></p></div>	</div>";
 					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
-					    		comlistDiv.append(commentDIV);  		
+					    		comlistDiv.append(commentDIV);					    		
 					    	});
+					    	//设置数量+1				    		
+				    		var commentNumdtext=comlistDiv.parents('.weibo').find('.wb_tool').find('.li_showcomment_list sup').html();
+				    		var commentNumOld = /\d+(?:\.\d+)?/.exec(commentNumdtext);
+				    		var commentNum =Number(commentNumOld)+1;
+				    		comlistDiv.parents('.weibo').find('.wb_tool').find('.li_showcomment_list sup').html("("+commentNum+")");
 				    }
 				});					
 			});
@@ -390,6 +395,7 @@ $(function(){
 			//评论删除操作
 			$('.weibo').find('.showcommentList').on('click','.delete_comment',function(){
 				var comment_allDIV_this=$(this).parents('.comment_all');
+				var weiboDIV_this=$(this).parents('.weibo');
 				var commId=$(this).parents('.comment_all').find('#commentId_p_init').text();//此条评论的Id
 				var uid=$(this).parents('.comment_all').find('#commentuserId_p_init').text();//此条评论作者Id
 				var content=$(this).parent().prev().text();
@@ -406,6 +412,11 @@ $(function(){
 							 if(Obj==1){
 								 comment_allDIV_this.remove();
 							 }
+							//设置数量-1				    		
+					    	var commentNumdtext=weiboDIV_this.find('.wb_tool').find('.li_showcomment_list sup').html();
+					    	var commentNumOld = /\d+(?:\.\d+)?/.exec(commentNumdtext);
+					    	var commentNum =Number(commentNumOld)-1;
+					    	weiboDIV_this.find('.wb_tool').find('.li_showcomment_list sup').html("("+commentNum+")");
 						}		
 					});	
 				});		
@@ -457,9 +468,12 @@ $(function(){
 			});
 			//回复ajax
 			$('.weibo').find('.showcommentList').on('click','#sendcomment_btn',function(){
+				var showcommentListDIV_this=$(this).parents('.showcommentList');
+				var commen_contentDIV_this=$(this).parents('.commen_content_div');
 				var fromcommId=$(this).parents('.comment_all').find('#commentId_p_init').text();
 				var wbId=$(this).parents('.weibo').find('#wbId_p_init').text();
-				var commentContent=$(this).parents('.comment_all').find('textarea').val();
+				var objuser=commen_contentDIV_this.find('.commentname').text();
+				var commentContent="@"+objuser+"//"+$(this).parents('.comment_all').find('textarea').val();
 				$.ajax({
 					type : 'post',
 					url : "blog/pushComment2",
@@ -484,8 +498,15 @@ $(function(){
 					    		var commentTime=timeStamp2String(Obj.commentDate);
 					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 25px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 30px;display: none;'>删除</a></p></div>	</div>";
 					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
-					    		$(this).parents('.showcommentList').prepend(commentDIV);
+					    		showcommentListDIV_this.prepend(commentDIV);
+					    		commen_contentDIV_this.find('div').remove();
 						 }
+						//设置数量+1				    		
+					    var commentNumdtext=showcommentListDIV_this.parents('.weibo').find('.wb_tool').find('.li_showcomment_list sup').html();
+					    var commentNumOld = /\d+(?:\.\d+)?/.exec(commentNumdtext);
+					    var commentNum =Number(commentNumOld)+1;
+					    showcommentListDIV_this.parents('.weibo').find('.wb_tool').find('.li_showcomment_list sup').html("("+commentNum+")");
+						 
 					}
 				});	
 			});

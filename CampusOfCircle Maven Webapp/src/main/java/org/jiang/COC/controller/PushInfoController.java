@@ -34,20 +34,7 @@ public class PushInfoController {
 	private PushInfoServiceImpl pushInfoServiceImpl;
 	@Autowired
 	private CommentServiceImpl commentServiceImpl;
-	@RequestMapping(value="/userIndexTo")
-	public ModelAndView indexTo(HttpServletRequest request,HttpServletResponse response){
-		HttpSession session=request.getSession();
-		User user=(User) session.getAttribute("user"); 
-		List<Long> userIds=new ArrayList<Long>();
-		 userIds.add(0, user.getUserId());
-		 List<PushInfo> blogs=new ArrayList<PushInfo>();
-		 blogs=pushInfoServiceImpl.findByuserIds(userIds);
-		 session.setAttribute("blogs", blogs);
-		 ModelAndView mav=new ModelAndView("userIndex");
-		 mav.addObject("blogs", blogs);
-		 return mav;
-	}
-	
+		
 	@RequestMapping(value="/push")
 	public ModelAndView regist(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest,
 						@RequestParam("content")String content){
@@ -64,7 +51,11 @@ public class PushInfoController {
 		 pushInfo.setUserNickName(user.getUserNickName());
 		 pushInfo.setWbPushDate(new Date());
 		 pushInfo.setWbImage(Imgpath);
-		 pushInfo.setWbTextContent(content);	
+		 pushInfo.setWbTextContent(content);
+		 pushInfo.setCommentNum(0L);
+		 pushInfo.setPraiseNum(0L);
+		 pushInfo.setTurnNum(0L);
+		 pushInfo.setCommentNum(0L);
 		 pushInfoServiceImpl.savePushInfo(pushInfo);
 		 
 		 //进行查询
@@ -75,7 +66,7 @@ public class PushInfoController {
 		 
 		 
 		 //进行跳转返回 
-		ModelAndView mav=new ModelAndView("redirect:/blog/userIndexTo");
+		ModelAndView mav=new ModelAndView("redirect:/userIndexTo");
 		mav.addObject("blogs", blogs);
 		
 		
@@ -89,11 +80,12 @@ public class PushInfoController {
 		 User user=(User) session.getAttribute("user");
 		 String uidstring=request.getParameter("wbId");
 		 int sta=0;
-		 long uid = Long.parseLong(uidstring);
-		 PushInfo push=pushInfoServiceImpl.getPushIfoBywbId(uid);
+		 long wbId = Long.parseLong(uidstring);
+		 PushInfo push=pushInfoServiceImpl.getPushIfoBywbId(wbId);
+		 List<Comment> comments=commentServiceImpl.findCommentsBywbId(wbId);
 		 if(push !=null){
 			 if(push.getUserId()==user.getUserId()){
-				 pushInfoServiceImpl.deleteBywbId(uid);
+				 pushInfoServiceImpl.deleteBywbId(wbId,comments);
 				 sta=1;
 			 }			 
 		 }
@@ -123,8 +115,9 @@ public class PushInfoController {
 		 comment.setUserId(user.getUserId());
 		 comment.setWbId(wbId);
 		 comment.setCommentUser(user);
-		 commentServiceImpl.saveComment(comment);
-		 
+		 //需要在数据库中增加此微博的评论数量
+		 PushInfo pushInfo=pushInfoServiceImpl.getPushIfoBywbId(wbId);		 
+		 commentServiceImpl.saveComment(comment,pushInfo);		 
 		 List<Comment> comments=new ArrayList<Comment>();
 		 comments=commentServiceImpl.findCommentsBywbId(wbId);
 		 return comments;		 	
@@ -151,7 +144,9 @@ public class PushInfoController {
 		 comment.setWbId(wbId);
 		 comment.setFromCommentId(fromCommentId);
 		 comment.setCommentUser(user);
-		 commentServiceImpl.saveComment(comment);
+		 //需要在数据库中增加此微博的评论数量
+		 PushInfo pushInfo=pushInfoServiceImpl.getPushIfoBywbId(wbId);
+		 commentServiceImpl.saveComment(comment,pushInfo);
 		 return comment;		 	
 	}
 	
@@ -161,8 +156,7 @@ public class PushInfoController {
 	@RequestMapping(value="/getComments")
 	@ResponseBody
 	public List<Comment> getComments(HttpServletRequest request,HttpServletResponse response){
-		 
-		 
+		 		 
 		 List<Comment> comments=new ArrayList<Comment>();
 		 String wbIdstring=request.getParameter("wbId");
 		 long wbId=Long.parseLong(wbIdstring);
@@ -183,8 +177,9 @@ public class PushInfoController {
 		String commentIdstring=request.getParameter("commentId");
 		long commentId=Long.parseLong(commentIdstring);
 		Comment comment=commentServiceImpl.getCommentBycommentId(commentId);
+		PushInfo pushInfo=pushInfoServiceImpl.getPushIfoBywbId(comment.getWbId());		
 		if(comment !=null&&comment.getUserId()==user.getUserId()){
-			commentServiceImpl.deleteComment(commentId);
+			commentServiceImpl.deleteComment(commentId,pushInfo);
 			sta=1;
 			return sta;
 		}

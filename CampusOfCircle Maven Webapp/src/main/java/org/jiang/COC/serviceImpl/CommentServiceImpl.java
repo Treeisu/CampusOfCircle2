@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jiang.COC.daoImpl.CommentDaoImpl;
+import org.jiang.COC.daoImpl.PushInfoDaoImpl;
 import org.jiang.COC.daoImpl.UserDaoImpl;
 import org.jiang.COC.model.Comment;
+import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
 import org.jiang.COC.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,17 @@ public class CommentServiceImpl implements CommentService {
 	private CommentDaoImpl commentDaoImpl;
 	@Autowired
 	private UserDaoImpl userDaoImpl;
+	@Autowired
+	private PushInfoDaoImpl pushInfoDaoImpl;
+	
 	
 	@Override
 	@Transactional
-	public void saveComment(Comment comment) {
+	public void saveComment(Comment comment,PushInfo pushInfo) {
 		// TODO Auto-generated method stub
 		commentDaoImpl.saveComment(comment);
-		
+		pushInfo.setCommentNum(pushInfo.getCommentNum()+1);
+		pushInfoDaoImpl.updatePushInfo(pushInfo);
 	}
 
 	@Override
@@ -48,11 +54,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional
-	public void deleteComment(long commentId) {
+	public void deleteComment(long commentId,PushInfo pushInfo) {
 		// TODO Auto-generated method stub
 		Comment comment=commentDaoImpl.getById(commentId);
 		if(comment !=null){
 			commentDaoImpl.deleteComment(comment);
+			pushInfo.setCommentNum(pushInfo.getCommentNum()-1);
+			pushInfoDaoImpl.updatePushInfo(pushInfo);
 		}
 		
 	}
@@ -62,9 +70,7 @@ public class CommentServiceImpl implements CommentService {
 	public Comment getCommentBycommentId(long commentId) {
 		// TODO Auto-generated method stub
 		Comment comment=commentDaoImpl.getById(commentId);
-		User user=userDaoImpl.getUserById(comment.getUserId());
-		comment.setCommentUser(user);
-		return commentDaoImpl.getById(commentId);
+		return comment;
 	}
 
 	
