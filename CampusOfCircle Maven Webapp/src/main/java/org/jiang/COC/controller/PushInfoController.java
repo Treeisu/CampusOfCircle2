@@ -18,7 +18,6 @@ import org.jiang.COC.serviceImpl.PushInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -131,20 +130,65 @@ public class PushInfoController {
 		 return comments;		 	
 	}
 	/**
+	 * 发表评论2
+	 */
+	@RequestMapping(value="/pushComment2")
+	@ResponseBody
+	public Comment pushComment2(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		
+		 String wbIdstring=request.getParameter("wbId");
+		 long wbId=Long.parseLong(wbIdstring);
+		 String fromcommentIdstring=request.getParameter("fromcommentId");
+		 long fromCommentId=Long.parseLong(fromcommentIdstring);		 
+		 String commentContent=request.getParameter("commentContent");
+		 
+		 Comment comment =new Comment();
+		 comment.setCommentContent(commentContent);
+		 comment.setCommentDate(new Date());
+		 comment.setUserId(user.getUserId());
+		 comment.setWbId(wbId);
+		 comment.setFromCommentId(fromCommentId);
+		 comment.setCommentUser(user);
+		 commentServiceImpl.saveComment(comment);
+		 return comment;		 	
+	}
+	
+	/**
 	 * 获得评论
 	 */
 	@RequestMapping(value="/getComments")
 	@ResponseBody
-	public ModelAndView getComments(HttpServletRequest request,HttpServletResponse response){
-		 HttpSession session=request.getSession();
-		 User user=(User) session.getAttribute("user");
-		
+	public List<Comment> getComments(HttpServletRequest request,HttpServletResponse response){
 		 
-		 return null;
+		 
+		 List<Comment> comments=new ArrayList<Comment>();
+		 String wbIdstring=request.getParameter("wbId");
+		 long wbId=Long.parseLong(wbIdstring);
+		 comments=commentServiceImpl.findCommentsBywbId(wbId);
+		 
+		 return comments;
 		 	
 	}
-	
-	
-	
-	
+	/**
+	 * 删除评论
+	 */
+	@RequestMapping(value="/delComment")
+	@ResponseBody
+	public int deleteComment(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user");
+		int sta=0;
+		String commentIdstring=request.getParameter("commentId");
+		long commentId=Long.parseLong(commentIdstring);
+		Comment comment=commentServiceImpl.getCommentBycommentId(commentId);
+		if(comment !=null&&comment.getUserId()==user.getUserId()){
+			commentServiceImpl.deleteComment(commentId);
+			sta=1;
+			return sta;
+		}
+		return sta;	
+				
+	}
 }

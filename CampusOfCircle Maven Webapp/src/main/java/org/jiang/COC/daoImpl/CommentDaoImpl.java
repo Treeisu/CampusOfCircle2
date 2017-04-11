@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jiang.COC.dao.CommentDao;
 import org.jiang.COC.model.Comment;
-import org.jiang.COC.model.PushInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ public class CommentDaoImpl implements CommentDao {
 	@Transactional
 	public void saveComment(Comment comment) {
 		// TODO Auto-generated method stub
-		session=sessionFactory.getCurrentSession();
+		session=sessionFactory.getCurrentSession();		
 		session.save(comment);
 	}
 
@@ -57,10 +56,8 @@ public class CommentDaoImpl implements CommentDao {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
 		session.get(Comment.class,commentId);
-		return (Comment) session.get(PushInfo.class,commentId);
+		return (Comment) session.get(Comment.class,commentId);
 	}
-	
 
-	
 
 }

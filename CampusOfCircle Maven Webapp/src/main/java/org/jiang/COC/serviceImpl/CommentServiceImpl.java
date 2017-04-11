@@ -61,7 +61,9 @@ public class CommentServiceImpl implements CommentService {
 	@Transactional
 	public Comment getCommentBycommentId(long commentId) {
 		// TODO Auto-generated method stub
-		commentDaoImpl.getById(commentId);
+		Comment comment=commentDaoImpl.getById(commentId);
+		User user=userDaoImpl.getUserById(comment.getUserId());
+		comment.setCommentUser(user);
 		return commentDaoImpl.getById(commentId);
 	}
 

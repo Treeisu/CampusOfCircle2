@@ -3,7 +3,7 @@ package org.jiang.COC.dao;
 import java.util.List;
 
 import org.jiang.COC.model.PushInfo;
-import org.jiang.COC.model.User;
+
 
 /**
  * 

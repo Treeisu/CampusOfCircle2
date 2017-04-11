@@ -59,7 +59,7 @@ public class UserDaoImpl implements UserDao {
 	@Transactional
 	public User getUserById(long userId) {
 		// TODO Auto-generated method stub
-		session= sessionFactory.getCurrentSession();
+		session=sessionFactory.getCurrentSession();
 		session.get(User.class, userId);
 		return (User) session.get(User.class, userId);
 	}

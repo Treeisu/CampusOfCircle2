@@ -292,14 +292,14 @@ $(function(){
 					type : 'post',
 					url : "blog/getComments",
 					dataType : "json",
-					contentType:'application/json;charset=UTF-8',
 					data : {"wbId" : wid},					
 					success : function (data) {
 						var Arrs=eval(data);
 						if(Arrs.length==0){//评论返回的列表不为空的时候
 							weiboDiv.find('.showcommentList').empty();
 							weiboDiv.find('.showcommentList').append('<p style="text-align:center;margin-top:20px;">此条圈子动态暂无评论</p>');							
-						}else{			    		
+						}else{
+							weiboDiv.find('.showcommentList').empty();
 					    	$.each(Arrs,function(i,arr){
 					    		//对返回的数组进行遍历
 					    		var commentdiv1="<div class='comment_all' style='width:490px; margin-top: 5px;overflow: hidden;'><p id='commentId_p_init' style='display:none'>";
@@ -314,13 +314,12 @@ $(function(){
 					    		var commentUserNickName=arr.commentUser.userNickName;
 					    		var commentdiv6=":</a><p>";
 					    		var commentContent=arr.commentContent;
-					    		var commentdiv7=" </p><p class='comment_time'><fmt:formatDate value='";
-					    		var commentTime=arr.commentDate;
-					    		var commentdiv8="' pattern='yyyy-MM-dd HH:mm:ss'/><a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;'>删除</a></p></div>	</div>";
+					    		var commentdiv7=" </p><p class='comment_time'>";
+					    		var commentTime=timeStamp2String(arr.commentDate);
+					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 25px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 30px;display: none;'>删除</a></p></div>	</div>";
 					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
-					    		weiboDiv.find('.showcommentList').ppend(commentDIV);  		
-					    	});
-				    		
+					    		weiboDiv.find('.showcommentList').append(commentDIV);  		
+					    	});				    		
 						}												
 					},
 					error:function(){
@@ -365,76 +364,134 @@ $(function(){
 					    		var commentdiv6=":</a><p>";
 					    		var commentContent=arr.commentContent;
 					    		var commentdiv7=" </p><p class='comment_time'>";
-					    		var commentTime=arr.commentDate;
-					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;'>删除</a></p></div>	</div>";
+					    		var commentTime=timeStamp2String(arr.commentDate);
+					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 25px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 30px;display: none;'>删除</a></p></div>	</div>";
 					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
 					    		comlistDiv.append(commentDIV);  		
 					    	});
-				    		
-																		
-					}
-				});
-				
+				    }
+				});					
+			});
+			//评论列表回复和删除功能显现
+			$('.weibo').find('.showcommentList').on('mouseenter','.comment_all',function(){
+				var uid=$(this).find('#commentuserId_p_init').text();//获得此评论作者的ID
+				var userId=$('#head_mycollapse').find('#userId_navbar').text();//此时登录的用户ID
+				if(uid==userId){
+					$(this).find('.delete_comment').show();
+				}
+				$(this).find('.reply_comment').show();
 				
 			});
-			
-			
-			//评论列表回复链接
-			$('.comment_all').hover(function(){
-				//回复链接
-				$(this).children(':first').next().children(':first').next().next().children(':first').toggle();
-				//删除链接
-				$(this).children(':first').next().children(':first').next().next().children(':first').next().toggle();
+			//回复和删除消失
+			$('.weibo').find('.showcommentList').on('mouseleave','.comment_all',function(){
+				$(this).find('.delete_comment').hide();
+				$(this).find('.reply_comment').hide();
 			});
-				//点击回复链接
-				$('.reply_comment').click(function(){
-					var staterep=$(this).parent().parent().children('div').attr("class");
-
-					if(staterep=="undefined"){
-						$(this).parent().parent().append("<div class='replay_input'><textarea name='' sign='replyComment' style='outline: none;overflow-y:visible'></textarea><ul style='list-style: none;'><li class='phiz fleft' sign=''></li><span style='margin-left: 160px;'><span id='comment1_num'>140</span>/140</span><li class='comment_btn fright' wid='' uid='' id='sendcomment_btn'>评论</li></ul></div>");
-					}else if(staterep=="replay_input"){
-						$(this).parent().parent().children('div').remove();
-					}else{
-						$(this).parent().parent().append("<div class='replay_input'><textarea name='' sign='replyComment' style='outline: none;overflow-y:visible'></textarea><ul style='list-style: none;'><li class='phiz fleft' sign=''></li><span style='margin-left: 160px;'><span id='comment1_num'>140</span>/140</span><li class='comment_btn fright' wid='' uid='' id='sendcomment_btn'>评论</li></ul></div>");
-					}
-					
-				});
-				//回复评论的表情功能
-				$('.commen_content_div').on('click','div ul .phiz',function(){
-		  			var textareaCon=$(this).parents('.comment_all').find('textarea');
-//		  			alert(textareaCon.attr('class'));
-		  			//定位表情框到对应位置
-					$('#phiz_modal').toggle().css({
-						'left' : $(this).offset().left,
-						'top' : $(this).offset().top + $(this).height() + 5
-		    		});
-		    		//为每个表情图片添加事件
-		            var phizImg = $("#phiz_modal img");	
-		            var sign = $(this).children(':first').attr('sign');
-		            for (var i = 0; i < phizImg.length; i++){
-		            	phizImg[i].onclick = function () {
+			//评论删除操作
+			$('.weibo').find('.showcommentList').on('click','.delete_comment',function(){
+				var comment_allDIV_this=$(this).parents('.comment_all');
+				var commId=$(this).parents('.comment_all').find('#commentId_p_init').text();//此条评论的Id
+				var uid=$(this).parents('.comment_all').find('#commentuserId_p_init').text();//此条评论作者Id
+				var content=$(this).parent().prev().text();
+				$('#deleteComment_modal').find('.modal-body p').html(content);
+				$('#deleteComment_modal').modal("show");
+				$('#deleteComment_modal').find('.modal-footer .btn-danger').click(function(){
+					$.ajax({
+						type : 'post',
+						url : "blog/delComment",
+						dataType : "json",
+						data : {"commentId" : commId,"uid":uid},
+						success :function (data){
+							var Obj=eval(data);
+							 if(Obj==1){
+								 comment_allDIV_this.remove();
+							 }
+						}		
+					});	
+				});		
+			});
+			//评论回复插入输入框
+			$('.weibo').find('.showcommentList').on('click','.reply_comment',function(){
+				var comment_allDIV_this=$(this).parents('.comment_all');
+				var staterep=$(this).parents('.commen_content_div').children('div').attr("class");
+				if(staterep=="replay_input"){
+					$(this).parents('.commen_content_div').children('div').remove();
+				}else{
+					$(this).parents('.commen_content_div').append("<div class='replay_input'><textarea name='' sign='replyComment' style='outline: none;overflow-y:visible'></textarea><ul style='list-style: none;'><li class='phiz fleft' sign=''></li><span style='margin-left: 160px;'><span id='comment1_num'>140</span>/140</span><li class='comment_btn fright' wid='' uid='' id='sendcomment_btn'>评论</li></ul></div>");
+				}
+			});
+			//回复表情功能
+			$('.weibo').find('.showcommentList').on('click','.phiz',function(){
+				var appedDIV_reply=$(this).parents('.replay_input');
+				var textareaCon=appedDIV_reply.find('textarea');
+				//定位表情框到对应位置
+				$('#phiz_modal').toggle().css({'left' : $(this).offset().left,'top' : $(this).offset().top + $(this).height() + 5});
+				//为每个表情图片添加事件
+				var phizImg = $("#phiz_modal img");
+				var sign = appedDIV_reply.find('textarea').attr('sign');
+				for (var i = 0; i < phizImg.length; i++){
+					phizImg[i].onclick=function(){
 						textareaCon.val(textareaCon.val() + '[' + $(this).attr('title') + ']');
 						$('#phiz_modal').hide();
-		            	}
-		            }
-				});
-				 //回复评论框字数变化
-		        $('.commen_content_div').on('focus','textarea',function(){
-		            $(this).css('borderColor', '#FF9B00');
-		        });$('.commen_content_div').on('blur','textarea',function(){
-		            $(this).css('borderColor', '#CCCCCC');
-		        });$('.commen_content_div').on('keyup','textarea',function(){		            
-					var content = $(this).val();
-					var lengths = check(content);  //调用check函数取得当前字数
-					//最大允许输入140个字
-					if (lengths[0] >= 140) {
-						$(this).val(content.substring(0, Math.ceil(lengths[1])));
 					}
-					var num = 140 - Math.ceil(lengths[0]);
-					var msg = num < 0 ? 0 : num;
-					//当前字数同步到显示提示
-					$(this).next().children("span").html(msg+"/140");
-		        });
+				}				
+			});	
+			//回复框字数统计	
+			$('.weibo').find('.showcommentList').on('focus','textarea',function(){
+				$(this).css('borderColor', '#FF9B00');
+			});
+			$('.weibo').find('.showcommentList').on('blur','textarea',function(){
+				$(this).css('borderColor', '#CCCCCC');
+			});
+			$('.weibo').find('.showcommentList').on('keyup','textarea',function(){
+				var content = $(this).val();
+				var lengths = check(content);  //调用check函数取得当前字数
+				//最大允许输入140个字
+				if (lengths[0] >= 140) {
+					$(this).val(content.substring(0, Math.ceil(lengths[1])));
+				}
+				var num = 140 - Math.ceil(lengths[0]);
+				var msg = num < 0 ? 0 : num;
+				//当前字数同步到显示提示
+				$(this).next().children("span").html(msg+"/140");
+			});
+			//回复ajax
+			$('.weibo').find('.showcommentList').on('click','#sendcomment_btn',function(){
+				var fromcommId=$(this).parents('.comment_all').find('#commentId_p_init').text();
+				var wbId=$(this).parents('.weibo').find('#wbId_p_init').text();
+				var commentContent=$(this).parents('.comment_all').find('textarea').val();
+				$.ajax({
+					type : 'post',
+					url : "blog/pushComment2",
+					dataType : "json",
+					data : {"fromcommentId" : fromcommId,"wbId" : wbId,"commentContent" : commentContent},
+					success :function (data){
+						var Obj=eval(data);
+						 if(Obj !=null){
+							 	var commentdiv1="<div class='comment_all' style='width:490px; margin-top: 5px;overflow: hidden;'><p id='commentId_p_init' style='display:none'>";
+								var commentId=Obj.commentId;
+								var commentdiv2="</p><div style='width: 30px; float: left;'><a class='comment_img'><img src='";
+								var commentImg=Obj.commentUser.userImage;
+						    	var commentdiv3="' width='28' height='28'/></a></div><div class='commen_content_div' style='width: 460px;float: right;'><p id='commentuserId_p_init' style='display:none'>";
+						    	var commentUserId=Obj.userId;
+					    		var commentdiv4="</p><p id='formUserId_p_init' style='display:none'>";
+					    		var commentCommentId=Obj.fromCommentId;
+					    		var commentdiv5="</p><a class='commentname' style='text-decoration: none;float: left;'>";
+					    		var commentUserNickName=Obj.commentUser.userNickName;
+					    		var commentdiv6=":</a><p>";
+					    		var commentContent=Obj.commentContent;
+					    		var commentdiv7=" </p><p class='comment_time'>";
+					    		var commentTime=timeStamp2String(Obj.commentDate);
+					    		var commentdiv8="<a class='reply_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 25px; display: none;'>回复</a><a class='delete_comment' style='text-decoration: none; cursor: pointer; float: right;margin-right: 30px;display: none;'>删除</a></p></div>	</div>";
+					    		var commentDIV=commentdiv1+commentId+commentdiv2+commentImg+commentdiv3+commentUserId+commentdiv4+commentCommentId+commentdiv5+commentUserNickName+commentdiv6+commentContent+commentdiv7+commentTime+commentdiv8;					    		
+					    		$(this).parents('.showcommentList').prepend(commentDIV);
+						 }
+					}
+				});	
+			});
+			
+			
+			
 			//转发操作
 			$('.li_showturn').click(function(){
 				//获取原微内容并添加到转发框
@@ -539,4 +596,17 @@ function replace_weibo (content) {
 	content = content.replace(/<a.*?>(.*?)<\/a>/ig, '$1');
 	return content.replace(/<span.*?>\&nbsp;(\/\/)\&nbsp;<\/span>/ig, '$1');
 }
-
+/**
+ * 格式化时间
+ */
+function timeStamp2String(time){
+    var datetime = new Date();
+    datetime.setTime(time);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+    return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+}

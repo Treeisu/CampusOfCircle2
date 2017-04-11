@@ -215,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						    <!--=====回复框=====-->
 						    <!--=====回复列表=====-->
 						    <div class="showcommentList" style="margin-top: 5px; display: none;">
-						    	<c:if test="${comments.size()>0}">
+						    	<%-- <c:if test="${comments.size()>0}">
 						    	<c:forEach var="comment" items="${comments}">
 							    <div id="" class="comment_all" style="width:490px; margin-top: 5px;overflow: hidden;">
 							    	<p id="commentId_p_init" style="display:none"><c:out value="${comment.commentId}"/></p>
@@ -230,11 +230,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							    		<p class="comment_time"><fmt:formatDate value="${comment.commentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 							    			<a class="reply_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 10px; display: none;">回复</a>
 							    			<a class="delete_comment" style="text-decoration: none; cursor: pointer; float: right;margin-right: 20px;display: none;">删除</a>
-							    		</p>							    		
+							    		</p>
+							    		<div></div>							    		
 							    	</div>	
 							    </div>
 							    </c:forEach>
-							    </c:if>				    							   
+							    </c:if> --%>				    							   
 							</div>
 						    <!--=====回复列表=====-->  
 						<!--=====回复框结束=====-->
@@ -657,7 +658,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 </div>
  <!--==========创建分组弹框====已完成======-->
- <!--==========删除弹框=====已完成=====-->
+<!--==========删除弹框=====已完成=====-->
 <div class="modal fade" id="delete_modal" >
 		<div class="modal-dialog ">
 			
@@ -679,6 +680,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 </div>
  <!--==========删除弹框====已完成======-->
+ <!--==========删除评论弹框=====已完成=====-->
+<div class="modal fade" id="deleteComment_modal" >
+		<div class="modal-dialog ">
+			
+			<div class="modal-content"style="background-color: lightgray;">
+				 <div class="modal-header">
+				 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only close"></span></button>
+				 	<h4 class="modal-title text-center">确定删除此评论？</h4>
+				 </div>
+				 <div class="modal-body">
+				 	<h5 class="username text-left"></h5>
+				 	<p ></p>
+				 </div>
+			   	 <div class="modal-footer">
+			   	 	<button class="btn btn-danger" data-dismiss="modal">删除</button>
+			   	 	<button class="btn btn-default" data-dismiss="modal">取消</button>
+			   	 </div>
+			</div>
+			
+		</div>
+</div>
+ <!--==========删除评论弹框====已完成======-->
  <!--==========收藏弹框=====已完成=====-->
 <div class="modal fade" id="collection_modal" >
 		<div class="modal-dialog ">
