@@ -1,17 +1,20 @@
 package org.jiang.COC.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jiang.COC.daoImpl.CollectionDaoImpl;
 import org.jiang.COC.daoImpl.CommentDaoImpl;
 import org.jiang.COC.daoImpl.PraiseDaoImpl;
 import org.jiang.COC.daoImpl.PushInfoDaoImpl;
+import org.jiang.COC.daoImpl.TurnDaoImpl;
 import org.jiang.COC.daoImpl.UserDaoImpl;
 import org.jiang.COC.model.CollectionInfo;
 import org.jiang.COC.model.Comment;
 import org.jiang.COC.model.PraiseInfo;
 import org.jiang.COC.model.PushInfo;
+import org.jiang.COC.model.TurnInfo;
 import org.jiang.COC.model.User;
 import org.jiang.COC.service.PushInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,8 @@ public class PushInfoServiceImpl implements PushInfoService {
 	private PraiseDaoImpl prasieDaoImpl;
 	@Autowired
 	private CollectionDaoImpl collectionDaoImpl;
+	@Autowired
+	private TurnDaoImpl turnDaoImpl;
 	
 	
 	
@@ -54,17 +59,22 @@ public class PushInfoServiceImpl implements PushInfoService {
 	@Transactional
 	public void savePushInfo(PushInfo pushInfo) {
 		// TODO Auto-generated method stub		
-		if(pushInfo.getWbAuthorId() !=0){//如果是转发的微博
+		if(pushInfo.getWbAuthorId()!=0){//如果是转发的微博
 			//需要做个判断，找出最原始微博以及最近一条微博
 			PushInfo lastinfo=findLastWeibo(pushInfo);//最原始一条微博
 			PushInfo firstinfo=pushInfoDaoImpl.getPushIfoBywbId(pushInfo.getWbAuthorId());//当前转发的微博
-			System.out.println(lastinfo.getWbId());
-			System.out.println(firstinfo.getWbId());
 			if(lastinfo.getWbId()==firstinfo.getWbId()){
 				//单次转发
-				pushInfoDaoImpl.savePushInfo(pushInfo);
+				pushInfoDaoImpl.savePushInfo(pushInfo);		
 				firstinfo.setTurnNum(firstinfo.getTurnNum()+1);				
 				pushInfoDaoImpl.updatePushInfo(firstinfo);
+				//保存转发记录
+				TurnInfo turnInfo=new TurnInfo();
+				turnInfo.setNowWbId(pushInfo.getWbId());
+				turnInfo.setFirstWbId(firstinfo.getWbId());
+				turnInfo.setLastWbId(lastinfo.getWbId());
+				turnInfo.setTurnDate(new Date());
+				turnDaoImpl.saveTurn(turnInfo);				
 			}else{
 				//多次转发
 				pushInfo.setWbAuthorId(lastinfo.getWbId());
@@ -72,12 +82,81 @@ public class PushInfoServiceImpl implements PushInfoService {
 				lastinfo.setTurnNum(lastinfo.getTurnNum()+1);
 				pushInfoDaoImpl.updatePushInfo(lastinfo);//原始转发微博数量+1
 				firstinfo.setTurnNum(firstinfo.getTurnNum()+1);
-				pushInfoDaoImpl.updatePushInfo(firstinfo);//当前转发微博数量+1				
+				pushInfoDaoImpl.updatePushInfo(firstinfo);//当前转发微博数量+1
+				//保存转发记录
+				TurnInfo turnInfo=new TurnInfo();
+				turnInfo.setNowWbId(pushInfo.getWbId());
+				turnInfo.setFirstWbId(firstinfo.getWbId());
+				turnInfo.setLastWbId(lastinfo.getWbId());
+				turnInfo.setTurnDate(new Date());
+				turnDaoImpl.saveTurn(turnInfo);
 			}
 		}
-		pushInfoDaoImpl.savePushInfo(pushInfo);	
+		pushInfoDaoImpl.savePushInfo(pushInfo);
 	}
-
+	@Override
+	@Transactional
+	public void deleteBywbId(long wbId) {
+		// TODO Auto-generated method stub
+		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
+		if(pushInfo !=null){
+			pushInfoDaoImpl.deletePushInfo(pushInfo);
+			//删除相关评论
+			List<Comment> comments=commentDaoImpl.findBywbId(wbId);			
+			for(Comment comment:comments){
+				commentDaoImpl.deleteComment(comment);
+			}
+			//删除相关点赞
+			List<PraiseInfo> praiseInfos=prasieDaoImpl.findBywbId(wbId);
+			for(PraiseInfo praiseInfo:praiseInfos){
+				prasieDaoImpl.deletePraise(praiseInfo);
+			}
+			//删除相关收藏
+			List<CollectionInfo> collectionInfos=collectionDaoImpl.findBywbId(wbId);
+			for(CollectionInfo collectionInfo:collectionInfos){
+				collectionDaoImpl.deleteCollection(collectionInfo);
+			}
+			//转发微博删除
+			if(pushInfo.getWbAuthorId() !=0){
+				//查询转发记录
+				List<TurnInfo> turnInfos=turnDaoImpl.findBynowWbId(wbId);
+				for(TurnInfo turnInfo:turnInfos){
+					if(turnInfo !=null){
+						//单次转发的微博
+						if(turnInfo.getFirstWbId()==turnInfo.getLastWbId()){
+							PushInfo push=pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId());
+							pushInfoDaoImpl.deletePushInfo(pushInfo);//删除微博
+							if(push!=null){
+								push.setTurnNum(push.getTurnNum()-1);
+								pushInfoDaoImpl.updatePushInfo(push);//原微博数量-1
+							}
+							turnDaoImpl.deleteTurn(turnInfo);//转发记录删除
+						}else{
+							//多次转发的微博
+							PushInfo pushfirst=pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId());
+							PushInfo pushlast=pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getLastWbId());
+							pushInfoDaoImpl.deletePushInfo(pushInfo);//删除微博
+							if(pushfirst!=null){
+								pushfirst.setTurnNum(pushfirst.getTurnNum()-1);
+								pushInfoDaoImpl.updatePushInfo(pushfirst);//原微博数量-1
+							}
+							if(pushlast!=null){
+								pushlast.setTurnNum(pushlast.getTurnNum()-1);
+								pushInfoDaoImpl.updatePushInfo(pushlast);//原微博数量-1
+							}
+							turnDaoImpl.deleteTurn(turnInfo);						
+						}
+					}
+										
+				}
+			}else{
+				pushInfoDaoImpl.deletePushInfo(pushInfo);
+			}
+			
+		}		
+	}
+	
+	
 	@Override
 	@Transactional
 	public List<PushInfo> findByuserIds(List<Long> userIds,long uid) {
@@ -116,40 +195,7 @@ public class PushInfoServiceImpl implements PushInfoService {
 		return list;
 	}
 
-	@Override
-	@Transactional
-	public void deleteBywbId(long wbId) {
-		// TODO Auto-generated method stub
-		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
-		if(pushInfo !=null){
-			pushInfoDaoImpl.deletePushInfo(pushInfo);
-			//删除相关评论
-			List<Comment> comments=commentDaoImpl.findBywbId(wbId);			
-			for(Comment comment:comments){
-				commentDaoImpl.deleteComment(comment);
-			}
-			//删除相关点赞
-			List<PraiseInfo> praiseInfos=prasieDaoImpl.findBywbId(wbId);
-			for(PraiseInfo praiseInfo:praiseInfos){
-				prasieDaoImpl.deletePraise(praiseInfo);
-			}
-			//删除相关收藏
-			List<CollectionInfo> collectionInfos=collectionDaoImpl.findBywbId(wbId);
-			for(CollectionInfo collectionInfo:collectionInfos){
-				collectionDaoImpl.deleteCollection(collectionInfo);
-			}
-			//转发微博删除
-			long authorId=pushInfo.getWbAuthorId();
-			if(authorId !=0){
-				PushInfo authorPushInfo=pushInfoDaoImpl.getPushIfoBywbId(authorId);
-				if(authorPushInfo !=null){
-					authorPushInfo.setTurnNum(authorPushInfo.getTurnNum()-1);
-					pushInfoDaoImpl.updatePushInfo(authorPushInfo);
-				}				
-			}
-			
-		}		
-	}
+	
 
 	@Override
 	@Transactional
