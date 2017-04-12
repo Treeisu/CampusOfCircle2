@@ -178,47 +178,111 @@ $(function(){
 		$('.turn_img_info img').click(function () {
 			$(this).parents('.turn_img_tool').hide().prev().show();
 		});
+				
+		//点赞操作
+		$('.li_praise').click(function(){
+			var praise_sup_this=$(this).find('sup');
+			var praise_span_this=$(this).find('span');
+			var stateClass=$(this).find('span').attr("class");
+			var wbId=$(this).parents('.weibo').find('#wbId_p_init').text();
+			var numText=$(this).find('sup').html();
+			if(stateClass=="iconII iconII-praise"){
+				//点赞保存ajax
+				$.ajax({
+					type : 'post',
+					url : "blog/savePraise",
+					dataType : "json",
+					data : {"wbId" : wbId},
+					success :function (data){
+						var Obj=eval(data);
+						 if(Obj==1){
+							 praise_span_this.attr('class','iconII iconII-praise2');
+							//设置数量+1
+					    	var NumOld = /\d+(?:\.\d+)?/.exec(numText);
+					    	var Num =Number(NumOld)+1;
+					    	praise_sup_this.html("("+Num+")");
+					    	//我觉得很赞显现
+							praise_sup_this.parents('.weibo').find('.thinking_praiseDIV').show();
+						 }
+					}		
+				})				
+			}else{
+				//点赞删除ajax
+				$.ajax({
+					type : 'post',
+					url : "blog/cancelPraise",
+					dataType : "json",
+					data : {"wbId" : wbId},
+					success :function (data){
+						var Obj=eval(data);
+						 if(Obj==1){
+							 praise_span_this.attr('class','iconII iconII-praise');
+							//设置数量-1	
+						    var NumOld = /\d+(?:\.\d+)?/.exec(numText);
+						    var Num =Number(NumOld)-1;
+						    praise_sup_this.html("("+Num+")");
+						    //我觉得很赞消失
+						    praise_sup_this.parents('.weibo').find('.thinking_praiseDIV').hide();
+						 }
+						
+					}		
+				});						
+			}			
+		});
+		
+
 		
 		//收藏操作
 		$('.li_collection').click(function(){
+			var collection_span_this=$(this).find('span');
 			var stateClass=$(this).find('span').attr("class");
-			
+			var wbId=$(this).parents('.weibo').find('#wbId_p_init').text();
+			var numText=$(this).find('sup').html();
 			if(stateClass=="iconII iconII-collection"){
-				$(this).find('span').removeClass('iconII-collection');
-				$(this).find('span').addClass('iconII-collection2');
-				$('#collection_modal').find('h4').html('已成功收藏！');
-				$('#collection_modal').find('.alert').removeClass('alert-warning');
-				$('#collection_modal').find('.alert').addClass('alert-success');
-				$('#collection_modal').modal('show');
-				setTimeout(function(){$('#collection_modal').modal('hide');},650);
-			}else{
-				$(this).find('span').removeClass('iconII-collection2');
-				$(this).find('span').addClass('iconII-collection');
-				$('#collection_modal').find('h4').html('已取消收藏！');
-				$('#collection_modal').find('.alert').removeClass('alert-success');
-				$('#collection_modal').find('.alert').addClass('alert-warning');
-				$('#collection_modal').modal('show');
-				setTimeout(function(){$('#collection_modal').modal('hide');},650);
-			}	
+				
+				$.ajax({
+					type : 'post',
+					url : "blog/saveCollection",
+					dataType : "json",
+					data : {"wbId" : wbId},
+					success :function (data){
+						var Obj=eval(data);
+						 if(Obj==1){
+							 collection_span_this.attr('class','iconII iconII-collection2');							
+					    	//警示框
+					    	$('#collection_modal').find('h4').html('已成功收藏！');
+							$('#collection_modal').find('.alert').removeClass('alert-warning');
+							$('#collection_modal').find('.alert').addClass('alert-success');
+							$('#collection_modal').modal('show');
+							setTimeout(function(){$('#collection_modal').modal('hide');},650);
+						 }
+					}		
+				})				
+			}else{				
+				$.ajax({
+					type : 'post',
+					url : "blog/cancelCollection",
+					dataType : "json",
+					data : {"wbId" : wbId},
+					success :function (data){
+						var Obj=eval(data);
+						 if(Obj==1){
+							 collection_span_this.attr('class','iconII iconII-collection');							
+						    //警示框
+						    $('#collection_modal').find('h4').html('已取消收藏！');
+							$('#collection_modal').find('.alert').removeClass('alert-success');
+							$('#collection_modal').find('.alert').addClass('alert-warning');
+							$('#collection_modal').modal('show');
+							setTimeout(function(){$('#collection_modal').modal('hide');},650);
+						 }
+						
+					}		
+				});						
+			}			
 		});
-		//点赞操作
-		$('.li_praise').click(function(){
 		
-			var stateClass=$(this).find('span').attr("class");
-			
-			if(stateClass=="iconII iconII-praise"){
-				$(this).find('span').removeClass('iconII-praise');
-				$(this).find('span').addClass('iconII-praise2');
-				//我觉得很赞显现
-				$(this).parent().parent().next().show();
-			}else{
-				$(this).find('span').removeClass('iconII-praise2');
-				$(this).find('span').addClass('iconII-praise');
-				//我觉得很赞消失
-				$(this).parent().parent().next().hide();
-			}
-			
-		});
+		
+		
 		//删除按钮显现
 		$('.weibo').hover(function () {
 				var blogUserId=$(this).find('#userId_p_init').text();
@@ -510,33 +574,29 @@ $(function(){
 					}
 				});	
 			});
-			
-			
-			
+
 			//转发操作
 			$('.li_showturn').click(function(){
 				//获取原微内容并添加到转发框
 			 	var WbObj = $(this).parents('.wb_tool').prev();//dl节点
 			 	var authorObj =$.trim(WbObj.find('.author').html());//获得去掉空格后的原微博userName的a链接
 			 	var content = WbObj.find('.content p').html();//获得内容
-			 	var turnid = $(this).find('span').attr('turnid') ? $(this).find('span').attr('turnid') : 0;
 			 	var cons = '';
-			 	//turnid为1，表示为多重转发时
-			 	if(turnid){
+			 	//获得author微博Id
+			 	var turnid=$(this).parents('.weibo').find('#authorwbId_p_init').text();
+			 	if(turnid!=0){
 			 		authorObj = WbObj.find('.author a').html();
 			 		cons = replace_weibo(' // @' + authorObj + ' : ' + content);
 			 		authorObj = $.trim(WbObj.find('.turn_name').html());
 			 		content = WbObj.find('.turn_cons p').html();
 			 		$('#turnModal').toggle();
-			 		
-
 			 	}
 			 	$('.turn_main p').html(authorObj + ' : ' + content);//把原微博内容添加到转发框的预览信息里面
 			 	$('.turn-cname').html($.trim(WbObj.find('.author').html()));//附上需要同事评论的人
 			 	$('form[name=turn] textarea').val(cons);//多重转发时把此微博内容添加到转发输入框内
 			 	//提取原微博ID
-			 	$('form[name=turn] input[name=id]').val($(this).attr('id'));
-			 	$('form[name=turn] input[name=tid]').val(turnid);
+			 	var authorWbId=$(this).parents('.weibo').find('#wbId_p_init').text();
+			 	$('form[name=turn] input[name=authorWbId]').val(authorWbId);
 			 	//隐藏表情框
 			 	$('#phiz_modal').hide();
 			 	//点击转发创建透明背景层

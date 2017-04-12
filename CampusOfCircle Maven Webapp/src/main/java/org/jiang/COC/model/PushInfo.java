@@ -29,6 +29,14 @@ public class PushInfo implements Serializable {
 	@Transient
 	private User user;//显示user信息的字段，加上一个@Transient数据库则不会产生列
 	
+	/**
+	 * 状态字段（查询pushinfo表的时候，返回实体，然后根据登录的用户信息进行设置）
+	 */
+	@Transient
+	private int praiseState;
+	@Transient
+	private int collectionState;
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,30 +55,50 @@ public class PushInfo implements Serializable {
     @Column(name = "wbPushDate",length=20)
     private Date wbPushDate;
     @Column(name = "praiseNum",length=20)
-	private	Long praiseNum;
+	private	long praiseNum;
     @Column(name = "commentNum",length=20)
-	private	Long commentNum;
+	private	long commentNum;
     @Column(name = "turnNum",length=20)
-	private	Long turnNum;
+	private	long turnNum;
     @Column(name = "collectionNum",length=20)
-	private	Long collectionNum;
+	private	long collectionNum;
     
-    public Long getPraiseNum() {
+    
+    
+    public int getPraiseState() {
+		return praiseState;
+	}
+	public void setPraiseState(int praiseState) {
+		this.praiseState = praiseState;
+	}
+	public int getCollectionState() {
+		return collectionState;
+	}
+	public void setCollectionState(int collectionState) {
+		this.collectionState = collectionState;
+	}
+	public Long getCollectionNum() {
+		return collectionNum;
+	}
+	public void setCollectionNum(long collectionNum) {
+		this.collectionNum = collectionNum;
+	}
+	public long getPraiseNum() {
 		return praiseNum;
 	}
-	public void setPraiseNum(Long praiseNum) {
+	public void setPraiseNum(long praiseNum) {
 		this.praiseNum = praiseNum;
 	}
-	public Long getCommentNum() {
+	public long getCommentNum() {
 		return commentNum;
 	}
-	public void setCommentNum(Long commentNum) {
+	public void setCommentNum(long commentNum) {
 		this.commentNum = commentNum;
 	}
-	public Long getTurnNum() {
+	public long getTurnNum() {
 		return turnNum;
 	}
-	public void setTurnNum(Long turnNum) {
+	public void setTurnNum(long turnNum) {
 		this.turnNum = turnNum;
 	}
 	public User getUser() {
@@ -131,13 +159,17 @@ public class PushInfo implements Serializable {
 		return serialVersionUID;
 	}
 	
-	public PushInfo(PushInfo initPushInfo, User user, long wbId,
-			long wbAuthorId, long userId, String userNickName, String wbImage,
-			String wbTextContent, Date wbPushDate, Long praiseNum,
-			Long commentNum, Long turnNum) {
+	
+	public PushInfo(PushInfo initPushInfo, User user, int praiseState,
+			int collectionState, long wbId, long wbAuthorId, long userId,
+			String userNickName, String wbImage, String wbTextContent,
+			Date wbPushDate, long praiseNum, long commentNum, long turnNum,
+			long collectionNum) {
 		super();
 		this.initPushInfo = initPushInfo;
 		this.user = user;
+		this.praiseState = praiseState;
+		this.collectionState = collectionState;
 		this.wbId = wbId;
 		this.wbAuthorId = wbAuthorId;
 		this.userId = userId;
@@ -148,6 +180,7 @@ public class PushInfo implements Serializable {
 		this.praiseNum = praiseNum;
 		this.commentNum = commentNum;
 		this.turnNum = turnNum;
+		this.collectionNum = collectionNum;
 	}
 	public PushInfo() {
 		super();
@@ -155,12 +188,15 @@ public class PushInfo implements Serializable {
 	@Override
 	public String toString() {
 		return "PushInfo [initPushInfo=" + initPushInfo + ", user=" + user
-				+ ", wbId=" + wbId + ", wbAuthorId=" + wbAuthorId + ", userId="
-				+ userId + ", userNickName=" + userNickName + ", wbImage="
-				+ wbImage + ", wbTextContent=" + wbTextContent
-				+ ", wbPushDate=" + wbPushDate + ", praiseNum=" + praiseNum
-				+ ", commentNum=" + commentNum + ", turnNum=" + turnNum + "]";
+				+ ", praiseState=" + praiseState + ", collectionState="
+				+ collectionState + ", wbId=" + wbId + ", wbAuthorId="
+				+ wbAuthorId + ", userId=" + userId + ", userNickName="
+				+ userNickName + ", wbImage=" + wbImage + ", wbTextContent="
+				+ wbTextContent + ", wbPushDate=" + wbPushDate + ", praiseNum="
+				+ praiseNum + ", commentNum=" + commentNum + ", turnNum="
+				+ turnNum + ", collectionNum=" + collectionNum + "]";
 	}
+	
 	
    
 	

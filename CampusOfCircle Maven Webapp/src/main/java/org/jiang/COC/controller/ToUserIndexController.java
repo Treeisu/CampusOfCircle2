@@ -36,7 +36,7 @@ public class ToUserIndexController {
 		List<Long> userIds=new ArrayList<Long>();
 		 userIds.add(0, user.getUserId());
 		 List<PushInfo> blogs=new ArrayList<PushInfo>();
-		 blogs=pushInfoServiceImpl.findByuserIds(userIds);
+		 blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());
 		 session.setAttribute("blogs", blogs);
 		 ModelAndView mav=new ModelAndView("userIndex");
 		 mav.addObject("blogs", blogs);

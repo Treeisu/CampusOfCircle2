@@ -4,9 +4,9 @@ package org.jiang.COC.common;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.FileOutputStream;
-import java.io.IOException;
+
 import org.jiang.COC.common.PropertiesUtil;
 import org.springframework.web.multipart.MultipartFile;
 

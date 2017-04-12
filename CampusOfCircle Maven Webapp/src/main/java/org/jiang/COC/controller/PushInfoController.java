@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jiang.COC.common.UploadUtil;
+import org.jiang.COC.model.CollectionInfo;
 import org.jiang.COC.model.Comment;
+import org.jiang.COC.model.PraiseInfo;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
+import org.jiang.COC.serviceImpl.CollectionServiceImpl;
 import org.jiang.COC.serviceImpl.CommentServiceImpl;
+import org.jiang.COC.serviceImpl.PraiseServiceImpl;
 import org.jiang.COC.serviceImpl.PushInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,9 +38,13 @@ public class PushInfoController {
 	private PushInfoServiceImpl pushInfoServiceImpl;
 	@Autowired
 	private CommentServiceImpl commentServiceImpl;
+	@Autowired
+	private PraiseServiceImpl praiseServiceImpl;
+	@Autowired
+	private CollectionServiceImpl collectionServiceImpl;
 		
 	@RequestMapping(value="/push")
-	public ModelAndView regist(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest,
+	public ModelAndView savepushInfo(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest,
 						@RequestParam("content")String content){
 		 HttpSession session=request.getSession();
 		 User user=(User) session.getAttribute("user");
@@ -52,17 +60,13 @@ public class PushInfoController {
 		 pushInfo.setWbPushDate(new Date());
 		 pushInfo.setWbImage(Imgpath);
 		 pushInfo.setWbTextContent(content);
-		 pushInfo.setCommentNum(0L);
-		 pushInfo.setPraiseNum(0L);
-		 pushInfo.setTurnNum(0L);
-		 pushInfo.setCommentNum(0L);
 		 pushInfoServiceImpl.savePushInfo(pushInfo);
 		 
 		 //进行查询
 		 List<Long> userIds=new ArrayList<Long>();
 		 userIds.add(0, user.getUserId());
 		 List<PushInfo> blogs=new ArrayList<PushInfo>();
-		 blogs=pushInfoServiceImpl.findByuserIds(userIds);
+		 blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());
 		 
 		 
 		 //进行跳转返回 
@@ -73,6 +77,42 @@ public class PushInfoController {
 		return mav;
 		
 	}
+	@RequestMapping(value="/push2")
+	public ModelAndView savepushInfo2(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response,
+						@RequestParam("content")String content,
+						@RequestParam("authorWbId")String authorWebIdstr){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 
+		 PushInfo pushInfo=new PushInfo();
+		 //设值
+		 pushInfo.setUserId(user.getUserId());
+		 pushInfo.setUserNickName(user.getUserNickName());
+		 pushInfo.setWbPushDate(new Date());
+		 //页面上的信息
+		 long authorWebId=Long.parseLong(authorWebIdstr);
+		 pushInfo.setWbAuthorId(authorWebId);
+		 pushInfo.setWbTextContent(content);
+		 pushInfoServiceImpl.savePushInfo(pushInfo);
+		 
+		 //进行查询
+		 List<Long> userIds=new ArrayList<Long>();
+		 userIds.add(0, user.getUserId());
+		 List<PushInfo> blogs=new ArrayList<PushInfo>();
+		 blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());
+		 
+		 
+		 //进行跳转返回 
+		ModelAndView mav=new ModelAndView("redirect:/userIndexTo");
+		mav.addObject("blogs", blogs);
+		
+		
+		return mav;
+		
+	}
+	
+	
+	
 	@RequestMapping(value="/del")
 	@ResponseBody
 	public int delete(HttpServletRequest request,HttpServletResponse response){
@@ -81,11 +121,10 @@ public class PushInfoController {
 		 String uidstring=request.getParameter("wbId");
 		 int sta=0;
 		 long wbId = Long.parseLong(uidstring);
-		 PushInfo push=pushInfoServiceImpl.getPushIfoBywbId(wbId);
-		 List<Comment> comments=commentServiceImpl.findCommentsBywbId(wbId);
+		 PushInfo push=pushInfoServiceImpl.getPushIfoBywbId(user.getUserId(),wbId);
 		 if(push !=null){
 			 if(push.getUserId()==user.getUserId()){
-				 pushInfoServiceImpl.deleteBywbId(wbId,comments);
+				 pushInfoServiceImpl.deleteBywbId(wbId);
 				 sta=1;
 			 }			 
 		 }
@@ -115,9 +154,7 @@ public class PushInfoController {
 		 comment.setUserId(user.getUserId());
 		 comment.setWbId(wbId);
 		 comment.setCommentUser(user);
-		 //需要在数据库中增加此微博的评论数量
-		 PushInfo pushInfo=pushInfoServiceImpl.getPushIfoBywbId(wbId);		 
-		 commentServiceImpl.saveComment(comment,pushInfo);		 
+		 commentServiceImpl.saveComment(comment);		 
 		 List<Comment> comments=new ArrayList<Comment>();
 		 comments=commentServiceImpl.findCommentsBywbId(wbId);
 		 return comments;		 	
@@ -144,9 +181,7 @@ public class PushInfoController {
 		 comment.setWbId(wbId);
 		 comment.setFromCommentId(fromCommentId);
 		 comment.setCommentUser(user);
-		 //需要在数据库中增加此微博的评论数量
-		 PushInfo pushInfo=pushInfoServiceImpl.getPushIfoBywbId(wbId);
-		 commentServiceImpl.saveComment(comment,pushInfo);
+		 commentServiceImpl.saveComment(comment);
 		 return comment;		 	
 	}
 	
@@ -160,10 +195,8 @@ public class PushInfoController {
 		 List<Comment> comments=new ArrayList<Comment>();
 		 String wbIdstring=request.getParameter("wbId");
 		 long wbId=Long.parseLong(wbIdstring);
-		 comments=commentServiceImpl.findCommentsBywbId(wbId);
-		 
-		 return comments;
-		 	
+		 comments=commentServiceImpl.findCommentsBywbId(wbId);		 
+		 return comments;		 	
 	}
 	/**
 	 * 删除评论
@@ -176,14 +209,85 @@ public class PushInfoController {
 		int sta=0;
 		String commentIdstring=request.getParameter("commentId");
 		long commentId=Long.parseLong(commentIdstring);
-		Comment comment=commentServiceImpl.getCommentBycommentId(commentId);
-		PushInfo pushInfo=pushInfoServiceImpl.getPushIfoBywbId(comment.getWbId());		
+		Comment comment=commentServiceImpl.getCommentBycommentId(commentId);	
 		if(comment !=null&&comment.getUserId()==user.getUserId()){
-			commentServiceImpl.deleteComment(commentId,pushInfo);
+			commentServiceImpl.deleteComment(commentId);
 			sta=1;
 			return sta;
 		}
-		return sta;	
-				
+		return sta;					
 	}
+	/**
+	 * 点赞保存
+	 */
+	@RequestMapping(value="/savePraise")
+	@ResponseBody
+	public int savePraise(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		
+		 String wbIdstring=request.getParameter("wbId");
+		 long wbId=Long.parseLong(wbIdstring);
+		 PraiseInfo praiseInfo=new PraiseInfo();
+		 praiseInfo.setPraiseDate(new Date());
+		 praiseInfo.setUserId(user.getUserId());
+		 praiseInfo.setWbId(wbId);
+		 praiseServiceImpl.savePraise(praiseInfo);
+		 return 1;		 	
+	}
+	/**
+	 * 点赞删除
+	 */
+	@RequestMapping(value="/cancelPraise")
+	@ResponseBody
+	public int cancelPraise(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 String wbIdstring=request.getParameter("wbId");
+		 long wbId=Long.parseLong(wbIdstring);		 
+		 praiseServiceImpl.deletePraise(user.getUserId(), wbId);
+		 return 1;		 	
+	}
+	/**
+	 * 收藏保存
+	 */
+	@RequestMapping(value="/saveCollection")
+	@ResponseBody
+	public int saveCollection(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		
+		 String wbIdstring=request.getParameter("wbId");
+		 long wbId=Long.parseLong(wbIdstring);
+		 CollectionInfo collectionInfo=new CollectionInfo();
+		 collectionInfo.setCollectionDate(new Date());
+		 collectionInfo.setUserId(user.getUserId());
+		 collectionInfo.setWbId(wbId);
+		 collectionServiceImpl.saveCollection(collectionInfo);
+		 return 1;		 	
+	}
+	/**
+	 * 收藏删除
+	 */
+	@RequestMapping(value="/cancelCollection")
+	@ResponseBody
+	public int cancelCollection(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 String wbIdstring=request.getParameter("wbId");
+		 long wbId=Long.parseLong(wbIdstring);		 
+		 collectionServiceImpl.deleteCollection(user.getUserId(), wbId);
+		 return 1;		 	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

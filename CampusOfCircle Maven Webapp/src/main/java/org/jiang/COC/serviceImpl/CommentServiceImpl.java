@@ -30,9 +30,11 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	@Transactional
-	public void saveComment(Comment comment,PushInfo pushInfo) {
+	public void saveComment(Comment comment) {
 		// TODO Auto-generated method stub
 		commentDaoImpl.saveComment(comment);
+		//对微博表做更新
+		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId());
 		pushInfo.setCommentNum(pushInfo.getCommentNum()+1);
 		pushInfoDaoImpl.updatePushInfo(pushInfo);
 	}
@@ -54,12 +56,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional
-	public void deleteComment(long commentId,PushInfo pushInfo) {
+	public void deleteComment(long commentId) {
 		// TODO Auto-generated method stub
 		Comment comment=commentDaoImpl.getById(commentId);
+		long wbId=comment.getWbId();
 		if(comment !=null){
 			commentDaoImpl.deleteComment(comment);
-			pushInfo.setCommentNum(pushInfo.getCommentNum()-1);
+			PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
 			pushInfoDaoImpl.updatePushInfo(pushInfo);
 		}
 		

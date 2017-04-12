@@ -18,6 +18,7 @@ public interface PushInfoDao {
 	public void savePushInfo(PushInfo pushInfo);
 	public void updatePushInfo(PushInfo pushInfo);
 	public List<PushInfo> findByuserIds(List<Long> list);
+	public List<PushInfo> findByuserId(long userId);
 	public PushInfo getPushIfoBywbId(long wbId);
 	public void deletePushInfo(PushInfo pushInfo);
 }
