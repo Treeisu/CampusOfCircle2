@@ -24,7 +24,7 @@ public class TurnInfo implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "praiseInfoId", unique = true, nullable = false)
+	@Column(name = "turnInfoId", unique = true, nullable = false)
 	private long turnInfoId;
 	@Column(name = "nowWbId",length=20)
 	private long nowWbId;//这个字段用来存储点赞的微博Id
