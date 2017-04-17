@@ -10,9 +10,13 @@ import javax.servlet.http.HttpSession;
 
 
 
+
+
 import org.jiang.COC.model.Group;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
+import org.jiang.COC.model.UserAdviceNum;
+import org.jiang.COC.serviceImpl.AdviceServiceImpl;
 import org.jiang.COC.serviceImpl.CommentServiceImpl;
 import org.jiang.COC.serviceImpl.GroupServiceImpl;
 import org.jiang.COC.serviceImpl.PushInfoServiceImpl;
@@ -34,6 +38,12 @@ public class ToUserIndexController {
 	private CommentServiceImpl commentServiceImpl;
 	@Autowired
 	private GroupServiceImpl groupServiceImpl;
+	@Autowired
+	private AdviceServiceImpl adviceServiceImpl;
+
+
+	
+	
 	@RequestMapping(value="/userIndexTo")
 	public ModelAndView indexTo(HttpServletRequest request,HttpServletResponse response){
 		HttpSession session=request.getSession();
@@ -47,9 +57,15 @@ public class ToUserIndexController {
 		 List<PushInfo> blogs=new ArrayList<PushInfo>();
 		 blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());//根据userIds去找所有动态
 		 user=userServiceImpl.getByUserId(user.getUserId());
+		 /**
+		  * 加载通知信息
+		  */
+		 List<UserAdviceNum> adviceList=adviceServiceImpl.findByUserId(user.getUserId());
+		 UserAdviceNum userAdviceNum=adviceList.get(0);		 
 		 session.setAttribute("user", user);
 		 session.setAttribute("blogs", blogs);
 		 session.setAttribute("groups", groups);
+		 session.setAttribute("userAdviceNum", userAdviceNum);
 		 ModelAndView mav=new ModelAndView("userIndex");
 		 mav.addObject("blogs", blogs);
 		 return mav;

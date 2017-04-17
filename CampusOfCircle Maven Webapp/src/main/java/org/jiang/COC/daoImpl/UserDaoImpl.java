@@ -4,7 +4,6 @@ package org.jiang.COC.daoImpl;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -44,8 +43,7 @@ public class UserDaoImpl implements UserDao {
 		String hql="from User where userPhone = :myphone";
 		Query query=session.createQuery(hql);
 		query.setParameter("myphone", userPhone);
-		List<User> list=new ArrayList<User>();
-		list=query.list();
+		List<User> list=query.list();
 		return list;
 	}
 	@Override

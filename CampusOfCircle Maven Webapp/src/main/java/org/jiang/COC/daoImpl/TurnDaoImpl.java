@@ -1,7 +1,7 @@
 package org.jiang.COC.daoImpl;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -44,8 +44,7 @@ public class TurnDaoImpl implements TurnDao {
 		String hql="from TurnInfo where nowWbId = :mynowWbId";
 		Query query=session.createQuery(hql);
 		query.setParameter("mynowWbId", nowWbId);
-		List<TurnInfo> turnInfos=new ArrayList<TurnInfo>();
-		turnInfos=query.list();
+		List<TurnInfo> turnInfos=query.list();
 		return turnInfos;
 	}
 

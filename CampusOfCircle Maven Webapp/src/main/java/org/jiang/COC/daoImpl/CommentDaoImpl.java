@@ -1,7 +1,7 @@
 package org.jiang.COC.daoImpl;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -35,8 +35,7 @@ public class CommentDaoImpl implements CommentDao {
 		String hql="from Comment where wbId = :mywbId order by commentDate desc";
 		Query query=session.createQuery(hql);
 		query.setParameter("mywbId", wbID);
-		List<Comment> list=new ArrayList<Comment>();
-		list=query.list();
+		List<Comment> list=query.list();
 		return list;
 	}
 

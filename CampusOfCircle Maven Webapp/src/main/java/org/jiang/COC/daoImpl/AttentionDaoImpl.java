@@ -1,7 +1,7 @@
 package org.jiang.COC.daoImpl;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -46,8 +46,7 @@ public class AttentionDaoImpl implements AttentionDao {
 		String hql="from Attention where userId = :myUserId";
 		Query query=session.createQuery(hql);
 		query.setParameter("myUserId", userId);
-		List<Attention> list=new ArrayList<Attention>();
-		list=query.list();
+		List<Attention> list=query.list();
 		return list;
 	}
 
@@ -70,8 +69,7 @@ public class AttentionDaoImpl implements AttentionDao {
 		String hql="from Attention where groupId = :myGroupId";
 		Query query=session.createQuery(hql);
 		query.setParameter("myGroupId", groupId);
-		List<Attention> list=new ArrayList<Attention>();
-		list=query.list();
+		List<Attention> list=query.list();
 		return list;
 	}
 

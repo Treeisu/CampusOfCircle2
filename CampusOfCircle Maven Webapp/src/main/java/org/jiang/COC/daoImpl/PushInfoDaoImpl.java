@@ -1,7 +1,7 @@
 package org.jiang.COC.daoImpl;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -34,8 +34,7 @@ public class PushInfoDaoImpl implements PushInfoDao {
 		String hql="from PushInfo where userId in(:myUserIds) order by wbPushDate desc";
 		Query query=session.createQuery(hql);
 		query.setParameterList("myUserIds", userIds);
-		List<PushInfo> list=new ArrayList<PushInfo>();
-		list=query.list();
+		List<PushInfo> list=query.list();
 		return list;
 	}
 
@@ -71,8 +70,7 @@ public class PushInfoDaoImpl implements PushInfoDao {
 		String hql="from PushInfo where userId =:myUserId order by wbPushDate desc";
 		Query query=session.createQuery(hql);
 		query.setParameter("myUserId", userId);
-		List<PushInfo> list=new ArrayList<PushInfo>();
-		list=query.list();
+		List<PushInfo> list=query.list();
 		return list;
 	}
 	

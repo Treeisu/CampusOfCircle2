@@ -27,6 +27,8 @@ public class UserAdviceNum implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "Id", unique = true, nullable = false)
+	private long Id;
 	@Column(name = "userId", unique = true, nullable = false)
 	private long userId;
 	@Column(name = "userNickName",length=20)
@@ -58,6 +60,12 @@ public class UserAdviceNum implements Serializable {
 	
 	
 	
+	public long getId() {
+		return Id;
+	}
+	public void setId(long id) {
+		Id = id;
+	}
 	public long getUserId() {
 		return userId;
 	}
@@ -124,10 +132,13 @@ public class UserAdviceNum implements Serializable {
 	public void setSumNum(long sumNum) {
 		this.sumNum = sumNum;
 	}
-	public UserAdviceNum(long userId, String userNickName, long attentionNum,
-			long fansNum, long wbNum, long chatNum, long praiseNum,
-			long commentNum, long turnNum, long addNum, long sumNum) {
+	
+	public UserAdviceNum(long id, long userId, String userNickName,
+			long attentionNum, long fansNum, long wbNum, long chatNum,
+			long praiseNum, long commentNum, long turnNum, long addNum,
+			long sumNum) {
 		super();
+		Id = id;
 		this.userId = userId;
 		this.userNickName = userNickName;
 		this.attentionNum = attentionNum;
@@ -145,13 +156,14 @@ public class UserAdviceNum implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "UserAdviceNum [userId=" + userId + ", userNickName="
-				+ userNickName + ", attentionNum=" + attentionNum
-				+ ", fansNum=" + fansNum + ", wbNum=" + wbNum + ", chatNum="
-				+ chatNum + ", praiseNum=" + praiseNum + ", commentNum="
-				+ commentNum + ", turnNum=" + turnNum + ", addNum=" + addNum
-				+ ", sumNum=" + sumNum + "]";
+		return "UserAdviceNum [Id=" + Id + ", userId=" + userId
+				+ ", userNickName=" + userNickName + ", attentionNum="
+				+ attentionNum + ", fansNum=" + fansNum + ", wbNum=" + wbNum
+				+ ", chatNum=" + chatNum + ", praiseNum=" + praiseNum
+				+ ", commentNum=" + commentNum + ", turnNum=" + turnNum
+				+ ", addNum=" + addNum + ", sumNum=" + sumNum + "]";
 	}
+
 	
     
 	

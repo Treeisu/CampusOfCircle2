@@ -4,6 +4,7 @@ package org.jiang.COC.serviceImpl;
 import java.util.Date;
 import java.util.List;
 
+import org.jiang.COC.daoImpl.AdviceDaoImpl;
 import org.jiang.COC.daoImpl.CollectionDaoImpl;
 import org.jiang.COC.daoImpl.CommentDaoImpl;
 import org.jiang.COC.daoImpl.PraiseDaoImpl;
@@ -16,6 +17,7 @@ import org.jiang.COC.model.PraiseInfo;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.TurnInfo;
 import org.jiang.COC.model.User;
+import org.jiang.COC.model.UserAdviceNum;
 import org.jiang.COC.service.PushInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,8 @@ public class PushInfoServiceImpl implements PushInfoService {
 	private CollectionDaoImpl collectionDaoImpl;
 	@Autowired
 	private TurnDaoImpl turnDaoImpl;
+	@Autowired
+	private AdviceDaoImpl adviceDaoImpl;
 	
 	
 	
@@ -58,7 +62,8 @@ public class PushInfoServiceImpl implements PushInfoService {
 	@Override
 	@Transactional
 	public void savePushInfo(PushInfo pushInfo) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
+		long userId=pushInfo.getUserId();
 		if(pushInfo.getWbAuthorId()!=0){//如果是转发的微博
 			//需要做个判断，找出最原始微博以及最近一条微博
 			PushInfo lastinfo=findLastWeibo(pushInfo);//最原始一条微博
@@ -74,7 +79,12 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setFirstWbId(firstinfo.getWbId());
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
-				turnDaoImpl.saveTurn(turnInfo);				
+				turnDaoImpl.saveTurn(turnInfo);		
+				List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
+				for(UserAdviceNum userAdviceNum:userAdviceNumlist){
+					userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+					adviceDaoImpl.updateAdvice(userAdviceNum);
+				}				
 			}else{
 				//多次转发
 				pushInfo.setWbAuthorId(lastinfo.getWbId());
@@ -89,16 +99,36 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setFirstWbId(firstinfo.getWbId());
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
-				turnDaoImpl.saveTurn(turnInfo);
+				turnDaoImpl.saveTurn(turnInfo);		
+				List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
+				for(UserAdviceNum userAdviceNum:userAdviceNumlist){
+					userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+					adviceDaoImpl.updateAdvice(userAdviceNum);
+				}
 			}
+			/**
+			 * 对数量表进行操作
+			 */
+			List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(pushInfo.getUserId());
+			for(UserAdviceNum userAdviceNum:userAdviceNumlist){
+				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+				adviceDaoImpl.updateAdvice(userAdviceNum);
+			}
+			
 		}
 		pushInfoDaoImpl.savePushInfo(pushInfo);
+		List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(pushInfo.getUserId());
+		for(UserAdviceNum userAdviceNum:userAdviceNumlist){
+			userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+			adviceDaoImpl.updateAdvice(userAdviceNum);
+		}
 	}
 	@Override
 	@Transactional
 	public void deleteBywbId(long wbId) {
 		// TODO Auto-generated method stub
 		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
+		long userId=pushInfo.getUserId();
 		if(pushInfo !=null){
 			pushInfoDaoImpl.deletePushInfo(pushInfo);
 			//删除相关评论
@@ -131,6 +161,12 @@ public class PushInfoServiceImpl implements PushInfoService {
 								pushInfoDaoImpl.updatePushInfo(push);//原微博数量-1
 							}
 							turnDaoImpl.deleteTurn(turnInfo);//转发记录删除
+							List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
+							for(UserAdviceNum userAdviceNum:userAdviceNumlist){
+								userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
+								adviceDaoImpl.updateAdvice(userAdviceNum);
+							}
+							
 						}else{
 							//多次转发的微博
 							PushInfo pushfirst=pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId());
@@ -144,13 +180,24 @@ public class PushInfoServiceImpl implements PushInfoService {
 								pushlast.setTurnNum(pushlast.getTurnNum()-1);
 								pushInfoDaoImpl.updatePushInfo(pushlast);//原微博数量-1
 							}
-							turnDaoImpl.deleteTurn(turnInfo);						
+							turnDaoImpl.deleteTurn(turnInfo);	
+							List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
+							for(UserAdviceNum userAdviceNum:userAdviceNumlist){
+								userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+								adviceDaoImpl.updateAdvice(userAdviceNum);
+							}
 						}
 					}
 										
 				}
 			}else{
 				pushInfoDaoImpl.deletePushInfo(pushInfo);
+				List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
+				for(UserAdviceNum userAdviceNum:userAdviceNumlist){
+					userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
+					adviceDaoImpl.updateAdvice(userAdviceNum);
+				}
+				
 			}
 			
 		}		

@@ -74,7 +74,7 @@ public class UserController {
 			if(u.getUserPassword().equals(userPassword)){
 				request.setAttribute("user",u);//相当于request.setAttribute();				
 				HttpSession session=request.getSession();
-				session.setAttribute("user", u);
+				session.setAttribute("user", u);								
 				return "redirect:/userIndexTo";	//让他重新去做一个请求
 			}
 			else{

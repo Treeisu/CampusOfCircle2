@@ -1,7 +1,7 @@
 package org.jiang.COC.daoImpl;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -47,8 +47,7 @@ public class PraiseDaoImpl implements PraiseDao {
 		Query query=session.createQuery(hql);
 		query.setParameter("myUserId", userId);
 		query.setParameter("myWbId", wbId);
-		List<PraiseInfo> praiseInfos=new ArrayList<PraiseInfo>();
-		praiseInfos=query.list();
+		List<PraiseInfo> praiseInfos=query.list();
 		return praiseInfos;
 	}
 
@@ -63,8 +62,7 @@ public class PraiseDaoImpl implements PraiseDao {
 		String hql="from PraiseInfo where wbId=:myWbId";
 		Query query=session.createQuery(hql);
 		query.setParameter("myWbId", wbId);
-		List<PraiseInfo> praiseInfos=new ArrayList<PraiseInfo>();
-		praiseInfos=query.list();
+		List<PraiseInfo> praiseInfos=query.list();
 		return praiseInfos;
 	}
 

@@ -7,57 +7,69 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.jiang.COC.dao.GroupDao;
-import org.jiang.COC.model.Group;
+import org.jiang.COC.dao.AdviceDao;
+import org.jiang.COC.model.UserAdviceNum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 @Repository
-public class GroupDaoImpl implements GroupDao {
+public class AdviceDaoImpl implements  AdviceDao{
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
 	@Override
 	@Transactional
-	public void saveGroup(Group group){
+	public void saveAdvice(UserAdviceNum adviceNum){
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();		
-		session.save(group);
+		session.save(adviceNum);
 	}
 
 	
 
 	@Override
 	@Transactional
-	public void deleteGroup(Group group){
+	public void deleteAdvice(UserAdviceNum userAdviceNum){
 		//删除一个实体
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		session.delete(group);
+		session.delete(userAdviceNum);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Group> findByUserId(long userId){
+	public List<UserAdviceNum> findByUserId(long userId){
 		
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		String hql="from Group where userId = :myUserId";
+		String hql="from UserAdviceNum where userId = :myUserId";
 		Query query=session.createQuery(hql);
 		query.setParameter("myUserId", userId);
-		List<Group> list=query.list();
+		List<UserAdviceNum> list=query.list();
 		return list;
 	}
 
 	@Override
 	@Transactional
-	public Group getGroup(long groupId) {
+	public UserAdviceNum getAdvice(long Id) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		Group group=(Group) session.get(Group.class, groupId);		
-		return group;	
+		UserAdviceNum userAdviceNum=(UserAdviceNum) session.get(UserAdviceNum.class, Id);		
+		return userAdviceNum;	
 	}
+
+
+
+	@Override
+	@Transactional
+	public void updateAdvice(UserAdviceNum userAdviceNum) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		session.update(userAdviceNum);
+	}
+
+
 
 	
 	

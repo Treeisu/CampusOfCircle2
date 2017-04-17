@@ -28,7 +28,7 @@ $(function(){
 			});	
 		});
 		/**
-		 * 删除分组
+		 * 删除时加载分组信息
 		 */
 		$('#delete_group').click(function(){
 			var userId=$('#userId_navbar').text();
@@ -50,6 +50,25 @@ $(function(){
 			$('#delete_group_modal').modal("toggle");
 						
 		});		
+		/**
+		 * 删除分组
+		 */
+		$('#delete_group_modal').find('.btn-danger').click(function(){
+			var createbutton=$('.group').find('#left_nav_b').find('#create_group');
+			var groupId=$(this).parents('#delete_group_modal').find('select option:selected').attr('class');	
+			$.ajax({
+				type : 'post',
+				url : "group/delGroup",
+				dataType : "json",
+				data : {"groupId" : groupId},
+				success :function (data){
+					var Arrs=eval(data);
+					$.each(Arrs,function(i,arr){
+						createbutton.before("<a href='' class='list-group-item'><span style='display: none;'>"+arr.groupId+"</span><i class='icon icon-group'></i>&nbsp;&nbsp;"+arr.groupName+"</a>");
+					});					
+				}		
+			});
+		});
 		
 		
 		

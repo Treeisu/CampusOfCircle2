@@ -333,13 +333,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <dt><a href=""><img src="<c:out value="${user.userImage}"/>" width='80' height='80' alt="" /></a></dt>
         <dd><a href=""><c:out value="${user.userNickName}"/></a></dd>
     </dl>
-	
+	<c:if test="${!empty userAdviceNum}">
 	<ul class='num_list'>
-        <li><a href=""><strong>99+</strong><span>关注</span></a></li>
-        <li><a href=""><strong>99+</strong><span>粉丝</span></a></li>
-        <li class='noborder'><a href=""><strong>99+</strong><span>圈动态</span></a></li>
+        <li><a href=""><strong><c:out value="${userAdviceNum.attentionNum}"/></strong><span>关注</span></a></li>
+        <li><a href=""><strong><c:out value="${userAdviceNum.fansNum}"/></strong><span>粉丝</span></a></li>
+        <li class='noborder'><a href=""><strong><c:out value="${userAdviceNum.wbNum}"/></strong><span>圈动态</span></a></li>
     </ul>
-    
+    </c:if>
 	<div class="maybe">
         <fieldset>
             <legend style="font-size: 13px;">可能感兴趣的人</legend>
@@ -474,9 +474,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </div>
 				 <div class="modal-body form-inline">
 				 	<span style="font-weight: 300;"><b>好友分组：</b></span>
-				 	<select class="form-control" style="width: 200px;">
-				 		
-				 	</select>
+				 	<select class="form-control" style="width: 200px;"></select>
 				 </div>
 			   	 <div class="modal-footer">
 			   	 	<input type="submit" class="btn btn-danger" value="删除"/>

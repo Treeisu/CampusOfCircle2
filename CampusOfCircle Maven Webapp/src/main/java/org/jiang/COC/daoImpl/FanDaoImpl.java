@@ -1,7 +1,7 @@
 package org.jiang.COC.daoImpl;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -46,8 +46,7 @@ public class FanDaoImpl implements FanDao {
 		String hql="from Fans where userId = :myUserId";
 		Query query=session.createQuery(hql);
 		query.setParameter("myUserId", userId);
-		List<Fan> list=new ArrayList<Fan>();
-		list=query.list();
+		List<Fan> list=query.list();
 		return list;
 	}
 

@@ -54,6 +54,19 @@ public class GroupsController {
 		List<Group> groups=groupServiceImpl.findGroupsByUserId(userId);
 		return groups;		
 	}
-	
+	@RequestMapping(value="/delGroup")
+	@ResponseBody
+	public List<Group> delGroup(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user");
+		String groupIdstring=request.getParameter("groupId");
+		long groupId=Long.parseLong(groupIdstring);
+		Group group=groupServiceImpl.getGroupByGroupId(groupId);
+		if(group!=null){
+			groupServiceImpl.deleteGroup(group);	
+		}			
+		List<Group> groups=groupServiceImpl.findGroupsByUserId(user.getUserId());
+		return groups;		
+	}
 	
 }

@@ -30,7 +30,7 @@ public class AttentionServiceImpl implements AttentionService {
 	@Transactional
 	public void deleteAttention(Attention attention) {
 		// TODO Auto-generated method stub
-		
+		attentionDaoImpl.deleteAttention(attention);
 	}
 
 	@Override
