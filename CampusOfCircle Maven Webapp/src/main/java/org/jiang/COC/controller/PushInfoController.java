@@ -209,10 +209,13 @@ public class PushInfoController {
 		int sta=0;
 		String commentIdstring=request.getParameter("commentId");
 		long commentId=Long.parseLong(commentIdstring);
+		String wbIdstring=request.getParameter("wbId");
+		long wbId=Long.parseLong(wbIdstring);
 		Comment comment=commentServiceImpl.getCommentBycommentId(commentId);	
 		if(comment !=null&&comment.getUserId()==user.getUserId()){
 			commentServiceImpl.deleteComment(commentId);
-			sta=1;
+			PushInfo info= pushInfoServiceImpl.getPushIfoBywbId(user.getUserId(), wbId);
+			sta=(int) info.getCommentNum();
 			return sta;
 		}
 		return sta;					

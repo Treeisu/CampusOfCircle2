@@ -7,6 +7,50 @@ $(function(){
 			var a_exit=$(this).children(':last').find('a');
 			a_exit.attr('href','user/exit');
 		});
+		/**
+		 *创建分组ajax
+		 */
+		$('#creat_group_modal').find('.btn-success').click(function(){
+			var userId=$('#userId_navbar').text();
+			var groupName=$(this).parents('#creat_group_modal').find('.modal-body input').val();
+			var createbutton=$('.group').find('#left_nav_b').find('#create_group');
+			$.ajax({
+				type : 'post',
+				url : "group/saveGroup",
+				dataType : "json",
+				data : {"userId" : userId,"groupName":groupName},
+				success :function (data){
+					var Arrs=eval(data);
+					$.each(Arrs,function(i,arr){
+						createbutton.before("<a href='' class='list-group-item'><span style='display: none;'>"+arr.groupId+"</span><i class='icon icon-group'></i>&nbsp;&nbsp;"+arr.groupName+"</a>");
+					});					
+				}		
+			});	
+		});
+		/**
+		 * 删除分组
+		 */
+		$('#delete_group').click(function(){
+			var userId=$('#userId_navbar').text();
+			var selectTHIS=$('#delete_group_modal').find('.modal-body select');
+			selectTHIS.empty();
+			$.ajax({
+				type : 'post',
+				url : "group/getGroup",
+				dataType : "json",
+				data : {"userId" : userId},
+				success :function (data){
+					var Arrs=eval(data);
+					$.each(Arrs,function(i,arr){
+						//设置弹框的信息
+						selectTHIS.append("<option class='"+arr.groupId+"'>"+arr.groupName+"</option>");						
+					});					
+				}		
+			});
+			$('#delete_group_modal').modal("toggle");
+						
+		});		
+		
 		
 		
 		/**
@@ -458,31 +502,27 @@ $(function(){
 			});
 			//评论删除操作
 			$('.weibo').find('.showcommentList').on('click','.delete_comment',function(){
+				var weiboDiv_this=$(this).parents('.weibo');
 				var comment_allDIV_this=$(this).parents('.comment_all');
-				var weiboDIV_this=$(this).parents('.weibo');
 				var commId=$(this).parents('.comment_all').find('#commentId_p_init').text();//此条评论的Id
 				var uid=$(this).parents('.comment_all').find('#commentuserId_p_init').text();//此条评论作者Id
+				var wbId=$(this).parents('.weibo').find('#wbId_p_init').text();
 				var content=$(this).parent().prev().text();
 				$('#deleteComment_modal').find('.modal-body p').html(content);
-				$('#deleteComment_modal').modal("show");
+				$('#deleteComment_modal').modal("toggle");
 				$('#deleteComment_modal').find('.modal-footer .btn-danger').click(function(){
 					$.ajax({
 						type : 'post',
 						url : "blog/delComment",
 						dataType : "json",
-						data : {"commentId" : commId,"uid":uid},
+						data : {"commentId" : commId,"uid":uid,"wbId":wbId},
 						success :function (data){
 							var Obj=eval(data);
-							 if(Obj==1){
-								 comment_allDIV_this.remove();
-							 }
-							//设置数量-1				    		
-					    	var commentNumdtext=weiboDIV_this.find('.wb_tool').find('.li_showcomment_list sup').html();
-					    	var commentNumOld = /\d+(?:\.\d+)?/.exec(commentNumdtext);
-					    	var commentNum =Number(commentNumOld)-1;
-					    	weiboDIV_this.find('.wb_tool').find('.li_showcomment_list sup').html("("+commentNum+")");
-						}		
-					});	
+							comment_allDIV_this.remove();								 							 
+							//设置数量更新
+						    weiboDiv_this.find('.wb_tool').find('.li_showcomment_list').find('sup').html("("+Obj+")");
+						}						
+					});
 				});		
 			});
 			//评论回复插入输入框

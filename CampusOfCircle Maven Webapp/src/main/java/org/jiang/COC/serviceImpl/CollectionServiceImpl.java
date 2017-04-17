@@ -1,6 +1,6 @@
 package org.jiang.COC.serviceImpl;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.jiang.COC.daoImpl.CollectionDaoImpl;
@@ -39,8 +39,7 @@ public class CollectionServiceImpl implements CollectionService {
 	@Transactional
 	public List<CollectionInfo> findBywbIdAnduserId(long userId,long wbId){
 		// TODO Auto-generated method stub
-		List<CollectionInfo> list=new ArrayList<CollectionInfo>();
-		list=collectionDaoImpl.findBywbIdAnduserId(userId, wbId);		
+		List<CollectionInfo> list=collectionDaoImpl.findBywbIdAnduserId(userId, wbId);		
 		return list;
 	}
 

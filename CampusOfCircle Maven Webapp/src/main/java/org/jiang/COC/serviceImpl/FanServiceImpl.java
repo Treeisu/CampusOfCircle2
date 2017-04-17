@@ -3,9 +3,9 @@ package org.jiang.COC.serviceImpl;
 
 import java.util.List;
 
-import org.jiang.COC.daoImpl.UserDaoImpl;
-import org.jiang.COC.model.User;
-import org.jiang.COC.service.UserService;
+import org.jiang.COC.daoImpl.FanDaoImpl;
+import org.jiang.COC.model.Fan;
+import org.jiang.COC.service.FanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,40 +15,46 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class FanServiceImpl implements FanService {
 	@Autowired
-	private UserDaoImpl userDaoIpml;
-	
-	
+	private FanDaoImpl fanDaoImpl;
+
 	@Override
 	@Transactional
-	public void saveUser(User user) {
+	public void saveFan(Fan fan) {
 		// TODO Auto-generated method stub
-			userDaoIpml.saveUser(user);
-		
+		fanDaoImpl.saveFans(fan);
 	}
 
 	@Override
 	@Transactional
-	public List<User> findUserByPhone(String phone) {
+	public void deleteFan(Fan fan) {
 		// TODO Auto-generated method stub
-		List<User> list=userDaoIpml.findByPhone(phone);
+		fanDaoImpl.deleteFans(fan);
+	}
+
+	@Override
+	@Transactional
+	public Fan getFanById(long Id) {
+		// TODO Auto-generated method stub
+		Fan fan=fanDaoImpl.getFans(Id);
+		return fan;
+	}
+
+	@Override
+	@Transactional
+	public List<Fan> findFanByUserId(long userId) {
+		// TODO Auto-generated method stub
+		List<Fan> list=fanDaoImpl.findByUserId(userId);
 		return list;
 	}
 
-	@Override
-	@Transactional
-	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		userDaoIpml.updateUser(user);
-	}
+	
 
-	@Override
-	@Transactional
-	public User getByUserId(long userId) {
-		// TODO Auto-generated method stub
-		User user= userDaoIpml.getUserById(userId);
-		return user;
-	}
+	
+	
+	
+
+	
 
 }

@@ -12,15 +12,17 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * 用户粉丝表
+ * 聊天表
  * @author Cherry
  *
  */
 @Entity
-@Table(name="tb_fans")
-public class Fans implements Serializable {
+@Table(name="tb_chatInfo")
+public class ChatInfo implements Serializable {
 	@Transient
-	private static final long serialVersionUID = -2740711715719117065L;
+	private static final long serialVersionUID = 5840504156249572787L;
+	
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +32,16 @@ public class Fans implements Serializable {
     private long userId;
 	@Column(name = "fromUserId")
     private long fromUserId;
+	@Column(name = "toUserId")
+    private long toUserId;
+	@Column(name = "chatContent",length=500)
+    private String chatContent;
     @Column(name = "createDate",length=20)
     private Date createDate;
+    @Column(name = "state")
+    private int state;
 	
+    
     
     
     public long getId() {
@@ -53,27 +62,55 @@ public class Fans implements Serializable {
 	public void setFromUserId(long fromUserId) {
 		this.fromUserId = fromUserId;
 	}
+	public long getToUserId() {
+		return toUserId;
+	}
+	public void setToUserId(long toUserId) {
+		this.toUserId = toUserId;
+	}
+	public String getChatContent() {
+		return chatContent;
+	}
+	public void setChatContent(String chatContent) {
+		this.chatContent = chatContent;
+	}
 	public Date getCreateDate() {
 		return createDate;
 	}
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public Fans(long id, long userId, long fromUserId, Date createDate) {
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
+	public ChatInfo(long id, long userId, long fromUserId, long toUserId,
+			String chatContent, Date createDate, int state) {
 		super();
 		Id = id;
 		this.userId = userId;
 		this.fromUserId = fromUserId;
+		this.toUserId = toUserId;
+		this.chatContent = chatContent;
 		this.createDate = createDate;
+		this.state = state;
 	}
-	public Fans() {
+	public ChatInfo() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "Fans [Id=" + Id + ", userId=" + userId + ", fromUserId="
-				+ fromUserId + ", createDate=" + createDate + "]";
+		return "ChatInfo [Id=" + Id + ", userId=" + userId + ", fromUserId="
+				+ fromUserId + ", toUserId=" + toUserId + ", chatContent="
+				+ chatContent + ", createDate=" + createDate + ", state="
+				+ state + "]";
 	}
+	
+    
+    
+   
 	
 
 	

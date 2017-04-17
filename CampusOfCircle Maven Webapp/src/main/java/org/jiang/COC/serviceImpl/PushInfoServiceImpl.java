@@ -1,6 +1,6 @@
 package org.jiang.COC.serviceImpl;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -161,8 +161,7 @@ public class PushInfoServiceImpl implements PushInfoService {
 	@Transactional
 	public List<PushInfo> findByuserIds(List<Long> userIds,long uid) {
 		// TODO Auto-generated method stub
-		List<PushInfo> list=new ArrayList<PushInfo>();
-		list=pushInfoDaoImpl.findByuserIds(userIds);
+		List<PushInfo> list=pushInfoDaoImpl.findByuserIds(userIds);
 		for( PushInfo blog:list){
 			//设置发布者信息
 			User user=userDaoImpl.getUserById(blog.getUserId());
@@ -201,31 +200,34 @@ public class PushInfoServiceImpl implements PushInfoService {
 	@Transactional
 	public PushInfo getPushIfoBywbId(long uid,long wbId) {
 		// TODO Auto-generated method stub
-		PushInfo blog=pushInfoDaoImpl.getPushIfoBywbId(wbId);
-		//设置发布者信息
-		User user=userDaoImpl.getUserById(blog.getUserId());
-		if(user !=null){
-			blog.setUser(user);
-		}
-		//设置转发init微博信息
-		PushInfo initPushInfo=pushInfoDaoImpl.getPushIfoBywbId(blog.getWbAuthorId());
-		if(initPushInfo !=null){
-			blog.setInitPushInfo(initPushInfo);
-		}
-		//设置点赞状态
-		List<PraiseInfo> prasieInfos=prasieDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
-		if(prasieInfos !=null){
-			blog.setPraiseState(1);
-		}else{
-			blog.setPraiseState(0);
-		}
-		//设置收藏状态
-		List<CollectionInfo> collectionInfos=collectionDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
-		if(collectionInfos !=null){
-			blog.setCollectionState(1);
-		}else{
-			blog.setCollectionState(0);
-		}
+		PushInfo blog=pushInfoDaoImpl.getPushIfoBywbId(wbId);		
+		if(blog!=null){
+			User user=userDaoImpl.getUserById(blog.getUserId());
+			//设置发布者信息
+			if(user !=null){
+				blog.setUser(user);
+			}
+			//设置转发init微博信息
+			PushInfo initPushInfo=pushInfoDaoImpl.getPushIfoBywbId(blog.getWbAuthorId());
+			if(initPushInfo !=null){
+				blog.setInitPushInfo(initPushInfo);
+			}
+			//设置点赞状态
+			List<PraiseInfo> prasieInfos=prasieDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
+			if(prasieInfos !=null){
+				blog.setPraiseState(1);
+			}else{
+				blog.setPraiseState(0);
+			}
+			//设置收藏状态
+			List<CollectionInfo> collectionInfos=collectionDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
+			if(collectionInfos !=null){
+				blog.setCollectionState(1);
+			}else{
+				blog.setCollectionState(0);
+			}				
+		}	
+		
 		return blog;
 	}
 
@@ -238,8 +240,7 @@ public class PushInfoServiceImpl implements PushInfoService {
 	@Override
 	public List<PushInfo> findByuserId(long userId) {
 		// TODO Auto-generated method stub
-		List<PushInfo> list=new ArrayList<PushInfo>();
-		list=pushInfoDaoImpl.findByuserId(userId);
+		List<PushInfo> list=pushInfoDaoImpl.findByuserId(userId);
 		for( PushInfo blog:list){
 			//设置发布者信息
 			User user=userDaoImpl.getUserById(blog.getUserId());

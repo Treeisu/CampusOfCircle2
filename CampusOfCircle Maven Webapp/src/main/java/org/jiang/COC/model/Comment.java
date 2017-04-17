@@ -42,16 +42,23 @@ public class Comment implements Serializable {
     private String commentContent;
     @Column(name = "commentDate",length=20)
     private Date commentDate;
-	public Comment(User commentUser, long wbId, long commentId, long userId,
-			long fromCommentId, String commentContent, Date commentDate) {
+    @Column(name = "state")
+    private int state;
+    
+    
+	
+	public Comment(User commentUser, long commentId, long wbId, long userId,
+			long fromCommentId, String commentContent, Date commentDate,
+			int state) {
 		super();
 		this.commentUser = commentUser;
-		this.wbId = wbId;
 		this.commentId = commentId;
+		this.wbId = wbId;
 		this.userId = userId;
 		this.fromCommentId = fromCommentId;
 		this.commentContent = commentContent;
 		this.commentDate = commentDate;
+		this.state = state;
 	}
 	public Comment() {
 		super();
@@ -98,13 +105,22 @@ public class Comment implements Serializable {
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
+	
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
 	@Override
 	public String toString() {
-		return "Comment [commentUser=" + commentUser + ", wbId=" + wbId
-				+ ", commentId=" + commentId + ", userId=" + userId
+		return "Comment [commentUser=" + commentUser + ", commentId="
+				+ commentId + ", wbId=" + wbId + ", userId=" + userId
 				+ ", fromCommentId=" + fromCommentId + ", commentContent="
-				+ commentContent + ", commentDate=" + commentDate + "]";
+				+ commentContent + ", commentDate=" + commentDate + ", state="
+				+ state + "]";
 	}
+	
 	
     
     

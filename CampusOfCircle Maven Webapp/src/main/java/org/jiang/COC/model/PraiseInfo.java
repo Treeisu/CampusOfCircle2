@@ -30,14 +30,32 @@ public class PraiseInfo implements Serializable {
 	private long userId;
     @Column(name = "praiseDate",length=20)
     private Date praiseDate;
+    @Column(name = "state")
+    private int state;
+    
+    
 	
-	public PraiseInfo(long praiseInfoId, long wbId, long userId, Date praiseDate) {
+	public PraiseInfo(long praiseInfoId, long wbId, long userId,
+			Date praiseDate, int state) {
 		super();
 		this.praiseInfoId = praiseInfoId;
 		this.wbId = wbId;
 		this.userId = userId;
 		this.praiseDate = praiseDate;
+		this.state = state;
 	}
+
+
+	public int getState() {
+		return state;
+	}
+
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+
 	public PraiseInfo() {
 		super();
 	}
@@ -67,11 +85,15 @@ public class PraiseInfo implements Serializable {
 	public void setPraiseDate(Date praiseDate) {
 		this.praiseDate = praiseDate;
 	}
+
+
 	@Override
 	public String toString() {
 		return "PraiseInfo [praiseInfoId=" + praiseInfoId + ", wbId=" + wbId
-				+ ", userId=" + userId + ", praiseDate=" + praiseDate + "]";
+				+ ", userId=" + userId + ", praiseDate=" + praiseDate
+				+ ", state=" + state + "]";
 	}
+	
 	
 	
     

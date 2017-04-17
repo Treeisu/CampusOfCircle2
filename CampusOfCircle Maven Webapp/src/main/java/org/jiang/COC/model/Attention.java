@@ -38,10 +38,13 @@ public class Attention implements Serializable {
     private long groupId;
     @Column(name = "createDate",length=20)
     private Date createDate;
-	
+   
     
     
-    public long getAttentionId() {
+    
+    
+  
+	public long getAttentionId() {
 		return attentionId;
 	}
 	public void setAttentionId(long attentionId) {
@@ -77,6 +80,7 @@ public class Attention implements Serializable {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+	
 	public Attention(long attentionId, String groupName, long userId,
 			long toUserId, long groupId, Date createDate) {
 		super();
@@ -86,6 +90,7 @@ public class Attention implements Serializable {
 		this.toUserId = toUserId;
 		this.groupId = groupId;
 		this.createDate = createDate;
+		
 	}
 	public Attention() {
 		super();
@@ -96,6 +101,8 @@ public class Attention implements Serializable {
 				+ groupName + ", userId=" + userId + ", toUserId=" + toUserId
 				+ ", groupId=" + groupId + ", createDate=" + createDate + "]";
 	}
+	
+	
 	
 
 	

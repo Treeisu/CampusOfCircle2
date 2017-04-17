@@ -83,12 +83,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <fieldset><legend style="color: #8B8B85; font-weight: 300;text-align: center;">我的分组</legend></fieldset>
             <div id="left_nav_b" class="list-group">
                 <a href="" class="list-group-item"><i class='icon icon-group'></i>&nbsp;&nbsp;全部</a>
-                <foreach name='group' item='v'>
-                        <a href="" class="list-group-item"><i class='icon icon-group'></i>&nbsp;&nbsp;我的家人</a>
-                        <a href="" class="list-group-item"><i class='icon icon-group'></i>&nbsp;&nbsp;我的朋友</a>
-                        <a href="" class="list-group-item"><i class='icon icon-group'></i>&nbsp;&nbsp;我的同学</a>
-                </foreach>
+                <c:if test="${groups.size()>0}">
+                <c:forEach var="group" items="${groups}">
+                        <a href="" class="list-group-item"><span style="display: none;"><c:out value="${group.groupId}"/></span><i class='icon icon-group'></i>&nbsp;&nbsp;<c:out value="${group.groupName}"/></a>
+                </c:forEach>
+                </c:if>
                 <a id='create_group' class="btn btn-group" href="#creat_group_modal"  data-toggle="modal">创建新分组</a>
+                <a id='delete_group' class="btn btn-group">删除分组</a>
             </div>
             
         </div>
@@ -461,6 +462,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 </div>
  <!--==========创建分组弹框====已完成======-->
+
+ <!--==========删除分组弹框=====已完成=====-->
+<div class="modal fade" id="delete_group_modal">
+		<div class="modal-dialog ">
+			<form>
+			<div class="modal-content"style="background-color:#f2f7f8;">
+				 <div class="modal-header">
+				 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only close"></span></button>
+				 	<h5 class="modal-title text-center text-danger" >请选择需要删除的分组</h4>
+				 </div>
+				 <div class="modal-body form-inline">
+				 	<span style="font-weight: 300;"><b>好友分组：</b></span>
+				 	<select class="form-control" style="width: 200px;">
+				 		
+				 	</select>
+				 </div>
+			   	 <div class="modal-footer">
+			   	 	<input type="submit" class="btn btn-danger" value="删除"/>
+			   	 	<button class="btn btn-default" data-dismiss="modal">取消</button>
+			   	 </div>
+			</div>
+			</form>
+		</div>
+</div>
+ <!--==========删除分组弹框====已完成======-->
 <!--==========删除弹框=====已完成=====-->
 <div class="modal fade" id="delete_modal" >
 		<div class="modal-dialog ">

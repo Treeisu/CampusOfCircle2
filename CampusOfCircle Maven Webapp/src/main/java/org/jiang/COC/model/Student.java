@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import javax.persistence.*;
-@Entity
-@Table(name="t_student")
+
 public class Student implements Serializable {
 
 	/**

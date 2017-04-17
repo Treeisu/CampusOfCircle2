@@ -1,6 +1,6 @@
 package org.jiang.COC.serviceImpl;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.jiang.COC.daoImpl.PraiseDaoImpl;
@@ -39,8 +39,7 @@ public class PraiseServiceImpl implements PraiseService {
 	@Transactional
 	public List<PraiseInfo> findBywbIdAnduserId(long userId,long wbId){
 		// TODO Auto-generated method stub
-		List<PraiseInfo> list=new ArrayList<PraiseInfo>();
-		list=praiseDaoImpl.findBywbIdAnduserId(userId, wbId);		
+		List<PraiseInfo> list=praiseDaoImpl.findBywbIdAnduserId(userId, wbId);		
 		return list;
 	}
 

@@ -1,6 +1,6 @@
 package org.jiang.COC.serviceImpl;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.jiang.COC.daoImpl.CommentDaoImpl;
@@ -43,8 +43,7 @@ public class CommentServiceImpl implements CommentService {
 	@Transactional
 	public List<Comment> findCommentsBywbId(long wbId){
 		// TODO Auto-generated method stub
-		List<Comment> list=new ArrayList<Comment>();
-		list=commentDaoImpl.findBywbId(wbId);
+		List<Comment> list=commentDaoImpl.findBywbId(wbId);
 		for( Comment comment:list){
 			User user=userDaoImpl.getUserById(comment.getUserId());
 			if(user !=null){
@@ -63,6 +62,7 @@ public class CommentServiceImpl implements CommentService {
 		if(comment !=null){
 			commentDaoImpl.deleteComment(comment);
 			PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
+			pushInfo.setCommentNum(pushInfo.getCommentNum()-1);
 			pushInfoDaoImpl.updatePushInfo(pushInfo);
 		}
 		
