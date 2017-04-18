@@ -26,14 +26,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value="/blog")
-@SessionAttributes(value="blogs")//可以将model中的对象加入到session中
+//@SessionAttributes(value="blogs")//可以将model中的对象加入到session中
 public class PushInfoController {
 	@Autowired
 	private PushInfoServiceImpl pushInfoServiceImpl;
@@ -70,15 +69,11 @@ public class PushInfoController {
 		 userIds.add(0, user.getUserId());
 		 List<PushInfo> blogs=new ArrayList<PushInfo>();
 		 blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());
-		 
-		 
+	 
 		 //进行跳转返回 
 		ModelAndView mav=new ModelAndView("redirect:/userIndexTo");
-		mav.addObject("blogs", blogs);
-		
-		
-		return mav;
-		
+		mav.addObject("blogs", blogs);				
+		return mav;		
 	}
 	@RequestMapping(value="/push2")
 	public ModelAndView savepushInfo2(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response,
@@ -103,13 +98,11 @@ public class PushInfoController {
 		 userIds.add(0, user.getUserId());
 		 List<PushInfo> blogs=new ArrayList<PushInfo>();
 		 blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());
-		 
-		 
+
 		 //进行跳转返回 
 		ModelAndView mav=new ModelAndView("redirect:/userIndexTo");
 		mav.addObject("blogs", blogs);
-		
-		
+	
 		return mav;
 		
 	}
@@ -122,28 +115,39 @@ public class PushInfoController {
 		 int sta=0;
 		 long groupId= Long.parseLong(groupIdstring);
 		 if(groupId==-1){			 
-			 sta=1;
+			 sta=0;
 			 return sta;
 		 }else{
 			 if(groupId==0){
 				 List<Long> toUserIds=attentionServiceImpl.findByNoGroupId(groupId, user.getUserId());
-				 List<PushInfo> blogs= pushInfoServiceImpl.findByuserIds(toUserIds, user.getUserId());
-				 session.setAttribute("blogs",blogs);
-				 sta=1;
-				 return sta;
+				 if(toUserIds.size()>0){
+					 List<PushInfo> blogs= pushInfoServiceImpl.findByuserIds(toUserIds, user.getUserId());
+					 session.setAttribute("blogs",blogs);
+					 sta=1;
+					 return sta;
+				 }else {
+					 List<PushInfo> blogs=null;
+					 session.setAttribute("blogs",blogs);
+					 sta=1;
+					 return sta;
+				}
+						 				 
 			 }
 			 else{
 				 List<Long> toUserIds=attentionServiceImpl.findAttentionsByGroupId(groupId);
 				 if(toUserIds.size()>=0){
 					 List<PushInfo> blogs= pushInfoServiceImpl.findByuserIds(toUserIds, user.getUserId());					 			 
 					 session.setAttribute("blogs", blogs);
-					 System.out.println("更新session========"+blogs);
 					 sta=1;
 					 return sta;					 
-				 }		 					
+				 }else{
+					 List<PushInfo> blogs=null;
+					 session.setAttribute("blogs",blogs);
+					 sta=1;
+					 return sta;
+				 }
 			 }
-		 }
-		return sta;		 
+		 }	 
 	}
 	
 	

@@ -63,6 +63,7 @@ public class GroupsController {
 		long groupId=Long.parseLong(groupIdstring);
 		Group group=groupServiceImpl.getGroupByGroupId(groupId);
 		if(group!=null){
+			System.out.println(group.getGroupId());
 			groupServiceImpl.deleteGroup(group);	
 		}			
 		List<Group> groups=groupServiceImpl.findGroupsByUserId(user.getUserId());

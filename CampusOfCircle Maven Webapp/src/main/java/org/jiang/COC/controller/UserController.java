@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  */
 @Controller
 @RequestMapping(value="/user")
-//@SessionAttributes(value="user")//可以将model中的对象加入到session中
 public class UserController {
 	//private static Logger logger = LoggerFactory.getLogger(SublistController.class);
 	@Autowired

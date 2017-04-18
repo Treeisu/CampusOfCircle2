@@ -14,11 +14,9 @@ import org.jiang.COC.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 
 @Controller
-@SessionAttributes(value="blogs")//可以将model中的对象加入到session中
 public class ToIndexController {
 	@Autowired
 	private UserServiceImpl userServiceImpl;

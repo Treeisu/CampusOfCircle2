@@ -339,9 +339,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </dl>
 	<c:if test="${!empty userAdviceNum}">
 	<ul class='num_list'>
-        <li><a href=""><strong><c:out value="${userAdviceNum.attentionNum}"/></strong><span>关注</span></a></li>
-        <li><a href=""><strong><c:out value="${userAdviceNum.fansNum}"/></strong><span>粉丝</span></a></li>
-        <li class='noborder'><a href=""><strong><c:out value="${userAdviceNum.wbNum}"/></strong><span>圈动态</span></a></li>
+        <li><a ><strong><c:out value="${userAdviceNum.attentionNum}"/></strong><span>关注</span></a></li>
+        <li><a ><strong><c:out value="${userAdviceNum.fansNum}"/></strong><span>粉丝</span></a></li>
+        <li class='noborder'><a ><strong><c:out value="${userAdviceNum.wbNum}"/></strong><span>圈动态</span></a></li>
     </ul>
     </c:if>
 	<div class="maybe">

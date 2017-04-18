@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import org.jiang.COC.model.Attention;
+import org.jiang.COC.model.Group;
 import org.jiang.COC.serviceImpl.AttentionServiceImpl;
 import org.jiang.COC.serviceImpl.GroupServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +42,24 @@ public class AttentionController {
 		long toUserId=Long.parseLong(toUserIdstring);
 		String groupIdstring=request.getParameter("groupId");
 		long groupId=Long.parseLong(groupIdstring);
+		int sta=0;
 		Attention attention=new Attention();
 		attention.setCreateDate(new Date());
 		attention.setGroupId(groupId);
 		attention.setToUserId(toUserId);
 		attention.setUserId(userId);
-		attention.setGroupName(groupServiceImpl.getGroupByGroupId(groupId).getGroupName());
-		attentionServiceImpl.saveAttention(attention);
-		return 1;				
+		Group group=groupServiceImpl.getGroupByGroupId(groupId);
+		if(group!=null){
+			attention.setGroupName(group.getGroupName());
+			attentionServiceImpl.saveAttention(attention);
+			sta=1;
+			return sta;
+		}else{
+			attention.setGroupName("默认分组");
+			attentionServiceImpl.saveAttention(attention);
+			sta=1;
+			return sta;
+		}		
 	}
 	
 	

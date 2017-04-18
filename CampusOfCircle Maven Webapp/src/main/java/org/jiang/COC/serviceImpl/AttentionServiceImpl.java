@@ -31,6 +31,10 @@ public class AttentionServiceImpl implements AttentionService {
 		UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(attention.getUserId()).get(0);
 		userAdviceNum.setAttentionNum(userAdviceNum.getAttentionNum()+1);
 		adviceServiceImpl.update(userAdviceNum);
+		//更新对方粉丝数量
+		UserAdviceNum userAdviceNum2=adviceServiceImpl.findByUserId(attention.getToUserId()).get(0);
+		userAdviceNum2.setFansNum(userAdviceNum2.getFansNum()+1);
+		adviceServiceImpl.update(userAdviceNum2);
 	}
 
 	@Override
@@ -78,6 +82,20 @@ public class AttentionServiceImpl implements AttentionService {
 	public List<Long> findByNoGroupId(long groupId, long userId) {
 		// TODO Auto-generated method stub		
 		return attentionDaoImpl.findByNoGroupId(groupId, userId);
+	}
+
+	@Override
+	@Transactional
+	public List<Attention> findAttentionByGroupId(long groupId) {
+		// TODO Auto-generated method stub
+		return attentionDaoImpl.findAttentionByGroupId(groupId);
+	}
+
+	@Override
+	@Transactional
+	public void update(Attention attention) {
+		// TODO Auto-generated method stub
+		attentionDaoImpl.update(attention);
 	}
 
 	

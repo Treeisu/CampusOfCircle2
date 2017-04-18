@@ -23,7 +23,8 @@ $(function(){
 					var Arrs=eval(data);
 					$.each(Arrs,function(i,arr){
 						createbutton.before("<a href='' class='list-group-item'><span style='display: none;'>"+arr.groupId+"</span><i class='icon icon-group'></i>&nbsp;&nbsp;"+arr.groupName+"</a>");
-					});					
+					});	
+					window.location.href='/CampusOfCircle/userIndexTo';
 				}		
 			});	
 		});
@@ -50,7 +51,7 @@ $(function(){
 						$.each(Arrs,function(i,arr){
 							//设置弹框的信息
 							selectTHIS.append("<option class='"+arr.groupId+"'>"+arr.groupName+"</option>");						
-						});					
+						});							
 					}		
 				});
 				$('#delete_group_modal').modal("toggle");				
@@ -72,7 +73,8 @@ $(function(){
 					var Arrs=eval(data);
 					$.each(Arrs,function(i,arr){
 						createbutton.before("<a href='' class='list-group-item'><span style='display: none;'>"+arr.groupId+"</span><i class='icon icon-group'></i>&nbsp;&nbsp;"+arr.groupName+"</a>");
-					});					
+					});	
+					window.location.href='/CampusOfCircle/userIndexTo';
 				}		
 			});								
 		});
@@ -114,17 +116,10 @@ $(function(){
 					data : {"groupId" : groupId,"toUserId":toUserId,"userId":userId},
 					success :function (data){
 						var Obj=eval(data);
-						if(obj==1){
-							//警示框
-					    	$('#collection_modal').find('h4').html('关注成功！');
-							$('#collection_modal').find('.alert').removeClass('alert-warning');
-							$('#collection_modal').find('.alert').addClass('alert-success');
-							$('#collection_modal').modal('show');
-							setTimeout(function(){$('#collection_modal').modal('hide');},650);
-						}				
+						window.location.href='/CampusOfCircle/userIndexTo';				
 					}		
 				});	
-			});
+			});						
 		});	
 		
 		/**
@@ -139,12 +134,20 @@ $(function(){
 				data : {"groupId":groupId},
 				success :function (data){
 					var Obj=eval(data);
-					window.location.href='/CampusOfCircle/userIndexTo2';			
+					if(Obj==0){
+						window.location.href='/CampusOfCircle/userIndexTo';
+					}else{
+						window.location.href='/CampusOfCircle/userIndexTo2';
+					}								
 				}		
 			});	
 		});
-		
-		
+		/**
+		 * 查看关注的人
+		 */
+		$('#right').find('.num_list').find('li:eq(0)').find('a').click(function(){
+			
+		});
 		
 		
 		

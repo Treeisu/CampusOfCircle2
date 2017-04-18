@@ -90,7 +90,6 @@ public class ToUserIndexController {
 		User user=(User) session.getAttribute("user");
 		@SuppressWarnings("unchecked")
 		List<PushInfo> blogs=(List<PushInfo>) session.getAttribute("blogs");
-		System.out.println("重定向后的session========"+blogs);
 		//user对象可能更新过信息，需要重新查询一遍，并且放到session中
 		user=userServiceImpl.getByUserId(user.getUserId());		
 		 /**
