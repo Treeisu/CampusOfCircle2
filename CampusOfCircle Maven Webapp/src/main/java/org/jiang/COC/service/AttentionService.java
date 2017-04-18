@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import org.jiang.COC.model.Attention;
 
 
@@ -23,7 +24,8 @@ public interface AttentionService {
 	public void deleteAttention(Attention attention);//删除实体
 	public Attention getAttentionById(long Id);
 	public List<Attention> findAttentionsByUserId(long userId);
-	public List<Attention> findAttentionsByGroupId(long groupId);
+	public List<Long> findAttentionsByGroupId(long groupId);
 	public List<Long> findByToUserIdsByUserId(long userId);
+	public List<Long> findByNoGroupId(long groupId,long userId);
 
 }

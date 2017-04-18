@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 
 
 
+
+
 import org.jiang.COC.model.Group;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
@@ -28,11 +30,9 @@ import org.jiang.COC.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@SessionAttributes(value="blogs")//可以将model中的对象加入到session中
 public class ToUserIndexController {
 	@Autowired
 	private UserServiceImpl userServiceImpl;
@@ -82,10 +82,43 @@ public class ToUserIndexController {
 		 session.setAttribute("userAdviceNum", adviceList.get(0));
 		 session.setAttribute("pushUsers", pushUsers);
 		 ModelAndView mav=new ModelAndView("userIndex");
-		 mav.addObject("blogs", blogs);
 		 return mav;
 	}
-	
+	@RequestMapping(value="/userIndexTo2")
+	public ModelAndView indexTo2(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user");
+		@SuppressWarnings("unchecked")
+		List<PushInfo> blogs=(List<PushInfo>) session.getAttribute("blogs");
+		System.out.println("重定向后的session========"+blogs);
+		//user对象可能更新过信息，需要重新查询一遍，并且放到session中
+		user=userServiceImpl.getByUserId(user.getUserId());		
+		 /**
+		  * 设置Ids，查询关注的人和自己的动态
+		  */
+		 List<Long> userIds=attentionServiceImpl.findByToUserIdsByUserId(user.getUserId());//得到关注的人的ID
+		 userIds.add(userIds.size(), user.getUserId());//加上自己的ID		 
+		 /**
+		  * 每个用户都有一个通知信息表，加载通知信息
+		  */
+		 List<UserAdviceNum> adviceList=adviceServiceImpl.findByUserId(user.getUserId());	 
+		 /**
+		  * 获得分组信息
+		  */
+		 List<Group> groups=groupServiceImpl.findGroupsByUserId(user.getUserId());
+		 /**
+		  * 设置推送关注信息
+		  */
+		 List<User> pushUsers=userServiceImpl.findPushUsersByIds(userIds);
+		 
+		 session.setAttribute("user", user);
+		 session.setAttribute("groups", groups);
+		 session.setAttribute("userAdviceNum", adviceList.get(0));
+		 session.setAttribute("pushUsers", pushUsers);
+		 session.setAttribute("blogs", blogs);
+		 ModelAndView mav=new ModelAndView("userIndex");
+		 return mav;
+	}
 		
 			
 	

@@ -15,6 +15,7 @@ import org.jiang.COC.model.Comment;
 import org.jiang.COC.model.PraiseInfo;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
+import org.jiang.COC.serviceImpl.AttentionServiceImpl;
 import org.jiang.COC.serviceImpl.CollectionServiceImpl;
 import org.jiang.COC.serviceImpl.CommentServiceImpl;
 import org.jiang.COC.serviceImpl.PraiseServiceImpl;
@@ -42,6 +43,8 @@ public class PushInfoController {
 	private PraiseServiceImpl praiseServiceImpl;
 	@Autowired
 	private CollectionServiceImpl collectionServiceImpl;
+	@Autowired
+	private AttentionServiceImpl attentionServiceImpl;
 		
 	@RequestMapping(value="/push")
 	public ModelAndView savepushInfo(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest,
@@ -110,7 +113,38 @@ public class PushInfoController {
 		return mav;
 		
 	}
-	
+	@RequestMapping(value="/getGroupBlogs")
+	@ResponseBody
+	public int getPushInfogGroup(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 String groupIdstring=request.getParameter("groupId");
+		 int sta=0;
+		 long groupId= Long.parseLong(groupIdstring);
+		 if(groupId==-1){			 
+			 sta=1;
+			 return sta;
+		 }else{
+			 if(groupId==0){
+				 List<Long> toUserIds=attentionServiceImpl.findByNoGroupId(groupId, user.getUserId());
+				 List<PushInfo> blogs= pushInfoServiceImpl.findByuserIds(toUserIds, user.getUserId());
+				 session.setAttribute("blogs",blogs);
+				 sta=1;
+				 return sta;
+			 }
+			 else{
+				 List<Long> toUserIds=attentionServiceImpl.findAttentionsByGroupId(groupId);
+				 if(toUserIds.size()>=0){
+					 List<PushInfo> blogs= pushInfoServiceImpl.findByuserIds(toUserIds, user.getUserId());					 			 
+					 session.setAttribute("blogs", blogs);
+					 System.out.println("更新session========"+blogs);
+					 sta=1;
+					 return sta;					 
+				 }		 					
+			 }
+		 }
+		return sta;		 
+	}
 	
 	
 	@RequestMapping(value="/del")

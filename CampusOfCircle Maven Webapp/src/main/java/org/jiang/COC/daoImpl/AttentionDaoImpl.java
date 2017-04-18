@@ -65,13 +65,13 @@ public class AttentionDaoImpl implements AttentionDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Attention> findByGroupId(long groupId) {
+	public List<Long> findByGroupId(long groupId) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		String hql="from Attention where groupId = :myGroupId";
+		String hql="select toUserId from Attention where groupId = :myGroupId";
 		Query query=session.createQuery(hql);
 		query.setParameter("myGroupId", groupId);
-		List<Attention> list=query.list();
+		List<Long> list=query.list();
 		return list;
 	}
 
@@ -86,6 +86,22 @@ public class AttentionDaoImpl implements AttentionDao {
 		String hql="select toUserId from Attention where userId = :myUserId";
 		Query query=session.createQuery(hql);
 		query.setParameter("myUserId", userId);
+		List<Long> list=query.list();			
+		return list;
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Long> findByNoGroupId(long groupId, long userId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="select toUserId from Attention where userId = :myUserId and groupId=:mygroupId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myUserId", userId);
+		query.setParameter("mygroupId", groupId);
 		List<Long> list=query.list();			
 		return list;
 	}

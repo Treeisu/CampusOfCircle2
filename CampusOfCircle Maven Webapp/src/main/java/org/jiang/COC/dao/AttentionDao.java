@@ -17,7 +17,7 @@ public interface AttentionDao {
 	public void deleteAttention(Attention attention);//删除实体
 	public Attention getAttention(long Id);
 	public List<Attention> findByUserId(long userId);
-	public List<Attention> findByGroupId(long groupId);
+	public List<Long> findByGroupId(long groupId);
 	public List<Long> findToUsersByuserId(long userId);
-	
+	public List<Long> findByNoGroupId(long groupId,long userId);	
 }

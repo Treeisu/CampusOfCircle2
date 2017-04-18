@@ -59,9 +59,9 @@ public class AttentionServiceImpl implements AttentionService {
 
 	@Override
 	@Transactional
-	public List<Attention> findAttentionsByGroupId(long groupId) {
+	public List<Long> findAttentionsByGroupId(long groupId) {
 		// TODO Auto-generated method stub
-		List<Attention> list=attentionDaoImpl.findByUserId(groupId);
+		List<Long> list=attentionDaoImpl.findByGroupId(groupId);
 		return list;
 	}
 
@@ -71,6 +71,13 @@ public class AttentionServiceImpl implements AttentionService {
 		// TODO Auto-generated method stub
 		List<Long>list=attentionDaoImpl.findToUsersByuserId(userId);		
 		return list;
+	}
+
+	@Override
+	@Transactional
+	public List<Long> findByNoGroupId(long groupId, long userId) {
+		// TODO Auto-generated method stub		
+		return attentionDaoImpl.findByNoGroupId(groupId, userId);
 	}
 
 	

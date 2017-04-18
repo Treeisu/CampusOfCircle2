@@ -130,23 +130,16 @@ $(function(){
 		/**
 		 * 设置分组查看信息
 		 */
-		$('.group').find('.list-group').children(':first').click(function(){
-			var serchId=$(this).find('span').text();
+		$('.group').find('.list-group-item').click(function(){
+			var groupId=$(this).find('span').text();
 			$.ajax({
 				type : 'post',
 				url : "blog/getGroupBlogs",
 				dataType : "json",
-				data : {"serchId":serchId},
+				data : {"groupId":groupId},
 				success :function (data){
 					var Obj=eval(data);
-					if(obj==1){
-						//警示框
-				    	$('#collection_modal').find('h4').html('关注成功！');
-						$('#collection_modal').find('.alert').removeClass('alert-warning');
-						$('#collection_modal').find('.alert').addClass('alert-success');
-						$('#collection_modal').modal('show');
-						setTimeout(function(){$('#collection_modal').modal('hide');},650);
-					}				
+					window.location.href='/CampusOfCircle/userIndexTo2';			
 				}		
 			});	
 		});
