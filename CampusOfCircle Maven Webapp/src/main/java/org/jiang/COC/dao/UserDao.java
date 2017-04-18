@@ -18,4 +18,5 @@ public interface UserDao {
 	public List<User> findByPhone(String userPhone);
 	public void updateUser(User user);
 	public User getUserById(long userId);
+	public List<User> findPushUsersByIds(List<Long> userIds);
 }

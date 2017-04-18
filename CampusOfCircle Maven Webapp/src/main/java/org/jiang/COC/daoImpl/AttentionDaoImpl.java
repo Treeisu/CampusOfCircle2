@@ -2,6 +2,7 @@ package org.jiang.COC.daoImpl;
 
 
 
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -63,6 +64,7 @@ public class AttentionDaoImpl implements AttentionDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public List<Attention> findByGroupId(long groupId) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
@@ -73,6 +75,21 @@ public class AttentionDaoImpl implements AttentionDao {
 		return list;
 	}
 
-	
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Long> findToUsersByuserId(long userId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="select toUserId from Attention where userId = :myUserId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myUserId", userId);
+		List<Long> list=query.list();			
+		return list;
+	}
+
+
 	
 }

@@ -71,6 +71,8 @@ public class AdviceDaoImpl implements  AdviceDao{
 
 
 
+
+
 	
 	
 }

@@ -16,6 +16,7 @@ public interface GroupDao {
 	public void saveGroup(Group group);//保存实体
 	public void deleteGroup(Group group);//删除实体
 	public Group getGroup(long groupId);
+	public Group getNoGroup(long groupId,long userId);
 	public List<Group> findByUserId(long userId);
 	
 }

@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="navbar-collapse collapse" id="head_mycollapse">
             <ul class="nav navbar-nav" id="head_mycollapse_ul">
                 <li class=" one"><i class="ui-center"></i><a href="#">个人圈</a></li>
-                <li class="two"><i class="ui-home"></i><a href="#">校园圈</a></li>
+                <li class="two"><i class="ui-home"></i><a href="/CampusOfCircle/userIndexTo">校园圈</a></li>
                 <li class="three"><i class="ui-friends"></i><a href="#">消息</a></li>
                 <li class="five"><i class="ui-dress"></i><a href="#">主题</a></li>
                 <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
@@ -82,11 +82,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="group">
             <fieldset><legend style="color: #8B8B85; font-weight: 300;text-align: center;">我的分组</legend></fieldset>
             <div id="left_nav_b" class="list-group">
-                <a href="" class="list-group-item"><i class='icon icon-group'></i>&nbsp;&nbsp;全部</a>
+                <a href="" class="list-group-item "><span style="display: none;">-1</span><i class='icon icon-group'></i>&nbsp;&nbsp;全部</a>
                 <c:if test="${groups.size()>0}">
-                <c:forEach var="group" items="${groups}">
-                        <a href="" class="list-group-item"><span style="display: none;"><c:out value="${group.groupId}"/></span><i class='icon icon-group'></i>&nbsp;&nbsp;<c:out value="${group.groupName}"/></a>
-                </c:forEach>
+                		<a href="" class="list-group-item list_group_a"><span style="display: none;">0</span><i class='icon icon-group'></i>&nbsp;&nbsp;默认分组</a>
+                		<c:forEach var="group" items="${groups}">
+                        <a href="" class="list-group-item list_group_a"><span style="display: none;"><c:out value="${group.groupId}"/></span><i class='icon icon-group'></i>&nbsp;&nbsp;<c:out value="${group.groupName}"/></a>
+                		</c:forEach>
+                </c:if>
+                <c:if test="${groups.size()==0}">                
+                        <a href="" class="list-group-item list_group_a"><span style="display: none;">0</span><i class='icon icon-group'></i>&nbsp;&nbsp;默认分组</a>
                 </c:if>
                 <a id='create_group' class="btn btn-group" href="#creat_group_modal"  data-toggle="modal">创建新分组</a>
                 <a id='delete_group' class="btn btn-group">删除分组</a>
@@ -344,22 +348,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <fieldset>
             <legend style="font-size: 13px;">可能感兴趣的人</legend>
             <ul>
-            	<li>
+            <c:if test="${pushUsers.size()>0}">
+            <c:forEach var="pushUser" items="${pushUsers}">
+                <li>
                     <dl>
-                        <dt><a href=""><img src="img/CoCBackground1.png" width='30' height='30'/></a></dt>
-                        <dd><a href="">王小二</a></dd>
-                        <dd>共2个共同好友</dd>
+                        <dt><a href=""><img src="<c:out value="${pushUser.userImage}"/>" width='30' height='30'/></a></dt>
+                        <dd><a href="" class="<c:out value="${pushUser.userId}"/>"><c:out value="${pushUser.userNickName}"/></a></dd>
+                        <dd>查看圈子资料</dd>
                     </dl>
-                    <a class=' heed_btn add-fl' uid=''href="#attention_modal"  data-toggle="modal"><strong>+&nbsp;</strong>关注</a>
+                    <dl class=' heed_btn add-fl addToUser' id=""><strong>+&nbsp;</strong>关注</dl>
                </li>
-               <li>
-                    <dl>
-                        <dt><a href=""><img src="img/CoCBackground1.png" width='30' height='30'/></a></dt>
-                        <dd><a href="">张三</a></dd>
-                        <dd>共1个共同好友</dd>
-                    </dl>
-                    <a class=' heed_btn add-fl' uid=''href="#attention_modal"  data-toggle="modal"><strong>+&nbsp;</strong>关注</a>
-               </li>
+            </c:forEach>
+            </c:if>               
             </ul>
         </fieldset>
     </div>
@@ -400,11 +400,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </div>
 				 <div class="modal-body form-inline">
 				 	<span style="font-weight: 300;"><b>好友分组：</b></span>
-				 	<select class="form-control" style="width: 200px;">
-				 		<option>默认分组</option>
-				 		<option>我的家人</option>
-				 		<option>我的朋友</option>
-				 	</select>
+				 	<select class="form-control" style="width: 200px;"></select>
 				 </div>
 			   	 <div class="modal-footer">
 			   	 	<input type="submit" class="btn btn-success" value="关注"/>

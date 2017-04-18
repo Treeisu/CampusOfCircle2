@@ -31,29 +31,36 @@ $(function(){
 		 * 删除时加载分组信息
 		 */
 		$('#delete_group').click(function(){
-			var userId=$('#userId_navbar').text();
-			var selectTHIS=$('#delete_group_modal').find('.modal-body select');
-			selectTHIS.empty();
-			$.ajax({
-				type : 'post',
-				url : "group/getGroup",
-				dataType : "json",
-				data : {"userId" : userId},
-				success :function (data){
-					var Arrs=eval(data);
-					$.each(Arrs,function(i,arr){
-						//设置弹框的信息
-						selectTHIS.append("<option class='"+arr.groupId+"'>"+arr.groupName+"</option>");						
-					});					
-				}		
-			});
-			$('#delete_group_modal').modal("toggle");
-						
+			if($('.group').find('#left_nav_b').find('a').length==4){
+				$('#delete_group_modal').find('.modal-body').empty();
+				$('#delete_group_modal').find('.modal-body').html("<h5>您还没有任何分组</h5>");
+				$('#delete_group_modal').find('.modal-footer').empty();
+				$('#delete_group_modal').modal("toggle");
+			}else{
+				var userId=$('#userId_navbar').text();
+				var selectTHIS=$('#delete_group_modal').find('.modal-body select');
+				selectTHIS.empty();
+				$.ajax({
+					type : 'post',
+					url : "group/getGroup",
+					dataType : "json",
+					data : {"userId" : userId},
+					success :function (data){
+						var Arrs=eval(data);
+						$.each(Arrs,function(i,arr){
+							//设置弹框的信息
+							selectTHIS.append("<option class='"+arr.groupId+"'>"+arr.groupName+"</option>");						
+						});					
+					}		
+				});
+				$('#delete_group_modal').modal("toggle");				
+			}
+									
 		});		
 		/**
 		 * 删除分组
 		 */
-		$('#delete_group_modal').find('.btn-danger').click(function(){
+		$('#delete_group_modal').find('.btn-danger').click(function(){		
 			var createbutton=$('.group').find('#left_nav_b').find('#create_group');
 			var groupId=$(this).parents('#delete_group_modal').find('select option:selected').attr('class');	
 			$.ajax({
@@ -67,8 +74,96 @@ $(function(){
 						createbutton.before("<a href='' class='list-group-item'><span style='display: none;'>"+arr.groupId+"</span><i class='icon icon-group'></i>&nbsp;&nbsp;"+arr.groupName+"</a>");
 					});					
 				}		
-			});
+			});								
 		});
+		/**
+		 * 加关注加载分组信息
+		 */
+		$('.addToUser').click(function(){
+			var toUserId=$(this).parents('li').find('dd:first').find('a').attr('class');
+			var userId=$('#userId_navbar').text();
+			var selectTHIS=$('#attention_modal').find('.modal-body select');
+			selectTHIS.empty();
+			$.ajax({
+				type : 'post',
+				url : "group/getGroup",
+				dataType : "json",
+				data : {"userId" : userId},
+				success :function (data){
+					var Arrs=eval(data);
+					if(data.length<=0){
+						selectTHIS.append("<option class='0'>默认分组</option>");
+					}else{
+						selectTHIS.append("<option class='0'>默认分组</option>");
+						$.each(Arrs,function(i,arr){
+							//设置弹框的信息
+							selectTHIS.append("<option class='"+arr.groupId+"'>"+arr.groupName+"</option>");						
+						});	
+					}									
+				}		
+			});
+			$('#attention_modal').modal("toggle");
+			//进行关注
+			$('#attention_modal').find('.btn-success').click(function(){
+				//分组Id
+				var groupId=$(this).parents('#attention_modal').find('select option:selected').attr('class');
+				$.ajax({
+					type : 'post',
+					url : "attention/saveAttention",
+					dataType : "json",
+					data : {"groupId" : groupId,"toUserId":toUserId,"userId":userId},
+					success :function (data){
+						var Obj=eval(data);
+						if(obj==1){
+							//警示框
+					    	$('#collection_modal').find('h4').html('关注成功！');
+							$('#collection_modal').find('.alert').removeClass('alert-warning');
+							$('#collection_modal').find('.alert').addClass('alert-success');
+							$('#collection_modal').modal('show');
+							setTimeout(function(){$('#collection_modal').modal('hide');},650);
+						}				
+					}		
+				});	
+			});
+		});	
+		
+		/**
+		 * 设置分组查看信息
+		 */
+		$('.group').find('.list-group').children(':first').click(function(){
+			var serchId=$(this).find('span').text();
+			$.ajax({
+				type : 'post',
+				url : "blog/getGroupBlogs",
+				dataType : "json",
+				data : {"serchId":serchId},
+				success :function (data){
+					var Obj=eval(data);
+					if(obj==1){
+						//警示框
+				    	$('#collection_modal').find('h4').html('关注成功！');
+						$('#collection_modal').find('.alert').removeClass('alert-warning');
+						$('#collection_modal').find('.alert').addClass('alert-success');
+						$('#collection_modal').modal('show');
+						setTimeout(function(){$('#collection_modal').modal('hide');},650);
+					}				
+				}		
+			});	
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -350,7 +445,7 @@ $(function(){
 		$('.weibo').hover(function () {
 				var blogUserId=$(this).find('#userId_p_init').text();
 				var uid=$('#head_mycollapse').find('#userId_navbar').text();
-				if(blogUserId=uid){
+				if(blogUserId==uid){
 					$(this).find('.del-li').show();
 				}	
 			}, function () {

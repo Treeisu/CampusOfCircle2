@@ -105,23 +105,16 @@ public class PushInfoServiceImpl implements PushInfoService {
 					userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
 					adviceDaoImpl.updateAdvice(userAdviceNum);
 				}
-			}
-			/**
-			 * 对数量表进行操作
-			 */
+			}			
+			
+		}else{
+			pushInfoDaoImpl.savePushInfo(pushInfo);
 			List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(pushInfo.getUserId());
 			for(UserAdviceNum userAdviceNum:userAdviceNumlist){
 				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
 				adviceDaoImpl.updateAdvice(userAdviceNum);
 			}
-			
-		}
-		pushInfoDaoImpl.savePushInfo(pushInfo);
-		List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(pushInfo.getUserId());
-		for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-			userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
-			adviceDaoImpl.updateAdvice(userAdviceNum);
-		}
+		}		
 	}
 	@Override
 	@Transactional
@@ -183,7 +176,7 @@ public class PushInfoServiceImpl implements PushInfoService {
 							turnDaoImpl.deleteTurn(turnInfo);	
 							List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
 							for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-								userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+								userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
 								adviceDaoImpl.updateAdvice(userAdviceNum);
 							}
 						}

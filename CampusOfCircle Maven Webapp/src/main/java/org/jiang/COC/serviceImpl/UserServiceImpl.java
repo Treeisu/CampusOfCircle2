@@ -1,6 +1,7 @@
 package org.jiang.COC.serviceImpl;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jiang.COC.dao.AdviceDao;
@@ -61,4 +62,21 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	@Transactional
+	public List<User> findPushUsersByIds(List<Long> userIds) {
+		// TODO Auto-generated method stub
+		List<User> list=userDaoIpml.findPushUsersByIds(userIds);
+		//取三个值
+		if(list.size()>=3){		
+			List<User> users=new ArrayList<User>();
+			users=list.subList(0, 3);
+			return users;			
+		}else{
+			return list;
+		}
+	}
+	
+	
+	
 }

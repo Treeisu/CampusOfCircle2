@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jiang.COC.daoImpl.AttentionDaoImpl;
 import org.jiang.COC.model.Attention;
+import org.jiang.COC.model.UserAdviceNum;
 import org.jiang.COC.service.AttentionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class AttentionServiceImpl implements AttentionService {
 	@Autowired
 	private AttentionDaoImpl attentionDaoImpl ;
+	@Autowired
+	private AdviceServiceImpl adviceServiceImpl ;
 
 	@Override
 	@Transactional
 	public void saveAttention(Attention attention) {
 		// TODO Auto-generated method stub
 		attentionDaoImpl.saveAttention(attention);
+		//需要更新关注数量
+		UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(attention.getUserId()).get(0);
+		userAdviceNum.setAttentionNum(userAdviceNum.getAttentionNum()+1);
+		adviceServiceImpl.update(userAdviceNum);
 	}
 
 	@Override
@@ -58,9 +65,14 @@ public class AttentionServiceImpl implements AttentionService {
 		return list;
 	}
 
-	
-	
-	
+	@Override
+	@Transactional
+	public List<Long> findByToUserIdsByUserId(long userId) {
+		// TODO Auto-generated method stub
+		List<Long>list=attentionDaoImpl.findToUsersByuserId(userId);		
+		return list;
+	}
+
 	
 
 	

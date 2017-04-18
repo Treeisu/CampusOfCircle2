@@ -50,6 +50,14 @@ public class AdviceServiceImpl implements AdviceService {
 		
 	}
 
+	@Override
+	@Transactional
+	public void update(UserAdviceNum userAdviceNum) {
+		// TODO Auto-generated method stub
+		adviceDaoImpl.updateAdvice(userAdviceNum);
+	}
+
+
 
 
 	

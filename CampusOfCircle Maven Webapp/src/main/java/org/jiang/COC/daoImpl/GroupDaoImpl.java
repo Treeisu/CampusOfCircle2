@@ -59,6 +59,22 @@ public class GroupDaoImpl implements GroupDao {
 		return group;	
 	}
 
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public Group getNoGroup(long groupId, long userId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from Group where userId = :myUserId and groupId=:myGroupId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myUserId", userId);
+		query.setParameter("myGroupId", groupId);
+		List<Group> list=query.list();		
+		return list.get(0);
+	}
+
 	
 	
 }

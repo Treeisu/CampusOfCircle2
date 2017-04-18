@@ -61,5 +61,17 @@ public class UserDaoImpl implements UserDao {
 		session.get(User.class, userId);
 		return (User) session.get(User.class, userId);
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<User> findPushUsersByIds(List<Long> userIds) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from User where userId not in(:myUserIds)";
+		Query query=session.createQuery(hql);
+		query.setParameterList("myUserIds", userIds);
+		List<User> list=query.list();
+		return list;
+	}
 
 }

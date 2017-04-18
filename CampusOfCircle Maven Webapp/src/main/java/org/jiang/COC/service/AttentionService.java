@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+
 import org.jiang.COC.model.Attention;
 
 
@@ -23,5 +24,6 @@ public interface AttentionService {
 	public Attention getAttentionById(long Id);
 	public List<Attention> findAttentionsByUserId(long userId);
 	public List<Attention> findAttentionsByGroupId(long groupId);
+	public List<Long> findByToUserIdsByUserId(long userId);
 
 }

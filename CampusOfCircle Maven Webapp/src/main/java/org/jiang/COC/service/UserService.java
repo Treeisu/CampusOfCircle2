@@ -26,4 +26,5 @@ public interface UserService {
 	public List<User> findUserByPhone(String phone); 
 	public void updateUser(User user);
 	public User getByUserId(long userId); 
+	public List<User> findPushUsersByIds(List<Long> userIds);
 }

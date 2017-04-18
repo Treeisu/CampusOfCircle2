@@ -18,5 +18,6 @@ public interface AttentionDao {
 	public Attention getAttention(long Id);
 	public List<Attention> findByUserId(long userId);
 	public List<Attention> findByGroupId(long groupId);
+	public List<Long> findToUsersByuserId(long userId);
 	
 }
