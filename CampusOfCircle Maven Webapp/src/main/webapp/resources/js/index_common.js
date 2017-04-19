@@ -52,3 +52,8 @@ function newsAdviceFun(json) {
 		}, 500);
 	}
 }
+
+
+
+
+

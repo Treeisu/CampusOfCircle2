@@ -375,19 +375,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </ul>
     </div>
 	
-	
+	<div id="share" >
+		<a id="totop" title="返回顶部">返回顶部</a>
+		<a href="/CampusOfCircle/userIndexTo" target="_blank" class="sina">关注校园圈子</a>
+	</div>
 </div>
-
 <!--==========右侧end==========-->
 
-
 </div>
-
-
-
-
-
-
 
 <!--==========加关注弹出框===已完成=======-->
     <div class="modal fade" id="attention_modal" >

@@ -104,104 +104,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<!--=====右边+中间=====-->
 	<div id="rightUser">
-		<ul id='sel-edit' >
-    		<li class='edit-cur'>基本信息</li>
-    		<li class="imgupload">修改头像</li>
-    		<li>修改密码</li>
-    	</ul>
-		<!--基本信息修改-->
-		<div class='form'>
-			<form action="user/basicChange" method='post' >
-				<div>
-    				<label for=""><span>*</span>昵称：</label>
-    				<input type="text" name='nickname' value='<c:out value="${user.userNickName}"/>' class='input'/>
-    			</div>
-    			<div>
-    				<label for=""><span>*</span>邮箱：</label>
-    				<input type="text" name='email' value='<c:out value="${user.userEmail}"/>' class='input'/>
-    			</div>
-    			<div id="sex_div">
-    				<p id="usersex_p" style="display:none"><c:out value="${user.userSex}"/></p>
-	    			<label for="">性别：</label>
-	    			<div class="btn-group btn-group-xs" data-toggle="buttons">
-		    			<label class="btn btn-info"><input type="radio" name='sex' value='1' />&nbsp;男</label>
-		    			<label class="btn btn-danger"><input type="radio" name='sex' value='2' />&nbsp;女</label>
-		    		</div>
-    			</div>
-    			<div>
-    				<p id="userAdd" style="display:none"><c:out value="${user.userAddress}"/></p>
-    				<label for=""><span >*</span>所在地：</label>
-    				<select name="province" id="">
-    					<option value="">请选择</option>
-    				</select>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select name="city">
-                        <option value="">请选择</option>
-                    </select>
-    			</div>
-    			<div>
-    				<label for=""><span>*</span>学校：</label>
-    				<input type="text" name='school' value='<c:out value="${user.userSchool}"/>' class='input'/>
-    				<br />
-    				<label for="">专业：</label>
-    				<input type="text" name='major' value='<c:out value="${user.userMajor}"/>' class='input'/>
-    				<br />
-    				<label for="">班级：</label>
-    				<input type="text" name='uclass' value='<c:out value="${user.userClass}"/>' class='input'/>
-    			</div>
-    			<div>
-    				<label for="" class='intro'>介绍自己：</label>
-    				<textarea name="intro" ><c:out value="${user.userDescription}"/></textarea>
-    			</div>
-    			<div>
-    				<input type="submit" value='保存修改' class='edit-sub btn btn-success'/>
-    			</div>
-			</form>
-		</div>
-		<!--基本信息修改-->
-		<!--头像修改-->
-		<div class='form' style="display: none;">
-			<form action="user/faceChange" method="post" enctype="multipart/form-data">
-				<div class='edit-face'>
-	    				<img src="<c:out value="${user.userImage}"/>" width='180' height='180' id='face-img'/>
-	    				<div>
-	    					<label class="btn btn-warning" style="width: 80px; height: 30px;" id="">本地上传<input type="file" name='face' id='faceupload' style="opacity: 0;"/></label>
-	    				</div>
-	    				<div>
-    						<input type="submit" value='保存修改' class='edit-sub btn btn-success' style="margin-left: 0px;"/>
-    					</div>
-	    			</div>
-			</form>
-		</div>
-		<!--头像修改-->
-		<!--密码修改-->
-		<div class='form' style="display: none;">
-			<form action="" method='post' name='editPwd' id='pwdform'>
-				<div class='account'>登录手机：<span>15576768878</span></div>
-				<div>
-    				<label for=""><span class='red'>*</span>旧密码：</label>
-    				<input type="password" name='pwd1' class='input' id="pwd1" value=''/>
-    			</div>
-    			<div>
-    				<label for=""><span class='red'>*</span>新密码：</label>
-    				<input type="password" name='pwd2' class='input' id='pwd2' value=''/>
-    			</div>
-    			<div>
-    				<label for=""><span class='red'>*</span>确认密码：</label>
-    				<input type="password" name='pwd3' class='input' id="pwd3" value=''/>
-    			</div>
-    			<div>
-    				<input type="button" value='保存修改' class='edit-sub btn btn-success' id="changepwd"/>
-    			</div>
-			</form>
-		</div>
-		<!--密码修改-->	
+		<div><h3 class="text-center text-warning" style="margin-top: 30px;">您关注的好友</h3></div>
+		<div class="media pull-left" style="width: 380px;margin-top: 20px;margin-left: 5px;">
+		    <a class="pull-left" href="#"><img class="media-object" src="img/CoCBackground1.png" style="width: 50px;height: 50px;"></a>
+		    <div class="media-body">
+		    	<p class="" style="display: none;">藏ID</p>
+		    	<h5 class="media-heading text-primary">
+		    		<div id="" class="toUserName pull-left"><i class="icon icon-boy"></i>&nbsp;&nbsp;姜小熙</div>
+		    		<div id="" class="addState pull-left" style="width: 70px;margin-left:10px;cursor: pointer;"><a class="icon icon-togetherAdd"></a>相互关注</div>
+		    		<div id="" class="addState pull-left" style="width: 70px;margin-left:10px;cursor: pointer;"><a class="icon icon-delFans"></a>移除粉丝</div>
+		    		<a class="btn btn-danger btn-xs" style="margin-left: 30px;">分组</a>
+		    	</h5>		    	
+		    	<h5 class="media-heading text-warning"><i class="icon icon-school"></i>&nbsp;&nbsp;华东交通大学</h5>		    	
+		    	<div class="text-muted" style="width: 300px;margin-top: 10px;">让网页穿上绚丽装备!让网页穿上绚丽装备让网页穿上绚丽装备让网页穿上绚丽装备</div>		   	
+		    	<ul class="list-group" style="width: 300px;margin-left: 0px;">
+		    		<li class="list-group-item">关注<span class="text-info">(99)</span></li>
+		    		<li class="list-group-item">粉丝<span class="text-info">(99)</span></li>
+		    		<li class="list-group-item">动态<span class="text-info">(99)</span></li>
+		    	</ul>		    	
+		    </div>
+	    </div>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!--=====右中=====-->
 	
 	
-	
-
-
 </div>
 
 

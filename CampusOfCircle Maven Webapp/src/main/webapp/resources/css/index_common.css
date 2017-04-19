@@ -6,6 +6,24 @@
 	color: #444;
 	font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";
 }
+
+/* 返回顶部 */
+/*share_start*/
+#share{position:fixed;_position:absolute;_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight)-34+"px");bottom:34px;left:95%;width:30px;zoom:1;}
+#share a{
+	background-image:url(../img/index/share.png);background-repeat:no-repeat;display:block;width:30px;height:30px;margin-bottom:2px;margin-left:-117px;overflow:hidden;text-indent:-999px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+#share .sina{background-position:0 0;position:absolute;bottom:32px;}
+#share a.sina:hover{background-position:-30px 0;}
+#share .tencent{background-position:0 -30px;position:absolute;bottom:0;}
+#share a.tencent:hover{background-position:-30px -30px;}
+#share a#totop{background-position:0 -120px;position:absolute;bottom:64px;cursor:pointer;}
+#share a#totop:hover{background-position:-30px -120px;}
 body {
   padding-top: 150px;
   background: url("../img/CoCBackground1.png") center 0 no-repeat fixed;
@@ -283,6 +301,31 @@ input,textarea,select,button{
 .icon{
 	display:inline-block;
 	background:url(../img/icon2.png);
+}
+.icon-togetherAdd{
+	width:15px;
+	height:14px;
+	background-position: 125px -48px;
+}
+.icon-delFans{
+	width:15px;
+	height:14px;
+	background-position: -100px -273px;
+}
+.icon-addOne{
+	width:15px;
+	height:14px;
+	background-position: -123px -48px;
+}
+.icon-school{
+	width:15px;
+	height:14px;
+	background-position: -200px -250px;
+}
+.icon-defaultuser{
+	width:15px;
+	height:14px;
+	background-position: -200px 3px;
 }
 .icon-write{
 	width:15px;
