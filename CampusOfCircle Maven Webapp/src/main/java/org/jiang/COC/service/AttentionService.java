@@ -26,7 +26,7 @@ public interface AttentionService {
 	public Attention getAttentionById(long Id);
 	public List<Attention> findAttentionsByUserId(long userId);
 	public List<Long> findAttentionsByGroupId(long groupId);
-	public List<Long> findByToUserIdsByUserId(long userId);
+	public List<Long> findToUserIdsByUserId(long userId);
 	public List<Long> findByNoGroupId(long groupId,long userId);
 	public List<Attention> findAttentionByGroupId(long groupId);
 

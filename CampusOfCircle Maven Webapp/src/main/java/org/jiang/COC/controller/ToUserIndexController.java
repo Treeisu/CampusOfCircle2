@@ -10,17 +10,9 @@ import javax.servlet.http.HttpSession;
 
 
 
-
-
-
-
-
-
-
 import org.jiang.COC.model.Group;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
-import org.jiang.COC.model.UserAdviceNum;
 import org.jiang.COC.serviceImpl.AdviceServiceImpl;
 import org.jiang.COC.serviceImpl.AttentionServiceImpl;
 import org.jiang.COC.serviceImpl.CommentServiceImpl;
@@ -60,13 +52,9 @@ public class ToUserIndexController {
 		 /**
 		  * 设置Ids，查询关注的人和自己的动态
 		  */
-		 List<Long> userIds=attentionServiceImpl.findByToUserIdsByUserId(user.getUserId());//得到关注的人的ID
+		 List<Long> userIds=attentionServiceImpl.findToUserIdsByUserId(user.getUserId());//得到关注的人的ID
 		 userIds.add(userIds.size(), user.getUserId());//加上自己的ID
-		 List<PushInfo> blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());//根据userIds去找所有动态
-		 /**
-		  * 每个用户都有一个通知信息表，加载通知信息
-		  */
-		 List<UserAdviceNum> adviceList=adviceServiceImpl.findByUserId(user.getUserId());	 
+		 List<PushInfo> blogs=pushInfoServiceImpl.findByuserIds(userIds,user.getUserId());//根据userIds去找所有动态		  
 		 /**
 		  * 获得分组信息
 		  */
@@ -79,7 +67,6 @@ public class ToUserIndexController {
 		 session.setAttribute("user", user);
 		 session.setAttribute("blogs", blogs);
 		 session.setAttribute("groups", groups);
-		 session.setAttribute("userAdviceNum", adviceList.get(0));
 		 session.setAttribute("pushUsers", pushUsers);
 		 ModelAndView mav=new ModelAndView("userIndex");
 		 return mav;
@@ -95,12 +82,8 @@ public class ToUserIndexController {
 		 /**
 		  * 设置Ids，查询关注的人和自己的动态
 		  */
-		 List<Long> userIds=attentionServiceImpl.findByToUserIdsByUserId(user.getUserId());//得到关注的人的ID
-		 userIds.add(userIds.size(), user.getUserId());//加上自己的ID		 
-		 /**
-		  * 每个用户都有一个通知信息表，加载通知信息
-		  */
-		 List<UserAdviceNum> adviceList=adviceServiceImpl.findByUserId(user.getUserId());	 
+		 List<Long> userIds=attentionServiceImpl.findToUserIdsByUserId(user.getUserId());//得到关注的人的ID
+		 userIds.add(userIds.size(), user.getUserId());//加上自己的ID		 		  
 		 /**
 		  * 获得分组信息
 		  */
@@ -112,7 +95,6 @@ public class ToUserIndexController {
 		 
 		 session.setAttribute("user", user);
 		 session.setAttribute("groups", groups);
-		 session.setAttribute("userAdviceNum", adviceList.get(0));
 		 session.setAttribute("pushUsers", pushUsers);
 		 session.setAttribute("blogs", blogs);
 		 ModelAndView mav=new ModelAndView("userIndex");

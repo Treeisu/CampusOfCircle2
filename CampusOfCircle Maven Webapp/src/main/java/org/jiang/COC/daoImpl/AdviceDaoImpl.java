@@ -39,7 +39,7 @@ public class AdviceDaoImpl implements  AdviceDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<UserAdviceNum> findByUserId(long userId){
+	public UserAdviceNum findByUserId(long userId){
 		
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
@@ -47,7 +47,7 @@ public class AdviceDaoImpl implements  AdviceDao{
 		Query query=session.createQuery(hql);
 		query.setParameter("myUserId", userId);
 		List<UserAdviceNum> list=query.list();
-		return list;
+		return list.get(0);
 	}
 
 	@Override

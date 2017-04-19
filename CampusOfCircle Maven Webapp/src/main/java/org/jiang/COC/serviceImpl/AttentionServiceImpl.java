@@ -28,11 +28,11 @@ public class AttentionServiceImpl implements AttentionService {
 		// TODO Auto-generated method stub
 		attentionDaoImpl.saveAttention(attention);
 		//需要更新关注数量
-		UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(attention.getUserId()).get(0);
+		UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(attention.getUserId());
 		userAdviceNum.setAttentionNum(userAdviceNum.getAttentionNum()+1);
 		adviceServiceImpl.update(userAdviceNum);
 		//更新对方粉丝数量
-		UserAdviceNum userAdviceNum2=adviceServiceImpl.findByUserId(attention.getToUserId()).get(0);
+		UserAdviceNum userAdviceNum2=adviceServiceImpl.findByUserId(attention.getToUserId());
 		userAdviceNum2.setFansNum(userAdviceNum2.getFansNum()+1);
 		adviceServiceImpl.update(userAdviceNum2);
 	}
@@ -71,7 +71,7 @@ public class AttentionServiceImpl implements AttentionService {
 
 	@Override
 	@Transactional
-	public List<Long> findByToUserIdsByUserId(long userId) {
+	public List<Long> findToUserIdsByUserId(long userId) {
 		// TODO Auto-generated method stub
 		List<Long>list=attentionDaoImpl.findToUsersByuserId(userId);		
 		return list;
@@ -97,9 +97,6 @@ public class AttentionServiceImpl implements AttentionService {
 		// TODO Auto-generated method stub
 		attentionDaoImpl.update(attention);
 	}
-
-	
-
 	
 
 }

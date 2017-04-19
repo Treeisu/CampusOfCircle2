@@ -73,5 +73,17 @@ public class UserDaoImpl implements UserDao {
 		List<User> list=query.list();
 		return list;
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<User> findUsersByIds(List<Long> userIds){
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from User where userId in(:myUserIds)";
+		Query query=session.createQuery(hql);
+		query.setParameterList("myUserIds", userIds);
+		List<User> list=query.list();
+		return list;
+	}
 
 }

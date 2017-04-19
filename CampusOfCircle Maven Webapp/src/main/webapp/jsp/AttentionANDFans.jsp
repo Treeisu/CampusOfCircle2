@@ -105,41 +105,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--=====右边+中间=====-->
 	<div id="rightUser">
 		<div><h3 class="text-center text-warning" style="margin-top: 30px;">您关注的好友</h3></div>
-		<div class="media pull-left" style="width: 380px;margin-top: 20px;margin-left: 5px;">
-		    <a class="pull-left" href="#"><img class="media-object" src="img/CoCBackground1.png" style="width: 50px;height: 50px;"></a>
+		<c:if test="${attentionUsers.size()>0}">
+		<c:forEach var="attentionUser" items="${attentionUsers}">
+		<div class="media pull-left" style="width:400px;margin-top: 20px;margin-left:5px;">
+		    <a class="pull-left" href="#"><img class="media-object" src="<c:out value="${attentionUser.userImage}"/>" style="width: 40px;height: 40px;"></a>
 		    <div class="media-body">
-		    	<p class="" style="display: none;">藏ID</p>
-		    	<h5 class="media-heading text-primary">
-		    		<div id="" class="toUserName pull-left"><i class="icon icon-boy"></i>&nbsp;&nbsp;姜小熙</div>
-		    		<div id="" class="addState pull-left" style="width: 70px;margin-left:10px;cursor: pointer;"><a class="icon icon-togetherAdd"></a>相互关注</div>
-		    		<div id="" class="addState pull-left" style="width: 70px;margin-left:10px;cursor: pointer;"><a class="icon icon-delFans"></a>移除粉丝</div>
-		    		<a class="btn btn-danger btn-xs" style="margin-left: 30px;">分组</a>
-		    	</h5>		    	
-		    	<h5 class="media-heading text-warning"><i class="icon icon-school"></i>&nbsp;&nbsp;华东交通大学</h5>		    	
-		    	<div class="text-muted" style="width: 300px;margin-top: 10px;">让网页穿上绚丽装备!让网页穿上绚丽装备让网页穿上绚丽装备让网页穿上绚丽装备</div>		   	
+		    	<p class="attentionUserId" style="display: none;"><c:out value="${attentionUser.userId}"/></p>
+		    	<h5 class="media-heading text-primary " style="width:300px">
+		    		<c:if test="${attentionUser.userSex==1}"><div id="" class="toUserName"><i class="icon icon-boy"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userNickName}"/></div></c:if>
+		    		<c:if test="${attentionUser.userSex==0}"><div id="" class="toUserName"><i class="icon icon-girl"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userNickName}"/></div></c:if>
+		    		<c:if test="${empty attentionUser.userSex}"><div id="" class="toUserName"><i class="icon icon-defaultuser"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userNickName}"/></div></c:if>
+		    		<div id="" class="addState pull-left" style="width: 68px;margin-top:5px;cursor: pointer;"><a class="icon icon-togetherAdd"></a>相互关注</div>
+		    		<div id="" class="addState pull-left" style="width: 68px;margin-left:10px;margin-top:5px;cursor: pointer;"><a class="icon icon-delFans"></a>移除粉丝</div>
+		    		<a class="btn btn-danger btn-xs" style="margin-left: 10px;margin-top: 5px;">分组</a>
+		    	</h5>
+		    	<c:if test="${empty attentionUser.userSchool}"><h5 class="media-heading text-warning"><i class="icon icon-school"></i>&nbsp;&nbsp;该用户未设置学校</h5></c:if>		    	
+		    	<c:if test="${!empty attentionUser.userSchool}"><h5 class="media-heading text-warning"><i class="icon icon-school"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userSchool}"/></h5></c:if>		    	
+		    	<c:if test="${!empty attentionUser.userDescription}"><div class="text-muted" style="width: 300px;margin-top: 10px;"><c:out value="${attentionUser.userDescription}"/></div></c:if>		   	
+		    	<c:if test="${empty attentionUser.userDescription}"><div class="text-muted" style="width: 300px;margin-top: 10px;">该用户很懒，什么也没留下。</div></c:if>
 		    	<ul class="list-group" style="width: 300px;margin-left: 0px;">
-		    		<li class="list-group-item">关注<span class="text-info">(99)</span></li>
-		    		<li class="list-group-item">粉丝<span class="text-info">(99)</span></li>
-		    		<li class="list-group-item">动态<span class="text-info">(99)</span></li>
+		    		<li class="list-group-item">关注<span class="text-info">(<c:out value="${attentionUser.userAdviceNum.attentionNum}"/>)</span></li>
+		    		<li class="list-group-item">粉丝<span class="text-info">(<c:out value="${attentionUser.userAdviceNum.fansNum}"/>)</span></li>
+		    		<li class="list-group-item">动态<span class="text-info">(<c:out value="${attentionUser.userAdviceNum.wbNum}"/>)</span></li>
 		    	</ul>		    	
 		    </div>
 	    </div>
+	    </c:forEach>
+	    </c:if>
+	    <c:if test="${ empty attentionUsers}">
+	    	<div style="margin-top:40px;border: dashed;">
+	    		<h3 class="text-center">还没有关注好友,快去关注吧！</h3>
+	    	</div>
+	    </c:if>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<!--=====右中=====-->
 	
 	

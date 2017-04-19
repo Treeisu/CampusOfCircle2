@@ -80,11 +80,9 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
 				turnDaoImpl.saveTurn(turnInfo);		
-				List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
-				for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-					userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
-					adviceDaoImpl.updateAdvice(userAdviceNum);
-				}				
+				UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
+				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+				adviceDaoImpl.updateAdvice(userAdviceNum);								
 			}else{
 				//多次转发
 				pushInfo.setWbAuthorId(lastinfo.getWbId());
@@ -100,20 +98,17 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
 				turnDaoImpl.saveTurn(turnInfo);		
-				List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
-				for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-					userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
-					adviceDaoImpl.updateAdvice(userAdviceNum);
-				}
+				UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
+				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+				adviceDaoImpl.updateAdvice(userAdviceNum);
+				
 			}			
 			
 		}else{
 			pushInfoDaoImpl.savePushInfo(pushInfo);
-			List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(pushInfo.getUserId());
-			for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
-				adviceDaoImpl.updateAdvice(userAdviceNum);
-			}
+			UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(pushInfo.getUserId());
+			userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
+			adviceDaoImpl.updateAdvice(userAdviceNum);			
 		}		
 	}
 	@Override
@@ -154,12 +149,9 @@ public class PushInfoServiceImpl implements PushInfoService {
 								pushInfoDaoImpl.updatePushInfo(push);//原微博数量-1
 							}
 							turnDaoImpl.deleteTurn(turnInfo);//转发记录删除
-							List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
-							for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-								userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
-								adviceDaoImpl.updateAdvice(userAdviceNum);
-							}
-							
+							UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
+							userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
+							adviceDaoImpl.updateAdvice(userAdviceNum);	
 						}else{
 							//多次转发的微博
 							PushInfo pushfirst=pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId());
@@ -174,23 +166,18 @@ public class PushInfoServiceImpl implements PushInfoService {
 								pushInfoDaoImpl.updatePushInfo(pushlast);//原微博数量-1
 							}
 							turnDaoImpl.deleteTurn(turnInfo);	
-							List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
-							for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-								userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
-								adviceDaoImpl.updateAdvice(userAdviceNum);
-							}
+							UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
+							userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
+							adviceDaoImpl.updateAdvice(userAdviceNum);							
 						}
 					}
 										
 				}
 			}else{
 				pushInfoDaoImpl.deletePushInfo(pushInfo);
-				List<UserAdviceNum> userAdviceNumlist= adviceDaoImpl.findByUserId(userId);
-				for(UserAdviceNum userAdviceNum:userAdviceNumlist){
-					userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
-					adviceDaoImpl.updateAdvice(userAdviceNum);
-				}
-				
+				UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
+				userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
+				adviceDaoImpl.updateAdvice(userAdviceNum);	
 			}
 			
 		}		

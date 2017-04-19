@@ -1,7 +1,7 @@
 package org.jiang.COC.serviceImpl;
 
 
-import java.util.List;
+
 
 import org.jiang.COC.daoImpl.AdviceDaoImpl;
 import org.jiang.COC.model.UserAdviceNum;
@@ -43,10 +43,10 @@ public class AdviceServiceImpl implements AdviceService {
 
 	@Override
 	@Transactional
-	public List<UserAdviceNum> findByUserId(long userId){
+	public UserAdviceNum findByUserId(long userId){
 		// TODO Auto-generated method stub
-		List<UserAdviceNum> list=adviceDaoImpl.findByUserId(userId);
-		return list;
+		UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(userId);
+		return userAdviceNum;
 		
 	}
 

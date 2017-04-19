@@ -4,7 +4,7 @@ package org.jiang.COC.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jiang.COC.dao.AdviceDao;
+import org.jiang.COC.daoImpl.AdviceDaoImpl;
 import org.jiang.COC.daoImpl.UserDaoImpl;
 import org.jiang.COC.model.User;
 import org.jiang.COC.model.UserAdviceNum;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDaoImpl userDaoIpml;
 	@Autowired
-	private AdviceDao adviceDao;
+	private AdviceDaoImpl adviceDaoImpl;
 	
 	
 	@Override
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 			UserAdviceNum userAdviceNum=new UserAdviceNum();
 			userAdviceNum.setUserId(user.getUserId());
 			userAdviceNum.setUserNickName(user.getUserNickName());
-			adviceDao.saveAdvice(userAdviceNum);
+			adviceDaoImpl.saveAdvice(userAdviceNum);
 	}
 
 	@Override
@@ -44,6 +44,10 @@ public class UserServiceImpl implements UserService {
 	public List<User> findUserByPhone(String phone) {
 		// TODO Auto-generated method stub
 		List<User> list=userDaoIpml.findByPhone(phone);
+		for(User u:list){
+			UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(u.getUserId());
+			u.setUserAdviceNum(userAdviceNum);
+		}		
 		return list;
 	}
 
@@ -59,6 +63,8 @@ public class UserServiceImpl implements UserService {
 	public User getByUserId(long userId) {
 		// TODO Auto-generated method stub
 		User user= userDaoIpml.getUserById(userId);
+		UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(user.getUserId());
+		user.setUserAdviceNum(userAdviceNum);
 		return user;
 	}
 
@@ -67,6 +73,10 @@ public class UserServiceImpl implements UserService {
 	public List<User> findPushUsersByIds(List<Long> userIds) {
 		// TODO Auto-generated method stub
 		List<User> list=userDaoIpml.findPushUsersByIds(userIds);
+		for(User u:list){
+			UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(u.getUserId());
+			u.setUserAdviceNum(userAdviceNum);
+		}
 		//取三个值
 		if(list.size()>=3){		
 			List<User> users=new ArrayList<User>();
@@ -76,7 +86,18 @@ public class UserServiceImpl implements UserService {
 			return list;
 		}
 	}
-	
-	
+	@Override
+	@Transactional
+	public List<User> findUsersByIds(List<Long> userIds){
+		// TODO Auto-generated method stub
+		List<User> list=userDaoIpml.findUsersByIds(userIds);
+		if(list.size()>0){
+			for(User u:list){
+				UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(u.getUserId());
+				u.setUserAdviceNum(userAdviceNum);
+			}
+		}
+		return list;	
+	}
 	
 }

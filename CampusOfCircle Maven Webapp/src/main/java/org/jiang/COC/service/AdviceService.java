@@ -1,6 +1,6 @@
 package org.jiang.COC.service;
 
-import java.util.List;
+
 
 
 
@@ -24,7 +24,7 @@ public interface AdviceService {
 	public void deleteAdvice(UserAdviceNum userAdviceNum);//删除实体
 	public UserAdviceNum getAdvice(long Id);
 	public void update(UserAdviceNum userAdviceNum);
-	public List<UserAdviceNum> findByUserId(long userId);
+	public UserAdviceNum findByUserId(long userId);
 	
 
 }

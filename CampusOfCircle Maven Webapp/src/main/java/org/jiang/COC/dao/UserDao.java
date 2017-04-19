@@ -19,4 +19,5 @@ public interface UserDao {
 	public void updateUser(User user);
 	public User getUserById(long userId);
 	public List<User> findPushUsersByIds(List<Long> userIds);
+	public List<User> findUsersByIds(List<Long> userIds);
 }

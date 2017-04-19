@@ -2,6 +2,7 @@ package org.jiang.COC.controller;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,10 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
 import org.jiang.COC.model.Attention;
 import org.jiang.COC.model.Group;
+import org.jiang.COC.model.User;
 import org.jiang.COC.serviceImpl.AttentionServiceImpl;
 import org.jiang.COC.serviceImpl.GroupServiceImpl;
+import org.jiang.COC.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +38,8 @@ public class AttentionController {
 	private GroupServiceImpl groupServiceImpl;
 	@Autowired
 	private AttentionServiceImpl attentionServiceImpl;
+	@Autowired
+	private UserServiceImpl userServiceImpl;
 	
 	@RequestMapping(value="/saveAttention")
 	@ResponseBody
@@ -61,6 +69,26 @@ public class AttentionController {
 			return sta;
 		}		
 	}
+	@RequestMapping(value="/getAttentions")
+	@ResponseBody
+	public int getAttentionUsers(HttpServletRequest request,HttpServletResponse response){		
+		String userIdstring=request.getParameter("userId");
+		long userId=Long.parseLong(userIdstring);
+		int sta=0;
+		List<Long> uids=attentionServiceImpl.findToUserIdsByUserId(userId);
+		if(uids.size()>0){
+			List<User> attentionUsers=userServiceImpl.findUsersByIds(uids);
+			if(attentionUsers.size()>0){
+				request.getSession().setAttribute("attentionUsers", attentionUsers);
+				
+			}else{
+				 attentionUsers=null;
+				 request.getSession().setAttribute("attentionUsers", attentionUsers);
+			 }
+		}
+		return sta;
+	}
+	
 	
 	
 	

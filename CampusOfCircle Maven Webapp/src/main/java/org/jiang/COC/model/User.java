@@ -22,7 +22,8 @@ import javax.persistence.Transient;
 public class User implements Serializable {
 	@Transient
 	private static final long serialVersionUID = 4048529031442266867L;
-	
+	@Transient
+	private UserAdviceNum userAdviceNum;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +56,12 @@ public class User implements Serializable {
 	
    
 
+	public UserAdviceNum getUserAdviceNum() {
+		return userAdviceNum;
+	}
+	public void setUserAdviceNum(UserAdviceNum userAdviceNum) {
+		this.userAdviceNum = userAdviceNum;
+	}
 	public String getUserAddress() {
 		return userAddress;
 	}

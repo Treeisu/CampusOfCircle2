@@ -168,7 +168,19 @@ $(function(){
 		 * 查看关注的人
 		 */
 		$('#right').find('.num_list').find('li:eq(0)').find('a').click(function(){
-			
+			var userId=$('#userId_navbar').text();
+			$.ajax({
+				type : 'post',
+				url : "attention/getAttentions",
+				dataType : "json",
+				data : {"userId":userId},
+				success :function (data){
+					var Obj=eval(data);
+					if(Obj==0){
+						window.location.href='/CampusOfCircle/userAttentionTo';
+					}								
+				}		
+			});
 		});
 		
 		
