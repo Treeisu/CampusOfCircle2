@@ -1,10 +1,12 @@
 package org.jiang.COC.serviceImpl;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.jiang.COC.daoImpl.AttentionDaoImpl;
 import org.jiang.COC.model.Attention;
+import org.jiang.COC.model.Fan;
 import org.jiang.COC.model.UserAdviceNum;
 import org.jiang.COC.service.AttentionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class AttentionServiceImpl implements AttentionService {
 	private AttentionDaoImpl attentionDaoImpl ;
 	@Autowired
 	private AdviceServiceImpl adviceServiceImpl ;
+	@Autowired
+	private FanServiceImpl fanServiceImpl ;
 
 	@Override
 	@Transactional
@@ -35,6 +39,12 @@ public class AttentionServiceImpl implements AttentionService {
 		UserAdviceNum userAdviceNum2=adviceServiceImpl.findByUserId(attention.getToUserId());
 		userAdviceNum2.setFansNum(userAdviceNum2.getFansNum()+1);
 		adviceServiceImpl.update(userAdviceNum2);
+		//更新对方粉丝表
+		Fan f=new Fan();
+		f.setCreateDate(new Date());
+		f.setFromUserId(attention.getUserId());
+		f.setUserId(attention.getToUserId());
+		fanServiceImpl.saveFan(f);
 	}
 
 	@Override
@@ -42,6 +52,11 @@ public class AttentionServiceImpl implements AttentionService {
 	public void deleteAttention(Attention attention) {
 		// TODO Auto-generated method stub
 		attentionDaoImpl.deleteAttention(attention);
+		//更新对方粉丝表，顺便删除粉丝时fanservice会更新数量
+		Fan fan=fanServiceImpl.findByFromUIdANDUId(attention.getUserId(), attention.getToUserId());
+		if(fan !=null){
+			fanServiceImpl.deleteFan(fan);
+		}
 	}
 
 	@Override
@@ -96,6 +111,13 @@ public class AttentionServiceImpl implements AttentionService {
 	public void update(Attention attention) {
 		// TODO Auto-generated method stub
 		attentionDaoImpl.update(attention);
+	}
+
+	@Override
+	@Transactional
+	public Attention getAttentionUser(long toUserId, long userId) {
+		// TODO Auto-generated method stub
+		return attentionDaoImpl.getAttentionUser(toUserId, userId);
 	}
 	
 

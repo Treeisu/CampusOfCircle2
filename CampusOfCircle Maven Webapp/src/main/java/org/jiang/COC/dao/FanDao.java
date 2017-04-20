@@ -17,5 +17,7 @@ public interface FanDao {
 	public void deleteFans(Fan fans);//删除实体
 	public Fan getFans(long Id);
 	public List<Fan> findByUserId(long userId);
+	public List<Fan> findByFromUIdANDUId(long fromUserId,long userId);
+	public List<Long> findfromUserIdByUserId(long userId);
 	
 }

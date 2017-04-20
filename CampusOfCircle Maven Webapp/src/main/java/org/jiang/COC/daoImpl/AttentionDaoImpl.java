@@ -132,5 +132,26 @@ public class AttentionDaoImpl implements AttentionDao {
 	}
 
 
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public Attention getAttentionUser(long toUserId, long userId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from Attention where toUserId=:mytoUserId and userId=:myuserId";
+		Query query=session.createQuery(hql);
+		query.setParameter("mytoUserId", toUserId);
+		query.setParameter("myuserId", userId);
+		List<Attention> list=query.list();
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
+		
+	}
+
+
 	
 }

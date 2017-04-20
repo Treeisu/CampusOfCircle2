@@ -27,5 +27,6 @@ public interface UserService {
 	public void updateUser(User user);
 	public User getByUserId(long userId); 
 	public List<User> findPushUsersByIds(List<Long> userIds);
-	public List<User> findUsersByIds(List<Long> userIds);
+	public List<User> findAttentionUsersByIds(List<Long> userIds,long uid);
+	public List<User> findFanUsersByIds(List<Long> userIds,long uid);
 }

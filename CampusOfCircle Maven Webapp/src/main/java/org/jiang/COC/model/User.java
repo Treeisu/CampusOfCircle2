@@ -24,6 +24,12 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 4048529031442266867L;
 	@Transient
 	private UserAdviceNum userAdviceNum;
+	@Transient
+	private long addState;
+	@Transient
+	private Attention addAttention;
+	@Transient
+	private Fan fan;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +62,26 @@ public class User implements Serializable {
 	
    
 
+	
+	
+	public Fan getFan() {
+		return fan;
+	}
+	public void setFan(Fan fan) {
+		this.fan = fan;
+	}
+	public Attention getAddAttention() {
+		return addAttention;
+	}
+	public void setAddAttention(Attention addAttention) {
+		this.addAttention = addAttention;
+	}
+	public long getAddState() {
+		return addState;
+	}
+	public void setAddState(long addState) {
+		this.addState = addState;
+	}
 	public UserAdviceNum getUserAdviceNum() {
 		return userAdviceNum;
 	}

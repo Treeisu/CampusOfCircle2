@@ -21,5 +21,6 @@ public interface AttentionDao {
 	public List<Long> findByGroupId(long groupId);
 	public List<Attention> findAttentionByGroupId(long groupId);
 	public List<Long> findToUsersByuserId(long userId);
-	public List<Long> findByNoGroupId(long groupId,long userId);	
+	public List<Long> findByNoGroupId(long groupId,long userId);
+	public Attention getAttentionUser(long toUserId,long userId);
 }

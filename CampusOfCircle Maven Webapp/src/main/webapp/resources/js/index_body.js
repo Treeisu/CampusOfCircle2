@@ -3,7 +3,6 @@ $(function(){
 	/**
 	 * 返回顶部
 	 */
-
 		//首先将#back-to-top隐藏
 		$("#totop").hide();
 		//当滚动条的位置处于距顶部100像素以下时，跳转链接出现，否则消失
@@ -123,7 +122,7 @@ $(function(){
 							//设置弹框的信息
 							selectTHIS.append("<option class='"+arr.groupId+"'>"+arr.groupName+"</option>");						
 						});	
-					}									
+					}
 				}		
 			});
 			$('#attention_modal').modal("toggle");
@@ -137,7 +136,6 @@ $(function(){
 					dataType : "json",
 					data : {"groupId" : groupId,"toUserId":toUserId,"userId":userId},
 					success :function (data){
-						var Obj=eval(data);
 						window.location.href='/CampusOfCircle/userIndexTo';				
 					}		
 				});	
@@ -182,7 +180,24 @@ $(function(){
 				}		
 			});
 		});
-		
+		/**
+		 * 查看粉丝详情
+		 */
+		$('#right').find('.num_list').children(':first').next().find('a').click(function(){
+			var userId=$('#userId_navbar').text();
+			$.ajax({
+				type : 'post',
+				url : "attention/getFans",
+				dataType : "json",
+				data : {"userId":userId},
+				success :function (data){
+					var Obj=eval(data);
+					if(Obj==0){
+						window.location.href='/CampusOfCircle/userFansTo';
+					}								
+				}		
+			});
+		});
 		
 		
 		

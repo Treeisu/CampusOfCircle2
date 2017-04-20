@@ -52,10 +52,10 @@ public class GroupDaoImpl implements GroupDao {
 
 	@Override
 	@Transactional
-	public Group getGroup(long groupId) {
+	public Group getGroupByGroupId(long groupId) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
-		Group group=(Group) session.get(Group.class, groupId);		
+		Group group=(Group) session.get(Group.class, groupId);
 		return group;	
 	}
 

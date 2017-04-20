@@ -24,5 +24,7 @@ public interface FanService {
 	public void deleteFan(Fan fan);//删除实体
 	public Fan getFanById(long Id);
 	public List<Fan> findFanByUserId(long userId);
+	public List<Long> findfromUserIdFanByUserId(long userId);
+	public Fan findByFromUIdANDUId(long fromUserId,long userId);
 
 }

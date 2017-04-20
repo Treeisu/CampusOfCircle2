@@ -61,6 +61,37 @@ public class FanDaoImpl implements FanDao {
 
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Fan> findByFromUIdANDUId(long fromUserId, long userId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from Fan where userId = :myUserId and fromUserId=:myfromUserId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myUserId", userId);
+		query.setParameter("myfromUserId", fromUserId);
+		List<Fan> list=query.list();
+		return list;
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Long> findfromUserIdByUserId(long userId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="select fromUserId from Fan where userId = :myUserId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myUserId", userId);
+		List<Long> list=query.list();
+		return list;
+	}
+
+
+
 	
 
 	

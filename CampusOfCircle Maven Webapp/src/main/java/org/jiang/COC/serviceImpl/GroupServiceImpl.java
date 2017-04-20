@@ -48,7 +48,7 @@ public class GroupServiceImpl implements GroupService {
 	@Transactional
 	public Group getGroupByGroupId(long groupId) {
 		// TODO Auto-generated method stub
-		Group group=groupDaoImpl.getGroup(groupId);
+		Group group=groupDaoImpl.getGroupByGroupId(groupId);
 		return group;
 	}
 

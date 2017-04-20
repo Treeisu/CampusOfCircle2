@@ -13,11 +13,13 @@ import javax.servlet.http.HttpSession;
 
 
 
+
 import org.jiang.COC.model.Group;
 import org.jiang.COC.model.User;
 import org.jiang.COC.serviceImpl.AdviceServiceImpl;
 import org.jiang.COC.serviceImpl.AttentionServiceImpl;
 import org.jiang.COC.serviceImpl.CommentServiceImpl;
+import org.jiang.COC.serviceImpl.FanServiceImpl;
 import org.jiang.COC.serviceImpl.GroupServiceImpl;
 import org.jiang.COC.serviceImpl.PushInfoServiceImpl;
 import org.jiang.COC.serviceImpl.UserServiceImpl;
@@ -40,6 +42,8 @@ public class ToUserAttentionController {
 	private AdviceServiceImpl adviceServiceImpl;
 	@Autowired
 	private AttentionServiceImpl attentionServiceImpl;
+	@Autowired
+	private FanServiceImpl fanServiceImpl;
 
 
 	
@@ -59,7 +63,7 @@ public class ToUserAttentionController {
 		  */
 		 List<Long> toUserIds=attentionServiceImpl.findToUserIdsByUserId(user.getUserId());		
 		 if(toUserIds.size()>0){
-			 List<User> attentionUsers=userServiceImpl.findUsersByIds(toUserIds);
+			 List<User> attentionUsers=userServiceImpl.findAttentionUsersByIds(toUserIds,user.getUserId());
 			 session.setAttribute("attentionUsers", attentionUsers);
 		 }
 		 else{
@@ -68,7 +72,35 @@ public class ToUserAttentionController {
 		 }
 		 session.setAttribute("user", user);
 		 session.setAttribute("groups", groups);
-		 ModelAndView mav=new ModelAndView("AttentionANDFans");
+		 ModelAndView mav=new ModelAndView("Attentions");
+		 return mav;
+	}
+	
+	@RequestMapping(value="/userFansTo")
+	public ModelAndView indexTo2(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user");
+		//user对象可能更新过信息，需要重新查询一遍，并且放到session中
+		user=userServiceImpl.getByUserId(user.getUserId());		
+		 /**
+		  * 获得分组信息
+		  */
+		 List<Group> groups=groupServiceImpl.findGroupsByUserId(user.getUserId());
+		 /**
+		  * 获得关注的用户
+		  */
+		 List<Long> toUserIds=fanServiceImpl.findfromUserIdFanByUserId(user.getUserId());		
+		 if(toUserIds.size()>0){
+			 List<User> fanUsers=userServiceImpl.findFanUsersByIds(toUserIds,user.getUserId());
+			 session.setAttribute("fanUsers", fanUsers);
+		 }
+		 else{
+			 List<User> fanUsers=null;
+			 session.setAttribute("fanUsers", fanUsers);
+		 }
+		 session.setAttribute("user", user);
+		 session.setAttribute("groups", groups);
+		 ModelAndView mav=new ModelAndView("Fans");
 		 return mav;
 	}
 

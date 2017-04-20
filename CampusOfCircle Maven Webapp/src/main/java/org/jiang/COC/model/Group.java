@@ -38,7 +38,8 @@ public class Group implements Serializable {
 	
     
     
-    public long getGroupId() {
+ 
+	public long getGroupId() {
 		return groupId;
 	}
 	public void setGroupId(long groupId) {
@@ -62,6 +63,8 @@ public class Group implements Serializable {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
+
 	public Group(long groupId, String groupName, long userId, Date createDate) {
 		super();
 		this.groupId = groupId;
@@ -74,9 +77,11 @@ public class Group implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Groups [groupId=" + groupId + ", groupName=" + groupName
+		return "Group [groupId=" + groupId + ", groupName=" + groupName
 				+ ", userId=" + userId + ", createDate=" + createDate + "]";
 	}
+
+
 
 	
    

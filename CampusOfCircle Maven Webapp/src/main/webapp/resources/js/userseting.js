@@ -73,7 +73,6 @@ $(function(){
 					dataType:"json",
 					data:{"pwd1":$("#pwd1").val(),"pwd3":$("#pwd3").val()},
 					success:function(data){
-//						console.log(data);
 						if(data==0){
 							var divs1="<div class='alert alert-danger' role='alert'> <button class='close' type='button' data-dismiss='alert'>&times;</button>原密码错误！</div>";
 							$('#changepwd').parent().parent().parent().find('form').before(divs1);
@@ -86,17 +85,8 @@ $(function(){
 					}
 				});
 			}
-			
-			
-			
-			
-			
 		});
-	
-	
-	
-	
-	
+
 	
 	
 	

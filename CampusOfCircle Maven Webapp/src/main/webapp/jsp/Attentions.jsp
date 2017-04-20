@@ -107,6 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div><h3 class="text-center text-warning" style="margin-top: 30px;">您关注的好友</h3></div>
 		<c:if test="${attentionUsers.size()>0}">
 		<c:forEach var="attentionUser" items="${attentionUsers}">
+		<c:if test="${!empty attentionUser.addAttention}"><!-- 这里是关注者 -->
 		<div class="media pull-left" style="width:400px;margin-top: 20px;margin-left:5px;">
 		    <a class="pull-left" href="#"><img class="media-object" src="<c:out value="${attentionUser.userImage}"/>" style="width: 40px;height: 40px;"></a>
 		    <div class="media-body">
@@ -115,10 +116,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    		<c:if test="${attentionUser.userSex==1}"><div id="" class="toUserName"><i class="icon icon-boy"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userNickName}"/></div></c:if>
 		    		<c:if test="${attentionUser.userSex==0}"><div id="" class="toUserName"><i class="icon icon-girl"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userNickName}"/></div></c:if>
 		    		<c:if test="${empty attentionUser.userSex}"><div id="" class="toUserName"><i class="icon icon-defaultuser"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userNickName}"/></div></c:if>
-		    		<div id="" class="addState pull-left" style="width: 68px;margin-top:5px;cursor: pointer;"><a class="icon icon-togetherAdd"></a>相互关注</div>
-		    		<div id="" class="addState pull-left" style="width: 68px;margin-left:10px;margin-top:5px;cursor: pointer;"><a class="icon icon-delFans"></a>移除粉丝</div>
-		    		<a class="btn btn-danger btn-xs" style="margin-left: 10px;margin-top: 5px;">分组</a>
+		    		<c:if test="${attentionUser.addState==1}"><div id="" class="addState pull-left delattention" style="width: 68px;margin-top:5px;cursor: pointer;"><a class="icon icon-togetherAdd"></a>相互关注</div></c:if>
+		    		<c:if test="${attentionUser.addState==0}"><div id="" class="addState pull-left delattention" style="width: 68px;margin-top:5px;cursor: pointer;"><a class="icon icon-addOne"></a>已关注</div></c:if>
+		    		<c:if test="${attentionUser.addState==1}"><div id="" class="addState pull-left delfans" style="width: 68px;margin-left:10px;margin-top:5px;cursor: pointer;"><a class="icon icon-delFans"></a>移除粉丝</div></c:if>		    		
+		    		<p class="attentionId" style="display: none;"><c:out value="${attentionUser.addAttention.attentionId}"/></p>
+		    		<a class="btn btn-danger btn-xs resetGroup" style="margin-left: 10px;margin-top: 5px;">分组</a>
 		    	</h5>
+		    	<h5 class="media-heading text-success attentionGroupName">所属分组：&nbsp;&nbsp;<c:out value="${attentionUser.addAttention.groupName}"/></h5>
 		    	<c:if test="${empty attentionUser.userSchool}"><h5 class="media-heading text-warning"><i class="icon icon-school"></i>&nbsp;&nbsp;该用户未设置学校</h5></c:if>		    	
 		    	<c:if test="${!empty attentionUser.userSchool}"><h5 class="media-heading text-warning"><i class="icon icon-school"></i>&nbsp;&nbsp;<c:out value="${attentionUser.userSchool}"/></h5></c:if>		    	
 		    	<c:if test="${!empty attentionUser.userDescription}"><div class="text-muted" style="width: 300px;margin-top: 10px;"><c:out value="${attentionUser.userDescription}"/></div></c:if>		   	
@@ -130,11 +134,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	</ul>		    	
 		    </div>
 	    </div>
+	    </c:if>	    
 	    </c:forEach>
 	    </c:if>
 	    <c:if test="${ empty attentionUsers}">
 	    	<div style="margin-top:40px;border: dashed;">
-	    		<h3 class="text-center">还没有关注好友,快去关注吧！</h3>
+	    		<h3 class="text-center">您还没有任何关注，快去关注吧！</h3>
 	    	</div>
 	    </c:if>
 	</div>
@@ -365,7 +370,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/index_body.js"></script>
 	<script type="text/javascript" src="js/nav.js"></script>
-	<script type="text/javascript" src="js/userseting.js"></script>
+	<script type="text/javascript" src="js/Attentions.js"></script>
 	<script type="text/javascript" src="js/common/city.js"></script>
 <script type="text/javascript">
  		
