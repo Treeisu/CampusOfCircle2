@@ -81,7 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <main>
     <div class="container">
         <aside></aside>
-        <img src='img/CoCBackground1.png' style='width: 115px;height: 140px;position: absolute;margin-left:0px;'></img>
+        <img src='<c:out value="${user.userImage}"/>' style='width: 60px;height:60px;position: absolute;margin-left:0px;'></img>
         <section></section>
     </div>
 
@@ -125,10 +125,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </body>
 	<script type="text/javascript" src="js/common/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="js/common/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/nav.js"></script>
-	<script type="text/javascript" src="js/timeAxis/data.js"></script>
-	<script type="text/javascript" src="js/timeAxis/GetLunarDay.js"></script>	
-	<!-- <script type="text/javascript" src="js/indexsingle.js"></script> -->
+	<script type="text/javascript" src="js/nav.js"></script>	
+	<script type="text/javascript" src="js/timeAxis/GetLunarDay.js"></script>
+	<script type="text/javascript" src="js/timeAxis/data.js"></script>	
 <script type="text/javascript">
  		
 </script>
