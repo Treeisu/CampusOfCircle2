@@ -774,8 +774,4 @@ footer div.container div.down ul li:last-child:before {
   main section dl dd a.like {
     margin-left: 80px;
   }
-  main section:before {
-    background-image: url("../img/user.png");
-    /*left:173px;*/
-  }
 }

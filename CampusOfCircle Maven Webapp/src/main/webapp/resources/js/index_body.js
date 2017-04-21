@@ -29,6 +29,15 @@ $(function(){
 			a_exit.attr('href','user/exit');
 		});
 		/**
+		 * 用户个人首页
+		 */
+		$('#right').find('.num_list').find('.noborder').click(function(){
+			window.location.href='/CampusOfCircle/jsp/userSingle.jsp';
+		});
+		
+		
+		
+		/**
 		 *创建分组ajax
 		 */
 		$('#creat_group_modal').find('.btn-success').click(function(){

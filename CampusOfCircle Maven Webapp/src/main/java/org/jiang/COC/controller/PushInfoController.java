@@ -149,7 +149,16 @@ public class PushInfoController {
 			 }
 		 }	 
 	}
-	
+	@RequestMapping(value="/getSingleBlog")
+	@ResponseBody
+	public List<PushInfo> getSingleBlog(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 long userId=user.getUserId();
+		 List<PushInfo> datalist=pushInfoServiceImpl.findByuserId(userId);
+		return datalist;
+		 
+	}
 	
 	@RequestMapping(value="/del")
 	@ResponseBody

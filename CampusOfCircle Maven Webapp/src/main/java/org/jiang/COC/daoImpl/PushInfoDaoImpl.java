@@ -56,6 +56,7 @@ public class PushInfoDaoImpl implements PushInfoDao {
 	}
 
 	@Override
+	@Transactional
 	public void updatePushInfo(PushInfo pushInfo) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
@@ -64,6 +65,7 @@ public class PushInfoDaoImpl implements PushInfoDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public List<PushInfo> findByuserId(long userId) {
 		// TODO Auto-generated method stub
 		session=sessionFactory.getCurrentSession();
