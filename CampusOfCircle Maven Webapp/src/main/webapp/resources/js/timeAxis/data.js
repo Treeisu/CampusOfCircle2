@@ -1,5 +1,6 @@
 
 $(function(){
+	
 	var data = [];
 	$.ajax({
 		type : 'post',
