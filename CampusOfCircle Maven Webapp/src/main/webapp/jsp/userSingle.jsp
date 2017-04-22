@@ -43,10 +43,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="navbar-collapse collapse" id="head_mycollapse">
             <ul class="nav navbar-nav" id="head_mycollapse_ul">
-                <li class=" one"><i class="ui-center"></i><a href="#">个人圈</a></li>
+                <li class=" one"><i class="ui-center"></i><a href="/CampusOfCircle/jsp/userSingle.jsp">个人圈</a></li>
                 <li class="two"><i class="ui-home"></i><a href="/CampusOfCircle/userIndexTo">校园圈</a></li>
                 <li class="three"><i class="ui-friends"></i><a href="#">消息</a></li>
-                <li class="five"><i class="ui-dress"></i><a href="#">主题</a></li>
+                <li class="five"><i class="ui-dress"></i><a href="#setTheme_modal" data-toggle="modal">主题</a></li>
                 <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
                 <li class="seven"> <input type="text" class="form-control" placeholder="搜索用户/动态/校园"><span class="search"></span></li>
                 <li id="li_user_dropdown" class="eight">
@@ -87,7 +87,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </main>
 <!--==============================================主体左/中/右设计部分===============================================================================-->
-
+<!--==========主题设置弹框==========-->
+    <div class="modal fade" id="setTheme_modal" >
+		<div class="modal-dialog ">
+			<form >
+			<div class="modal-content" style="background-color: #f2f7f8;">
+				 <div class="modal-header">
+				 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only close"></span></button>
+				 	<h5 class="modal-title">个性化主题设置</h4>
+				 </div>
+				 <div class="modal-body">
+				 	<div class="">
+				 		<img src="img/pictureStyle/CoCBackground2.jpg" style="width: 120px;height: 70px;"></img>
+				 		<img src="img/pictureStyle/CoCBackground3.jpg" style="width: 120px;height: 70px;"></img>
+				 	</div>
+				 </div>
+			   	 <div class="modal-footer">
+			   	 	<input type="submit" class="btn btn-success" value="关注"/>
+			   	 	<button class="btn btn-default" data-dismiss="modal">取消</button>
+			   	 </div>
+			</div>
+			</form>
+		</div>
+	</div>
+<!--==========主题设置弹框==========-->
 
 
 <!--页面底部信息-->

@@ -102,231 +102,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<!--=====中间栏=====-->
 		<div id="middle" class='fleft'>
-			<!--动态发布框-->
-            <div class='send_wrap'>
-                <div class='send_title fleft'></div>
-                <div class='send_prompt fright'><span>你还可以输入<span id='send_num'>140</span>个字</span></div>
-                <div class='send_write' id='send_text'>
-                    <form action='blog/push' method='post' name='weibo' id="send_wb_textarea" enctype="multipart/form-data">
-                        <textarea sign='shuoshuo' name='content' id='sendshuoshuo_textarea' style=" outline: none;overflow-y:visible"></textarea>
-                        <span class='ta_right' id='ta_right_span'></span>
-                        <div class='send_tool'>
-                            <ul class='fleft'>
-                                <li title='表情'><i id="" class='icon icon-phiz phiz' sign='shuoshuo'></i></li>
-                                <li title='图片'><i id="picture_up_li" class='icon icon-picture'></i>
-                                <!--图片上传框-->
-                                    <div id="upload_img" class='' style="display: none;">
-                                        <div class='upload-title'>
-                                        	<label class="btn btn-default" style="width: 50px; height: 22px; font-size: x-small;" id="">选择<input type="file" name='picture' id='select_picture'style="opacity: 0;"/></label>
-                                        	<label class="btn btn-default" style="width: 50px; height: 22px; font-size: x-small;" id="cancel_picture">删除</label>
-                                        	<label class='btn btn-default'style="width: 48px; height: 22px; font-size: x-small; margin-left: 40px;" id="close_picture">关闭</label>
-                                        </div>
-                                        <div class='pic_show' id="picture_show"></div><!--图片预览框-->
-                                    </div>
-                                <!--图片上传框-->
-                                </li>
-                            </ul>
-                            <input type='submit' value='' class='btn send_btn fright' title='发布微博按钮'/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        <!--动态发布框end-->
-          <div class='view_line' style="margin-top:10px">
-                <strong ><small>圈子</small></strong>
-            </div>
-            
-		<!--显示微博样式-->	
-			<!--首先做个判断，有就去遍历微博，没有就提示没有微博-->
-	<c:if test="${blogs.size()>0}">
-		<c:forEach var="blog" items="${blogs}">
-			<c:if test="${blog.wbAuthorId==0}">
-				<div class="weibo">
-					<p id="userId_p_init" style="display:none"><c:out value="${blog.user.userId}"/></p>
-					<p id="wbId_p_init" style="display:none"><c:out value="${blog.wbId}"/></p>
-					<p id="authorwbId_p_init" style="display:none"><c:out value="${blog.initPushInfo.wbId}"/></p>
-					<div class="face">
-						<a href="">
-	                        <img src="<c:out value="${blog.user.userImage}"/>" width='50' height='50'/>
-	                    </a>
-					</div>
-					<div class="wb_cons">
-						<dl>
-							<!--用户名-->
-	                        <dt class='author' style="">
-	                            <a href=""><c:out value="${blog.user.userNickName}"/></a>
-	                        </dt>
-	                    	<!--发布内容-->
-	                        <dd class='content'>
-	                            <p><c:out value="${blog.wbTextContent}"/></p>
-	                        </dd>
-							<!--需要做判断有没有图片-->
-							<c:if test="${!empty blog.wbImage}">
-							<dd>
-								<div id="wb_img_div" class="wb_img">
-									<!--小图显示-->
-									<img src="<c:out value="${blog.wbImage}"/>" class='mini_img' style="width: 200px;height: 150px;"/>
-									<!--隐藏框用于图片大小显示-->
-									<div class="img_tool" id="img_getbig" style="display: none;">
-	                                    <ul style="list-style: none;">
-	                                        <li>
-	                                            <i class='icon icon-packup'></i>
-	                                            <span class='packup'>&nbsp;收起</span>
-	                                        </li>
-	                                        <li>|</li>
-	                                        <li>
-	                                            <i class='icon icon-bigpic'></i>
-	                                            <!--注意：这里需要填写上传图片后的存储地址-->
-	                                            <a href="<c:out value="${blog.wbImage}"/>" target='_blank'>&nbsp;查看大图</a>
-	                                        </li>
-	                                    </ul>
-	                               		<!--中图显示-->
-	                                    <div class="img_info"><img src="<c:out value="${blog.wbImage}"/>"/></div>
-	                               </div> 
+			<div class="commentWrapDIV" style="margin-bottom: 20px;">
+				<div class="commentDIV" >
+					<div class="media">
+						<a class="pull-left" href="#"><img class="media-object" src="img/CoCBackground1.png" style="width:40px;height:40px"></a>
+						 <div class="media-body">
+						 	<h4 class="media-heading"><a class="name">张三：</a></h4>
+					 		<div>全方位深刻详解css3模块知识，经典案例分析，代码同步调试，让网页穿上绚丽装备！</div>
+					 		<div class="time" style="margin-top:5px;">2017-04-23 19:50</div>
+					 		<a class="pull-right" style="cursor: pointer; text-decoration:none;">回复</a><span class="pull-right" style="cursor: pointer;">&nbsp;|&nbsp;</span><a class="pull-right" style="cursor: pointer;text-decoration:none;">删除</a>
+					 		<div class="blogDIV" style="margin-top: 20px;border:1px solid #D7EEFB; background-color: #F1F7FA;">
+								<div class="media" style="margin: 15px 20px;">
+									 <div class="media-body">
+									 	<h4 class="media-heading"><a class="name">姜小熙：</a></h4>
+								 		<div>全方位深刻详解css3模块知识，经典案例分析，代码同步调试，让网页穿上绚丽装备！</div>
+									 </div>
 								</div>
-							</dd>
-							</c:if>
-							<!--需要做判断有没有图片end-->
-						</dl>
-						<!--微博操作-->
-						<div class="wb_tool">
-							 <!--发布时间-->
-	                        <span class="send_time"><fmt:formatDate value="${blog.wbPushDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
-							<ul style="list-style: none;">
-								<li class='del-li ' style="display: none;"><span class='del-weibo iconII iconII-delete' wid='<c:out value="${blog.wbId}"/>'></span></li>
-	                        	<c:if test="${blog.praiseState==0}"><li class="li_praise"><span class='iconII iconII-praise' id='' ></span><sup>(<c:out value="${blog.praiseNum}"/>)</sup></li></c:if>
-	                            <c:if test="${blog.praiseState==1}"><li class="li_praise"><span class='iconII iconII-praise2' id='' ></span><sup>(<c:out value="${blog.praiseNum}"/>)</sup></li></c:if>
-	                            <li class="li_showturn"><span class='iconII iconII-turn' id='' turnid=""></span><sup>(<c:out value="${blog.turnNum}"/>)</sup></li>
-	                            <li class="li_showcomment_list"><span class='comment iconII iconII-comment' id=''></span><sup>(<c:out value="${blog.commentNum}"/>)</sup></li>
-	                            <c:if test="${blog.collectionState==0}"><li class='li_collection'> <span class='iconII iconII-collection' wid=''></span></li></c:if>
-	                            <c:if test="${blog.collectionState==1}"><li class='li_collection'> <span class='iconII iconII-collection2' wid=''></span></li></c:if>
-							</ul>
-						</div>
-						<c:if test="${blog.praiseState==1}"><div class='thinking_praiseDIV' id='' style="background-color: #DFF0D8;line-height: 23px;"><span class="iconII iconII-praise2" style="font-size: 13px;color: #444;font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";"></span><span>&nbsp;&nbsp;我觉得很赞</span></div></c:if>
-						<c:if test="${blog.praiseState==0}"><div class='thinking_praiseDIV' id='' style="background-color: #DFF0D8;line-height: 23px;display:none;"><span class="iconII iconII-praise2" style="font-size: 13px;color: #444;font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";"></span><span>&nbsp;&nbsp;我觉得很赞</span></div></c:if>
-						 <!--=====回复框=====-->
-						    <div class='comment_loading comment_load ' id='' style="display: none;"><img src="img/loading.gif">评论加载中，请稍候...</div>
-						    <div class='comment_modal comment_list ' id="" style="display: none;">
-						        <textarea name="commentTextarea" sign='comment' style="outline: none;overflow-y:visible"></textarea>
-						        <ul style="list-style: none;">
-						            <li class='phiz phiz_com fleft' sign='comment'></li>
-						            <li class='comment_turn fleft'>
-							            <label >
-							            	<input type="checkbox" name='commentbyTurn' value="1"/>同时转发到我的圈子
-							            </label>
-						            </li>
-						            <span style="margin-left: 160px;"><span id='comment1_num'>140</span>/140</span>
-						            <li class='comment_btn fright' wid='' uid='' id="sendcomment_btn">评论</li>  
-						        </ul>
-						    </div>
-						    <!--=====回复框=====-->
-						    <!--=====回复列表=====-->
-						    <div class="showcommentList" style="margin-top: 5px; display: none;"></div> 
-						<!--=====回复框结束=====-->
+							</div>
+						 </div>
 					</div>
 				</div>
-			</c:if>
-			<!--===================转发的显示样式==================-->
-			<c:if test="${blog.wbAuthorId!=0}">
-				<div class="weibo">
-					<!--藏值-->
-					<p id="userId_p_init" style="display:none"><c:out value="${blog.user.userId}"/></p>
-					<p id="wbId_p_init" style="display:none"><c:out value="${blog.wbId}"/></p>
-					<p id="authorwbId_p_init" style="display:none"><c:out value="${blog.initPushInfo.wbId}"/></p>
-					<!--头像-->
-                	<div class="face"><a href=""><img src="<c:out value="${blog.user.userImage}"/>" width='50' height='50'/></a></div>
-					<div class="wb_cons">
-						<dl>
-							<!--用户名-->
-                        	<dt class='author'><a href=""><c:out value="${blog.user.userNickName}"/></a></dt>
-                        	<!--发布内容-->
-                        	<dd class='content'><p><c:out value="${blog.wbTextContent}"/></p></dd>
-                        	<!--转发的原动态内容-->
-                        	<c:if test="${empty blog.initPushInfo}">
-                        		<dd class="wb_turn" >该圈子动态已被主人删除</dd>                        	
-                        	</c:if>
-                        	<c:if test="${!empty blog.initPushInfo}">
-                        	<dd>
-                        		<div class="wb_turn">
-                        			<dl>
-                        				<!--原作者-->
-                                    	<dt class='turn_name'><a href="">@<c:out value="${blog.initPushInfo.userNickName}"/></a></dt>
-                                    	<!--原微博内容-->
-                                    	<dd class='turn_cons'><p><c:out value="${blog.initPushInfo.wbTextContent}"/></p></dd>
-                                    	<!--原微博图片-->
-                                    	<c:if test="${!empty blog.initPushInfo.wbImage}">
-                                    	<dd>
-                                    	 	<div class="turn_img">
-                                    	 		<!--小图显示-->
-												<img src="<c:out value="${blog.initPushInfo.wbImage}"/>" class='mini_img' style="width: 200px;height: 150px;"/>
-                                    	 		<div class="img_tool" id="img_getbig" style="display: none;">
-                                    	 			<ul style="list-style: none;">
-			                                        	<li><i class='icon icon-packup'></i><span class='packup'>&nbsp;收起</span></li>
-			                                        	<li >|</li>
-			                                        	<li><i class='icon icon-bigpic'></i><a href="<c:out value="${blog.initPushInfo.wbImage}"/>" target='_blank'>&nbsp;查看大图</a></li>
-			                                    	</ul>
-			                                    	<div class="img_info"><img src="<c:out value="${blog.initPushInfo.wbImage}"/>"/></div>
-                                    	 		</div>
-                                    	 	</div>                                   	 	                                  	 	
-                                    	 </dd>
-                                    	 </c:if>                                    
-                        			</dl>
-                        			<!--转发微博操作-->
-                        			<div class="turn_tool">
-                                    	<span class="send_time"><fmt:formatDate value="${blog.initPushInfo.wbPushDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
-                                    	<ul style="list-style: none;">
-			                            	<li class=""><a href="" style="text-decoration: none;"><span class='iconII iconII-turn' id=''></span><sup>(<c:out value="${blog.initPushInfo.turnNum}"/>)</sup></a></li>
-			                           	 	<li class=""><a href="" style="text-decoration: none;"><span class='comment iconII iconII-comment' id=''></span><sup>(<c:out value="${blog.initPushInfo.commentNum}"/>)</sup></a></li>
-										</ul>
-                                	</div>                        			
-                        		</div>	
-                        	</dd>
-                        	</c:if>	
-						</dl>
-						<!--此微博操作-->
-						<div class="wb_tool">
-							<span class="send_time"><fmt:formatDate value="${blog.wbPushDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
-							<ul style="list-style: none;">
-								<li class='del-li ' style="display: none;"><span class='del-weibo iconII iconII-delete' wid='<c:out value="${blog.wbId}"/>'></span></li>
-	                        	<c:if test="${blog.praiseState==0}"><li class="li_praise"><span class='iconII iconII-praise' id='' ></span><sup>(<c:out value="${blog.praiseNum}"/>)</sup></li></c:if>
-	                            <c:if test="${blog.praiseState==1}"><li class="li_praise"><span class='iconII iconII-praise2' id='' ></span><sup>(<c:out value="${blog.praiseNum}"/>)</sup></li></c:if>
-	                            <li class="li_showturn"><span class='iconII iconII-turn' id='' turnid=""></span><sup>(<c:out value="${blog.turnNum}"/>)</sup></li>
-	                            <li class="li_showcomment_list"><span class='comment iconII iconII-comment' id=''></span><sup>(<c:out value="${blog.commentNum}"/>)</sup></li>
-	                            <c:if test="${blog.collectionState==0}"><li class='li_collection'> <span class='iconII iconII-collection' wid=''></span></li></c:if>
-	                            <c:if test="${blog.collectionState==1}"><li class='li_collection'> <span class='iconII iconII-collection2' wid=''></span></li></c:if>
-							</ul>
-						</div>
-						<c:if test="${blog.praiseState==1}"><div class='thinking_praiseDIV' id='' style="background-color: #DFF0D8;line-height: 23px;"><span class="iconII iconII-praise2" style="font-size: 13px;color: #444;font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";"></span><span>&nbsp;&nbsp;我觉得很赞</span></div></c:if>
-						<c:if test="${blog.praiseState==0}"><div class='thinking_praiseDIV' id='' style="background-color: #DFF0D8;line-height: 23px;display:none;"><span class="iconII iconII-praise2" style="font-size: 13px;color: #444;font:12px/1.125 Arial,Helvetica,sans-serif;_font-family:"SimSun";"></span><span>&nbsp;&nbsp;我觉得很赞</span></div></c:if>
-						<!--=====回复框=====-->
-						    <div class='comment_loading comment_load ' id='' style="display: none;"><img src="img/loading.gif">评论加载中，请稍候...</div>
-						    <div class='comment_modal comment_list ' id="" style="display: none;">
-						        <textarea name="commentTextarea" sign='comment' style="outline: none;overflow-y:visible"></textarea>
-						        <ul style="list-style: none;">
-						            <li class='phiz phiz_com fleft' sign='comment'></li>
-						            <li class='comment_turn fleft'>
-							            <label >
-							            	<input type="checkbox" name='commentbyTurn' value="1"/>同时转发到我的圈子
-							            </label>
-						            </li>
-						            <span style="margin-left: 160px;"><span id='comment1_num'>140</span>/140</span>
-						            <li class='comment_btn fright' wid='' uid='' id="sendcomment_btn">评论</li>  
-						        </ul>
-						    </div>
-						    <!--=====回复框=====-->
-						    <!--=====回复列表=====-->
-						    <div class="showcommentList" style="margin-top: 5px; display: none;"></div> 
-						<!--=====回复框结束=====-->
-					</div>			
-				</div>
-			</c:if>
-		</c:forEach>	
-	</c:if>
-	<c:if test="${blogs.size()==0}">
-		<div class="weibo" style="text-align: center;">暂无校园圈子动态</div>
-	</c:if>
-			<div id='page'>1</div>
-</div>
+			</div>
+		</div>
 	<!--=====中间栏end=====-->
 
 

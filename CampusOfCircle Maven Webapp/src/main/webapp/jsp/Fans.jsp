@@ -36,10 +36,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="navbar-collapse collapse" id="head_mycollapse">
             <ul class="nav navbar-nav" id="head_mycollapse_ul">
-                <li class=" one"><i class="ui-center"></i><a href="#">个人圈</a></li>
+                <li class=" one"><i class="ui-center"></i><a href="/CampusOfCircle/jsp/userSingle.jsp">个人圈</a></li>
                 <li class="two"><i class="ui-home"></i><a href="/CampusOfCircle/userIndexTo">校园圈</a></li>
                 <li class="three"><i class="ui-friends"></i><a href="#">消息</a></li>
-                <li class="five"><i class="ui-dress"></i><a href="#">主题</a></li>
+                <li class="five"><i class="ui-dress"></i><a href="#setTheme_modal" data-toggle="modal">主题</a></li>
                 <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
                 <li class="seven"> <input type="text" class="form-control" placeholder="搜索用户/动态/校园"><span class="search"></span></li>
                 <li id="li_user_dropdown" class="eight">
@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--=====左侧栏=====-->
 	<div id="left" class='fleft' style="opacity: 0.6;margin-top: -20px;">
         <div id="left_nav_a" class=' list-group'>
-            <a href="" class="list-group-item active" ><i class='icon icon-home'></i>&nbsp;&nbsp;首页</a>
+            <a href="/CampusOfCircle/userIndexTo" class="list-group-item active" ><i class='icon icon-home'></i>&nbsp;&nbsp;首页</a>
             <a href="" class="list-group-item" ><i class='icon icon-at'></i>&nbsp;&nbsp;提到我的<span class="badge" style="color: red;background-color: #C9EBF4;">9</span></a>
             <a href="" class="list-group-item" ><i class='icon icon-comment'></i>&nbsp;&nbsp;评论<span class="badge" style="color: red;background-color: #C9EBF4;">6</span></a>
             <a href="" class="list-group-item" ><i class='icon icon-letter'></i>&nbsp;&nbsp;私信<span class="badge" style="color: red;background-color: #C9EBF4;">5</span></a>
@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="group">
             <fieldset><legend style="color: #8B8B85; font-weight: 300;text-align: center;">我的分组</legend></fieldset>
             <div id="left_nav_b" class="list-group">
-                <a href="" class="list-group-item "><span style="display: none;">-1</span><i class='icon icon-group'></i>&nbsp;&nbsp;全部</a>
+                <a href="" class="list-group-item "><span style="display: none;">-1</span><i class='icon icon-group'></i>&nbsp;&nbsp;我的</a>
                 <c:if test="${groups.size()>0}">
                 		<a href="" class="list-group-item list_group_a"><span style="display: none;">0</span><i class='icon icon-group'></i>&nbsp;&nbsp;默认分组</a>
                 		<c:forEach var="group" items="${groups}">
@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	<p class="fanUserId" style="display: none;"><c:out value="${fanUser.userId}"/></p>
 		    	<h5 class="media-heading text-primary " style="width:300px">
 		    		<c:if test="${fanUser.userSex==1}"><div id="" class="toUserName"><i class="icon icon-boy"></i>&nbsp;&nbsp;<c:out value="${fanUser.userNickName}"/></div></c:if>
-		    		<c:if test="${fanUser.userSex==0}"><div id="" class="toUserName"><i class="icon icon-girl"></i>&nbsp;&nbsp;<c:out value="${fanUser.userNickName}"/></div></c:if>
+		    		<c:if test="${fanUser.userSex==2}"><div id="" class="toUserName"><i class="icon icon-girl"></i>&nbsp;&nbsp;<c:out value="${fanUser.userNickName}"/></div></c:if>
 		    		<c:if test="${empty fanUser.userSex}"><div id="" class="toUserName"><i class="icon icon-defaultuser"></i>&nbsp;&nbsp;<c:out value="${fanUser.userNickName}"/></div></c:if>
 		    		<c:if test="${fanUser.addState==1}"><div id="" class="addState pull-left delattention2" style="width: 68px;margin-top:5px;cursor: pointer;"><a class="icon icon-togetherAdd"></a>相互关注</div></c:if>		    		
 		    		<div id="" class="addState pull-left delfans2" style="width: 68px;margin-left:10px;margin-top:5px;cursor: pointer;"><a class="icon icon-delFans"></a>移除粉丝</div>	    		

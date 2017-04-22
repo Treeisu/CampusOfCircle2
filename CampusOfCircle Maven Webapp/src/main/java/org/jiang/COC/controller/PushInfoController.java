@@ -88,11 +88,25 @@ public class PushInfoController {
 		 pushInfo.setUserNickName(user.getUserNickName());
 		 pushInfo.setWbPushDate(new Date());
 		 //页面上的信息
-		 long authorWebId=Long.parseLong(authorWebIdstr);
-		 pushInfo.setWbAuthorId(authorWebId);
+		 long authorWbId=Long.parseLong(authorWebIdstr);
+		 pushInfo.setWbAuthorId(authorWbId);
 		 pushInfo.setWbTextContent(content);
 		 pushInfoServiceImpl.savePushInfo(pushInfo);
-		 
+		 //判断是否评论becomment
+		 String byComment=request.getParameter("becomment");
+		 System.out.println(byComment);
+		 if(byComment !=null){
+			 if(byComment.equals("on")){
+				 //此时要做评论操作；
+				 Comment comment=new Comment();
+				 //设值
+				 comment.setCommentContent(content);
+				 comment.setCommentDate(new Date());
+				 comment.setUserId(user.getUserId());
+				 comment.setWbId(authorWbId);
+				 commentServiceImpl.saveComment(comment);
+			 }
+		 }
 		 //进行查询
 		 List<Long> userIds=new ArrayList<Long>();
 		 userIds.add(0, user.getUserId());
@@ -115,8 +129,11 @@ public class PushInfoController {
 		 int sta=0;
 		 long groupId= Long.parseLong(groupIdstring);
 		 if(groupId==-1){			 
-			 sta=0;
-			 return sta;
+			Long userId=user.getUserId();
+			List<PushInfo> blogs=pushInfoServiceImpl.findByuserId(userId);
+			session.setAttribute("blogs",blogs);
+			sta=1;
+			return sta;
 		 }else{
 			 if(groupId==0){
 				 List<Long> toUserIds=attentionServiceImpl.findByNoGroupId(groupId, user.getUserId());
@@ -193,7 +210,14 @@ public class PushInfoController {
 		 String byTurn=request.getParameter("byTurn");
 		 if(byTurn.equals("true")){
 			 //此时要做转发操作；
-			 System.out.println("1111111");
+			 PushInfo push=new PushInfo();
+			 //设值
+			 push.setUserId(user.getUserId());
+			 push.setUserNickName(user.getUserNickName());
+			 push.setWbPushDate(new Date());
+			 push.setWbAuthorId(wbId);
+			 push.setWbTextContent(commentContent);
+			 pushInfoServiceImpl.savePushInfo(push);
 		 }
 		 Comment comment =new Comment();
 		 comment.setCommentContent(commentContent);
@@ -219,8 +243,7 @@ public class PushInfoController {
 		 long wbId=Long.parseLong(wbIdstring);
 		 String fromcommentIdstring=request.getParameter("fromcommentId");
 		 long fromCommentId=Long.parseLong(fromcommentIdstring);		 
-		 String commentContent=request.getParameter("commentContent");
-		 
+		 String commentContent=request.getParameter("commentContent");		 
 		 Comment comment =new Comment();
 		 comment.setCommentContent(commentContent);
 		 comment.setCommentDate(new Date());

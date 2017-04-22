@@ -26,6 +26,8 @@ public class Comment implements Serializable {
 	
 	@Transient
 	private User commentUser;//显示user信息的字段，加上一个@Transient数据库则不会产生列
+	@Transient
+	private PushInfo belongBlog;
 	
 	
 	@Id

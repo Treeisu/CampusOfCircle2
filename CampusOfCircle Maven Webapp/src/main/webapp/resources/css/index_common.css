@@ -18,11 +18,11 @@
 	-ms-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 }
-#share .sina{background-position:0 0;position:absolute;bottom:32px;}
+#share .sina{background-position:0 0;position:absolute;bottom:55px;}
 #share a.sina:hover{background-position:-30px 0;}
 #share .tencent{background-position:0 -30px;position:absolute;bottom:0;}
 #share a.tencent:hover{background-position:-30px -30px;}
-#share a#totop{background-position:0 -120px;position:absolute;bottom:64px;cursor:pointer;}
+#share a#totop{background-position:0 -120px;position:absolute;bottom:87px;cursor:pointer;}
 #share a#totop:hover{background-position:-30px -120px;}
 body {
   padding-top: 150px;
