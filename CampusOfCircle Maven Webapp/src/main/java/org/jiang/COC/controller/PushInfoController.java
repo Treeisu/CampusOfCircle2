@@ -221,7 +221,7 @@ public class PushInfoController {
 				 pushInfoServiceImpl.deleteBywbId(wbId);
 				 Message message= messageServiceImpl.findTurn(user.getUserId(), push.getWbId(), 3);
 				 sta=1;
-			 }			 
+			 }			  
 		 }
 		 return sta;	
 	}
