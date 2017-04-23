@@ -4,7 +4,6 @@ package org.jiang.COC.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jiang.COC.daoImpl.AdviceDaoImpl;
 import org.jiang.COC.daoImpl.AttentionDaoImpl;
 import org.jiang.COC.daoImpl.UserDaoImpl;
 import org.jiang.COC.model.Attention;
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDaoImpl userDaoIpml;
 	@Autowired
-	private AdviceDaoImpl adviceDaoImpl;
+	private AdviceServiceImpl adviceServiceImpl;
 	@Autowired
 	private AttentionDaoImpl attentionDaoImpl;
 	@Autowired
@@ -43,7 +42,7 @@ public class UserServiceImpl implements UserService {
 			UserAdviceNum userAdviceNum=new UserAdviceNum();
 			userAdviceNum.setUserId(user.getUserId());
 			userAdviceNum.setUserNickName(user.getUserNickName());
-			adviceDaoImpl.saveAdvice(userAdviceNum);
+			adviceServiceImpl.saveAdvice(userAdviceNum);
 			
 	}
 
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		List<User> list=userDaoIpml.findByPhone(phone);
 		for(User u:list){
-			UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(u.getUserId());
+			UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(u.getUserId());
 			u.setUserAdviceNum(userAdviceNum);
 		}		
 		return list;
@@ -71,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	public User getByUserId(long userId) {
 		// TODO Auto-generated method stub
 		User user= userDaoIpml.getUserById(userId);
-		UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(user.getUserId());
+		UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(user.getUserId());
 		user.setUserAdviceNum(userAdviceNum);
 		return user;
 	}
@@ -82,7 +81,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		List<User> list=userDaoIpml.findPushUsersByIds(userIds);
 		for(User u:list){
-			UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(u.getUserId());
+			UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(u.getUserId());
 			u.setUserAdviceNum(userAdviceNum);
 		}
 		//取三个值
@@ -101,7 +100,7 @@ public class UserServiceImpl implements UserService {
 		List<User> list=userDaoIpml.findUsersByIds(userIds);//得到了关注的人
 		if(list.size()>0){
 			for(User u:list){
-				UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(u.getUserId());
+				UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(u.getUserId());
 				Attention attention=attentionDaoImpl.getAttentionUser(u.getUserId(), uid);//得到单条关注记录
 				Attention attention2=attentionDaoImpl.getAttentionUser(uid,u.getUserId());//查看是否也关注了本人
 				u.setUserAdviceNum(userAdviceNum);
@@ -122,7 +121,7 @@ public class UserServiceImpl implements UserService {
 		List<User> list=userDaoIpml.findUsersByIds(userIds);//得到了粉丝
 		if(list.size()>0){
 			for(User u:list){
-				UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(u.getUserId());
+				UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(u.getUserId());
 				Fan fan=fanServiceImpl.findByFromUIdANDUId(u.getUserId(), uid);//得到单条粉丝记录
 				Fan fan2=fanServiceImpl.findByFromUIdANDUId(uid,u.getUserId());//验证是否互为粉丝			
 				u.setUserAdviceNum(userAdviceNum);

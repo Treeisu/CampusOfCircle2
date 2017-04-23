@@ -21,7 +21,13 @@ import javax.persistence.Transient;
 public class UserAdviceNum implements Serializable {
 	@Transient
 	private static final long serialVersionUID = 7078899014351927908L;
-	
+	/**
+     * 未读信息数量
+     */
+	@Transient
+	private	long sumNum;
+	@Transient
+	private	long chatNum;
 	
 	
 	
@@ -42,21 +48,7 @@ public class UserAdviceNum implements Serializable {
 	private	long fansNum;
 	@Column(name = "wbNum",length=20)
 	private	long wbNum;
-    /**
-     * 未读信息数量
-     */
-	@Column(name = "chatNum",length=20)
-	private	long chatNum;//未读聊天
-	@Column(name = "praiseNum",length=20)
-	private	long praiseNum;//点赞通知
-	@Column(name = "commentNum",length=20)
-	private	long commentNum;//评论通知
-	@Column(name = "turnNum",length=20)
-	private	long turnNum;//转发通知
-	@Column(name = "addNum",length=20)
-	private	long addNum;//新粉丝通知
-	@Column(name = "sumNum",length=20)
-	private	long sumNum;//总通知
+    
 	
 	
 	
@@ -96,73 +88,44 @@ public class UserAdviceNum implements Serializable {
 	public void setWbNum(long wbNum) {
 		this.wbNum = wbNum;
 	}
-	public long getChatNum() {
-		return chatNum;
-	}
-	public void setChatNum(long chatNum) {
-		this.chatNum = chatNum;
-	}
-	public long getPraiseNum() {
-		return praiseNum;
-	}
-	public void setPraiseNum(long praiseNum) {
-		this.praiseNum = praiseNum;
-	}
-	public long getCommentNum() {
-		return commentNum;
-	}
-	public void setCommentNum(long commentNum) {
-		this.commentNum = commentNum;
-	}
-	public long getTurnNum() {
-		return turnNum;
-	}
-	public void setTurnNum(long turnNum) {
-		this.turnNum = turnNum;
-	}
-	public long getAddNum() {
-		return addNum;
-	}
-	public void setAddNum(long addNum) {
-		this.addNum = addNum;
-	}
+	
+	
 	public long getSumNum() {
 		return sumNum;
 	}
 	public void setSumNum(long sumNum) {
 		this.sumNum = sumNum;
 	}
+	public long getChatNum() {
+		return chatNum;
+	}
+	public void setChatNum(long chatNum) {
+		this.chatNum = chatNum;
+	}
 	
-	public UserAdviceNum(long id, long userId, String userNickName,
-			long attentionNum, long fansNum, long wbNum, long chatNum,
-			long praiseNum, long commentNum, long turnNum, long addNum,
-			long sumNum) {
+	public UserAdviceNum(long sumNum, long chatNum, long id, long userId,
+			String userNickName, long attentionNum, long fansNum, long wbNum) {
 		super();
+		this.sumNum = sumNum;
+		this.chatNum = chatNum;
 		Id = id;
 		this.userId = userId;
 		this.userNickName = userNickName;
 		this.attentionNum = attentionNum;
 		this.fansNum = fansNum;
 		this.wbNum = wbNum;
-		this.chatNum = chatNum;
-		this.praiseNum = praiseNum;
-		this.commentNum = commentNum;
-		this.turnNum = turnNum;
-		this.addNum = addNum;
-		this.sumNum = sumNum;
 	}
 	public UserAdviceNum() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "UserAdviceNum [Id=" + Id + ", userId=" + userId
-				+ ", userNickName=" + userNickName + ", attentionNum="
-				+ attentionNum + ", fansNum=" + fansNum + ", wbNum=" + wbNum
-				+ ", chatNum=" + chatNum + ", praiseNum=" + praiseNum
-				+ ", commentNum=" + commentNum + ", turnNum=" + turnNum
-				+ ", addNum=" + addNum + ", sumNum=" + sumNum + "]";
+		return "UserAdviceNum [sumNum=" + sumNum + ", chatNum=" + chatNum
+				+ ", Id=" + Id + ", userId=" + userId + ", userNickName="
+				+ userNickName + ", attentionNum=" + attentionNum
+				+ ", fansNum=" + fansNum + ", wbNum=" + wbNum + "]";
 	}
+
 
 	
     

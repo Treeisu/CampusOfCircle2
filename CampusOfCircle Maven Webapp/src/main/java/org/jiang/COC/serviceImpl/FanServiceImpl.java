@@ -6,6 +6,7 @@ import java.util.List;
 import org.jiang.COC.daoImpl.FanDaoImpl;
 import org.jiang.COC.model.Attention;
 import org.jiang.COC.model.Fan;
+import org.jiang.COC.model.Message;
 import org.jiang.COC.model.UserAdviceNum;
 import org.jiang.COC.service.FanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class FanServiceImpl implements FanService {
 	private AdviceServiceImpl adviceServiceImpl;
 	@Autowired
 	private AttentionServiceImpl attentionServiceImpl;
+	@Autowired
+	private MessageServiceImpl messageServiceImpl;
 
 	@Override
 	@Transactional
@@ -45,6 +48,8 @@ public class FanServiceImpl implements FanService {
 		Attention attention= attentionServiceImpl.getAttentionUser(fan.getUserId(), fan.getFromUserId());
 		if(attention!=null){
 			attentionServiceImpl.deleteAttention(attention);
+			Message m= messageServiceImpl.findMessageBythree(attention.getUserId(), attention.getToUserId(), 1);
+			if(m!=null){messageServiceImpl.deleteMessage(m);}
 		}
 		//更新对方关注数量
 		UserAdviceNum userAdviceNum2=adviceServiceImpl.findByUserId(fan.getFromUserId());
