@@ -33,8 +33,8 @@ public class UserAdviceNum implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id", unique = true, nullable = false)
-	private long Id;
+	@Column(name = "adviceId", unique = true, nullable = false)
+	private long adviceId;
 	@Column(name = "userId", unique = true, nullable = false)
 	private long userId;
 	@Column(name = "userNickName",length=20)
@@ -53,10 +53,10 @@ public class UserAdviceNum implements Serializable {
 	
 	
 	public long getId() {
-		return Id;
+		return adviceId;
 	}
 	public void setId(long id) {
-		Id = id;
+		adviceId = id;
 	}
 	public long getUserId() {
 		return userId;
@@ -108,7 +108,7 @@ public class UserAdviceNum implements Serializable {
 		super();
 		this.sumNum = sumNum;
 		this.chatNum = chatNum;
-		Id = id;
+		adviceId = id;
 		this.userId = userId;
 		this.userNickName = userNickName;
 		this.attentionNum = attentionNum;
@@ -121,7 +121,7 @@ public class UserAdviceNum implements Serializable {
 	@Override
 	public String toString() {
 		return "UserAdviceNum [sumNum=" + sumNum + ", chatNum=" + chatNum
-				+ ", Id=" + Id + ", userId=" + userId + ", userNickName="
+				+ ", Id=" + adviceId + ", userId=" + userId + ", userNickName="
 				+ userNickName + ", attentionNum=" + attentionNum
 				+ ", fansNum=" + fansNum + ", wbNum=" + wbNum + "]";
 	}

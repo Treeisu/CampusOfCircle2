@@ -37,12 +37,11 @@ public class TurnInfo implements Serializable {
     @Column(name = "messageId")
     private long messageId;
 	
-	
-
-
-
-
-
+    
+    
+    public TurnInfo() {
+		super();
+	}
 	public TurnInfo(long turnInfoId, long nowWbId, long firstWbId,
 			long lastWbId, Date turnDate, long messageId) {
 		super();
@@ -53,83 +52,56 @@ public class TurnInfo implements Serializable {
 		this.turnDate = turnDate;
 		this.messageId = messageId;
 	}
-
-
-	public long getMessageId() {
-		return messageId;
-	}
-
-
-	public void setMessageId(long messageId) {
-		this.messageId = messageId;
-	}
-
-
-	public TurnInfo() {
-		super();
-	}
-
-
 	public long getTurnInfoId() {
 		return turnInfoId;
 	}
-
-
 	public void setTurnInfoId(long turnInfoId) {
 		this.turnInfoId = turnInfoId;
 	}
-
-
 	public long getNowWbId() {
 		return nowWbId;
 	}
-
-
 	public void setNowWbId(long nowWbId) {
 		this.nowWbId = nowWbId;
 	}
-
-
 	public long getFirstWbId() {
 		return firstWbId;
 	}
-
-
 	public void setFirstWbId(long firstWbId) {
 		this.firstWbId = firstWbId;
 	}
-
-
 	public long getLastWbId() {
 		return lastWbId;
 	}
-
-
 	public void setLastWbId(long lastWbId) {
 		this.lastWbId = lastWbId;
 	}
-
-
 	public Date getTurnDate() {
 		return turnDate;
 	}
-
-
 	public void setTurnDate(Date turnDate) {
 		this.turnDate = turnDate;
 	}
-
-
+	public long getMessageId() {
+		return messageId;
+	}
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
+	}
 	@Override
 	public String toString() {
 		return "TurnInfo [turnInfoId=" + turnInfoId + ", nowWbId=" + nowWbId
 				+ ", firstWbId=" + firstWbId + ", lastWbId=" + lastWbId
 				+ ", turnDate=" + turnDate + ", messageId=" + messageId + "]";
 	}
+	
+	
 
 
 
 
+
+	
 	
     
 

@@ -35,15 +35,14 @@ public class CommentServiceImpl implements CommentService {
 	public void saveComment(Comment comment) {
 		// TODO Auto-generated method stub
 		commentDaoImpl.saveComment(comment);
-		 Message m=new Message();
-		 m.setKindOperation(4);//4表示评论种类操作
-		 m.setCommentId(comment.getCommentId());
-		 m.setDate(comment.getCommentDate());
-		 m.setFromUserId(comment.getUserId());
-		 m.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId()).getUserId());
-		 m.setWbId(pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId()).getWbId());
-		 System.out.println(m);
-		 messageServiceImpl.saveMessage(m);
+		 Message message=new Message();
+		 message.setKindOperation(4);//4表示评论种类操作
+		 message.setCommentId(comment.getCommentId());
+		 message.setDate(comment.getCommentDate());
+		 message.setFromUserId(comment.getUserId());
+		 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId()).getUserId());
+		 message.setWbId(pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId()).getWbId());
+		 messageServiceImpl.saveMessage(message);
 		//对微博表做更新
 		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId());
 		pushInfo.setCommentNum(pushInfo.getCommentNum()+1);

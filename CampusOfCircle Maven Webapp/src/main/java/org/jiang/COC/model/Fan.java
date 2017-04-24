@@ -24,8 +24,8 @@ public class Fan implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id", unique = true, nullable = false)
-	private long Id;
+	@Column(name = "fanInfoId", unique = true, nullable = false)
+	private long fanInfoId;
 	@Column(name = "userId")
     private long userId;
 	@Column(name = "fromUserId")
@@ -44,10 +44,10 @@ public class Fan implements Serializable {
 		this.messageId = messageId;
 	}
 	public long getId() {
-		return Id;
+		return fanInfoId;
 	}
 	public void setId(long id) {
-		Id = id;
+		fanInfoId = id;
 	}
 	public long getUserId() {
 		return userId;
@@ -72,7 +72,7 @@ public class Fan implements Serializable {
 	public Fan(long id, long userId, long fromUserId, Date createDate,
 			long messageId) {
 		super();
-		Id = id;
+		fanInfoId = id;
 		this.userId = userId;
 		this.fromUserId = fromUserId;
 		this.createDate = createDate;
@@ -83,7 +83,7 @@ public class Fan implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Fan [Id=" + Id + ", userId=" + userId + ", fromUserId="
+		return "Fan [Id=" + fanInfoId + ", userId=" + userId + ", fromUserId="
 				+ fromUserId + ", createDate=" + createDate + ", messageId="
 				+ messageId + "]";
 	}

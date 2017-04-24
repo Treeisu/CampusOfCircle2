@@ -26,8 +26,8 @@ public class ChatInfo implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id", unique = true, nullable = false)
-	private long Id;
+	@Column(name = "chatId", unique = true, nullable = false)
+	private long chatId;
 	@Column(name = "userId")
     private long userId;
 	@Column(name = "fromUserId")
@@ -45,10 +45,10 @@ public class ChatInfo implements Serializable {
     
     
     public long getId() {
-		return Id;
+		return chatId;
 	}
 	public void setId(long id) {
-		Id = id;
+		chatId = id;
 	}
 	public long getUserId() {
 		return userId;
@@ -91,7 +91,7 @@ public class ChatInfo implements Serializable {
 	public ChatInfo(long id, long userId, long fromUserId, long toUserId,
 			String chatContent, Date createDate, long messageId) {
 		super();
-		Id = id;
+		chatId = id;
 		this.userId = userId;
 		this.fromUserId = fromUserId;
 		this.toUserId = toUserId;
@@ -104,7 +104,7 @@ public class ChatInfo implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "ChatInfo [Id=" + Id + ", userId=" + userId + ", fromUserId="
+		return "ChatInfo [Id=" + chatId + ", userId=" + userId + ", fromUserId="
 				+ fromUserId + ", toUserId=" + toUserId + ", chatContent="
 				+ chatContent + ", createDate=" + createDate + ", messageId="
 				+ messageId + "]";

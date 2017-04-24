@@ -17,6 +17,7 @@ public class MessageDaoImpl implements  MessageDao{
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
+	
 	@Override
 	@Transactional
 	public void saveMessage(Message message){

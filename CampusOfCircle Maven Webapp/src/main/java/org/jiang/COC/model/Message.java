@@ -33,11 +33,9 @@ public class Message implements Serializable {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id", unique = true, nullable = false)
-	private long Id;
-	@Column(name = "fromUserId", unique = true, nullable = false)
-	private long fromUserId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)   
+	@Column(name = "messageId", unique = true, nullable = false)
+	private long messageId;
 	@Column(name = "wbId",length=20)
 	private long wbId;
 	@Column(name = "commentId",length=20)
@@ -50,6 +48,8 @@ public class Message implements Serializable {
 	private long turnId;
 	@Column(name = "myUserId",length=20)
 	private long myUserId;
+	@Column(name = "fromUserId",length=20)
+	private long fromUserId;
 	@Column(name = "kindOperation",length=20)
 	private long kindOperation;//做了什么操作；新粉丝，点赞，转发，评论等四种操作；1、2、3、4
 	@Column(name = "state",length=20)
@@ -60,6 +60,54 @@ public class Message implements Serializable {
 	
 	
 	
+	public PushInfo getPush() {
+		return push;
+	}
+	public void setPush(PushInfo push) {
+		this.push = push;
+	}
+	public Comment getComment() {
+		return comment;
+	}
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+	public User getFromUser() {
+		return fromUser;
+	}
+	public void setFromUser(User fromUser) {
+		this.fromUser = fromUser;
+	}
+	public User getMyUser() {
+		return myUser;
+	}
+	public void setMyUser(User myUser) {
+		this.myUser = myUser;
+	}
+	public long getMessageId() {
+		return messageId;
+	}
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
+	}
+	public long getFromUserId() {
+		return fromUserId;
+	}
+	public void setFromUserId(long fromUserId) {
+		this.fromUserId = fromUserId;
+	}
+	public long getWbId() {
+		return wbId;
+	}
+	public void setWbId(long wbId) {
+		this.wbId = wbId;
+	}
+	public long getCommentId() {
+		return commentId;
+	}
+	public void setCommentId(long commentId) {
+		this.commentId = commentId;
+	}
 	public long getPraiseId() {
 		return praiseId;
 	}
@@ -78,35 +126,17 @@ public class Message implements Serializable {
 	public void setTurnId(long turnId) {
 		this.turnId = turnId;
 	}
-	public User getMyUser() {
-		return myUser;
-	}
-	public void setMyUser(User myUser) {
-		this.myUser = myUser;
-	}
-	public long getCommentId() {
-		return commentId;
-	}
-	public void setCommentId(long commentId) {
-		this.commentId = commentId;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public long getFromUserId() {
-		return fromUserId;
-	}
-	public void setFromUserId(long fromUserId) {
-		this.fromUserId = fromUserId;
-	}
 	public long getMyUserId() {
 		return myUserId;
 	}
 	public void setMyUserId(long myUserId) {
 		this.myUserId = myUserId;
+	}
+	public long getKindOperation() {
+		return kindOperation;
+	}
+	public void setKindOperation(long kindOperation) {
+		this.kindOperation = kindOperation;
 	}
 	public long getState() {
 		return state;
@@ -114,57 +144,32 @@ public class Message implements Serializable {
 	public void setState(long state) {
 		this.state = state;
 	}
-	public User getFromUser() {
-		return fromUser;
+	public Date getDate() {
+		return date;
 	}
-	public void setFromUser(User fromUser) {
-		this.fromUser = fromUser;
+	public void setDate(Date date) {
+		this.date = date;
 	}
-	public PushInfo getPush() {
-		return push;
-	}
-	public void setPush(PushInfo push) {
-		this.push = push;
-	}
-	public Comment getComment() {
-		return comment;
-	}
-	public void setComment(Comment comment) {
-		this.comment = comment;
-	}
-	public long getId() {
-		return Id;
-	}
-	public void setId(long id) {
-		Id = id;
-	}
-	public long getWbId() {
-		return wbId;
-	}
-	public void setWbId(long wbId) {
-		this.wbId = wbId;
-	}
-	
-	public long getKindOperation() {
-		return kindOperation;
-	}
-	public void setKindOperation(long kindOperation) {
-		this.kindOperation = kindOperation;
-	}
-
-	public Message(PushInfo push, Comment comment, User fromUser, long id,
-			long fromUserId, long wbId, long myUserId, long kindOperation,
-			long state) {
+	public Message(PushInfo push, Comment comment, User fromUser, User myUser,
+			long messageId, long fromUserId, long wbId, long commentId,
+			long praiseId, long attentionId, long turnId, long myUserId,
+			long kindOperation, long state, Date date) {
 		super();
 		this.push = push;
 		this.comment = comment;
 		this.fromUser = fromUser;
-		Id = id;
+		this.myUser = myUser;
+		this.messageId = messageId;
 		this.fromUserId = fromUserId;
 		this.wbId = wbId;
+		this.commentId = commentId;
+		this.praiseId = praiseId;
+		this.attentionId = attentionId;
+		this.turnId = turnId;
 		this.myUserId = myUserId;
 		this.kindOperation = kindOperation;
 		this.state = state;
+		this.date = date;
 	}
 	public Message() {
 		super();
@@ -172,20 +177,22 @@ public class Message implements Serializable {
 	@Override
 	public String toString() {
 		return "Message [push=" + push + ", comment=" + comment + ", fromUser="
-				+ fromUser + ", Id=" + Id + ", fromUserId=" + fromUserId
-				+ ", wbId=" + wbId + ", myUserId=" + myUserId
-				+ ", kindOperation=" + kindOperation + ", state=" + state + "]";
+				+ fromUser + ", myUser=" + myUser + ", messageId=" + messageId
+				+ ", fromUserId=" + fromUserId + ", wbId=" + wbId
+				+ ", commentId=" + commentId + ", praiseId=" + praiseId
+				+ ", attentionId=" + attentionId + ", turnId=" + turnId
+				+ ", myUserId=" + myUserId + ", kindOperation=" + kindOperation
+				+ ", state=" + state + ", date=" + date + "]";
 	}
-
-	
-   
 	
 	
 	
 	
-
 	
-    
+	
+	
+	
+	
 	
 	
 	

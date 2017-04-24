@@ -235,8 +235,7 @@ public class PushInfoController {
 		 comment.setWbId(wbId);
 		 comment.setCommentUser(user);
 		 commentServiceImpl.saveComment(comment);		 
-		 List<Comment> comments=new ArrayList<Comment>();
-		 comments=commentServiceImpl.findCommentsBywbId(wbId);
+		 List<Comment> comments=commentServiceImpl.findCommentsBywbId(wbId);
 		 return comments;		 	
 	}
 	/**

@@ -32,38 +32,6 @@ public class PraiseInfo implements Serializable {
     private Date praiseDate;
     @Column(name = "messageId")
     private long messageId;
-    
-    
-	
-	
-
-
-	public PraiseInfo(long praiseInfoId, long wbId, long userId,
-			Date praiseDate, long messageId) {
-		super();
-		this.praiseInfoId = praiseInfoId;
-		this.wbId = wbId;
-		this.userId = userId;
-		this.praiseDate = praiseDate;
-		this.messageId = messageId;
-	}
-
-
-	public long getMessageId() {
-		return messageId;
-	}
-
-
-	public void setMessageId(long messageId) {
-		this.messageId = messageId;
-	}
-
-
-	public PraiseInfo() {
-		super();
-	}
-	
-	
 	public long getPraiseInfoId() {
 		return praiseInfoId;
 	}
@@ -88,24 +56,44 @@ public class PraiseInfo implements Serializable {
 	public void setPraiseDate(Date praiseDate) {
 		this.praiseDate = praiseDate;
 	}
-
-
+	public long getMessageId() {
+		return messageId;
+	}
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
+	}
+	public PraiseInfo(long praiseInfoId, long wbId, long userId,
+			Date praiseDate, long messageId) {
+		super();
+		this.praiseInfoId = praiseInfoId;
+		this.wbId = wbId;
+		this.userId = userId;
+		this.praiseDate = praiseDate;
+		this.messageId = messageId;
+	}
+	public PraiseInfo() {
+		super();
+	}
 	@Override
 	public String toString() {
 		return "PraiseInfo [praiseInfoId=" + praiseInfoId + ", wbId=" + wbId
 				+ ", userId=" + userId + ", praiseDate=" + praiseDate
 				+ ", messageId=" + messageId + "]";
 	}
+    
+    
+	
+	
+
+
+	
 
 
 
 	
+
+
 	
-	
-    
-    
-    
-    
     
 
 	

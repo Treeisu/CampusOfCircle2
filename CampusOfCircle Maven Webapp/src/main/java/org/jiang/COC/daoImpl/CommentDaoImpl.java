@@ -17,6 +17,8 @@ public class CommentDaoImpl implements CommentDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
+	
+	
 	@Override
 	@Transactional
 	public void saveComment(Comment comment) {

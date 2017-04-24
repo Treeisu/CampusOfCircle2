@@ -102,12 +102,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<!--=====中间栏=====-->
 		<div id="middle" class='fleft'>
-			<div class="commentWrapDIV" style="margin-bottom: 20px;">
+			<div class="commentWrapDIV" >
 			<c:if test="${messages.size()>0}">
 			<c:forEach var="message" items="${messages}">
-				<div class="commentDIV" >
+				<div class="commentDIV" style="margin-bottom: 20px;">
 					<div class="media">
-						<p class="messageId" style="display: none"><c:out value="${message.id}"/></p>
+						<p class="messageId" style="display: none"><c:out value="${message.messageId}"/></p>
 						<a class="pull-left" href="#"><img class="media-object" src="<c:out value="${message.fromUser.userImage}"/>" style="width:40px;height:40px"></a>
 						 <div class="media-body">
 						 	<h4 class="media-heading"><a class="name"><c:out value="${message.fromUser.userNickName}"/>：</a></h4>
