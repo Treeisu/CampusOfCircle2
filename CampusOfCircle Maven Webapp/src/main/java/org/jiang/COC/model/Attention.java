@@ -38,12 +38,20 @@ public class Attention implements Serializable {
     private long groupId;
     @Column(name = "createDate",length=20)
     private Date createDate;
+    @Column(name = "messageId")
+    private long messageId;
    
     
     
     
     
-  
+    
+	public long getMessageId() {
+		return messageId;
+	}
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
+	}
 	public long getAttentionId() {
 		return attentionId;
 	}

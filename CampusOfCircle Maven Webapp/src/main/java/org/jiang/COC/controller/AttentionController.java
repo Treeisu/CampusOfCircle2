@@ -21,12 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.jiang.COC.model.Attention;
 import org.jiang.COC.model.Fan;
 import org.jiang.COC.model.Group;
-import org.jiang.COC.model.Message;
 import org.jiang.COC.model.User;
 import org.jiang.COC.serviceImpl.AttentionServiceImpl;
 import org.jiang.COC.serviceImpl.FanServiceImpl;
 import org.jiang.COC.serviceImpl.GroupServiceImpl;
-import org.jiang.COC.serviceImpl.MessageServiceImpl;
 import org.jiang.COC.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,8 +48,6 @@ public class AttentionController {
 	private FanServiceImpl fanServiceImpl;
 	@Autowired
 	private UserServiceImpl userServiceImpl;
-	@Autowired
-	private MessageServiceImpl messageServiceImpl;
 	
 	@RequestMapping(value="/saveAttention")
 	@ResponseBody
@@ -72,44 +68,14 @@ public class AttentionController {
 		if(group!=null){
 			attention.setGroupName(group.getGroupName());
 			attentionServiceImpl.saveAttention(attention);
-			//添加一条mesasge记录
-			Message message=new Message();
-			message.setKindOperation(1);//1表示新粉丝种类操作
-			message.setMyUserId(attention.getToUserId());
-			message.setFromUserId(attention.getUserId());
-			message.setDate(attention.getCreateDate());
-			Message m= messageServiceImpl.findMessageBythree(attention.getUserId(), attention.getToUserId(), 1);
-			if(m==null){
-				messageServiceImpl.saveMessage(message);
-				sta=1;
-				return sta;
-			}else{
-				message.setState(0);
-				m=message;
-				messageServiceImpl.updateMessage(m);
-				sta=1;
-				return sta;
-			}
+			sta=1;
+			return sta;
+			
 		}else{
 			attention.setGroupName("默认分组");
 			attentionServiceImpl.saveAttention(attention);
-			Message message=new Message();
-			message.setKindOperation(1);//1表示新粉丝种类操作
-			message.setMyUserId(attention.getToUserId());
-			message.setFromUserId(attention.getUserId());
-			message.setDate(attention.getCreateDate());
-			Message m= messageServiceImpl.findMessageBythree(attention.getUserId(), attention.getToUserId(), 1);
-			if(m==null){
-				messageServiceImpl.saveMessage(message);
-				sta=1;
-				return sta;
-			}else{
-				message.setState(0);
-				m=message;
-				messageServiceImpl.updateMessage(m);
-				sta=1;
-				return sta;
-			}
+			sta=1;
+			return sta;
 			
 		}		
 	}
@@ -198,8 +164,6 @@ public class AttentionController {
 		Attention attention=attentionServiceImpl.getAttentionById(attentionId);
 		if(attention !=null){
 			attentionServiceImpl.deleteAttention(attention);
-			Message m= messageServiceImpl.findMessageBythree(attention.getUserId(), attention.getToUserId(), 1);
-			if(m!=null){messageServiceImpl.deleteMessage(m);}
 			sta=1;
 		}
 		return sta;
@@ -215,8 +179,6 @@ public class AttentionController {
 		int sta=0;
 		if(attention !=null){
 			attentionServiceImpl.deleteAttention(attention);
-			Message m= messageServiceImpl.findMessageBythree(attention.getUserId(), attention.getToUserId(), 1);
-			if(m!=null){messageServiceImpl.deleteMessage(m);}
 			sta=1;
 		}
 		return sta;

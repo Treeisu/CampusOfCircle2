@@ -126,6 +126,70 @@ public class MessageDaoImpl implements  MessageDao{
 
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Message> getMessageByattentionId(long attentionId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from Message where attentionId = :myattentionId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myattentionId", attentionId);	
+		List<Message> list=query.list();
+		return list;
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Message> getMessageBypraiseId(long praiseId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from Message where praiseId = :mypraiseId";
+		Query query=session.createQuery(hql);
+		query.setParameter("mypraiseId", praiseId);	
+		List<Message> list=query.list();
+		return list;
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Message> getMessageByturnId(long turnId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from Message where turnId = :myturnId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myturnId", turnId);	
+		List<Message> list=query.list();
+		return list;
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Message> getMessageBycommentId(long commentId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from Message where commentId = :mycommentId";
+		Query query=session.createQuery(hql);
+		query.setParameter("mycommentId", commentId);	
+		List<Message> list=query.list();
+		return list;
+	}
+
+
+
+	
+
+
+
 
 
 	

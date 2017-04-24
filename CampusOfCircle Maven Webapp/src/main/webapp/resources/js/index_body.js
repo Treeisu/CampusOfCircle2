@@ -1,5 +1,6 @@
 
 $(function(){
+	 var timer1=setInterval(messageMum,1000);
 	/**
 	 * 返回顶部
 	 */
@@ -35,7 +36,21 @@ $(function(){
 			window.location.href='/CampusOfCircle/jsp/userSingle.jsp';
 		});
 		
+		/**
+		 * 查看消息通知
+		 */
 		
+		$('#left').find('.messageLeftList').click(function(){
+			$.ajax({
+				type : 'post',
+				url : "message/getMessage",
+				dataType : "json",
+				data : {"userId" :$('#userId_navbar').text()},
+				success :function (data){
+					window.location.href='/CampusOfCircle/jsp/message.jsp';
+				}
+			});
+		});
 		
 		/**
 		 *创建分组ajax
@@ -852,7 +867,33 @@ $(function(){
 
 
 
-
+			/**
+			 * 获得通知数量函数
+			 */
+			function messageMum () {
+				$.ajax({
+					type : 'post',
+					url : "user/getMessageNum",
+					dataType : "json",
+					data : {"userId" :$('#userId_navbar').text()},
+					success :function (data){
+						var Obj=eval(data);
+						 var spanThis=$('#left').find('.messageLeftList').find('span');
+						 if(spanThis.length>0){
+							 var NumNew=Obj.userAdviceNum.sumNum;
+							 $('#left').find('.messageLeftList').find('span').html(NumNew);
+						 }else{
+							 if(Obj.userAdviceNum.sumNum>0){
+								 $('#left').find('.messageLeftList').append("<span class='badge' style='color: red;background-color: #C9EBF4;'>"+Obj.userAdviceNum.sumNum+"</span>");
+							 }						
+						 }
+					},
+					error:function(){
+						//关掉timer1
+						clearInterval(timer1);
+					}
+				});
+			}
 
 
 
@@ -899,3 +940,8 @@ function timeStamp2String(time){
     var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
     return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
 }
+
+
+
+
+

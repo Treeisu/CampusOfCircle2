@@ -30,6 +30,9 @@ public interface MessageService {
 	public Message findMessageBythree(long fromUserId,long myUserId,long kind);
 	public List<Message> findNEW(long myUserId,long state);
 	public Message findTurn(long fromUserId,long wbId,long kind);
-	
+	public Message getMessageByattentionId(long attentionId);
+	public Message getMessageBypraiseId(long praiseId);
+	public Message getMessageByturnId(long turnId);
+	public Message getMessageBycommentId(long commentId);
 
 }

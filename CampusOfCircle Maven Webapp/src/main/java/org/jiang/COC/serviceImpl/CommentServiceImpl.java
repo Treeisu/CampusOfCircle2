@@ -7,6 +7,7 @@ import org.jiang.COC.daoImpl.CommentDaoImpl;
 import org.jiang.COC.daoImpl.PushInfoDaoImpl;
 import org.jiang.COC.daoImpl.UserDaoImpl;
 import org.jiang.COC.model.Comment;
+import org.jiang.COC.model.Message;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
 import org.jiang.COC.service.CommentService;
@@ -26,13 +27,23 @@ public class CommentServiceImpl implements CommentService {
 	private UserDaoImpl userDaoImpl;
 	@Autowired
 	private PushInfoDaoImpl pushInfoDaoImpl;
-	
+	@Autowired
+	private MessageServiceImpl messageServiceImpl;
 	
 	@Override
 	@Transactional
 	public void saveComment(Comment comment) {
 		// TODO Auto-generated method stub
 		commentDaoImpl.saveComment(comment);
+		 Message m=new Message();
+		 m.setKindOperation(4);//4表示评论种类操作
+		 m.setCommentId(comment.getCommentId());
+		 m.setDate(comment.getCommentDate());
+		 m.setFromUserId(comment.getUserId());
+		 m.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId()).getUserId());
+		 m.setWbId(pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId()).getWbId());
+		 System.out.println(m);
+		 messageServiceImpl.saveMessage(m);
 		//对微博表做更新
 		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(comment.getWbId());
 		pushInfo.setCommentNum(pushInfo.getCommentNum()+1);
@@ -61,6 +72,9 @@ public class CommentServiceImpl implements CommentService {
 		long wbId=comment.getWbId();
 		if(comment !=null){
 			commentDaoImpl.deleteComment(comment);
+			//操作表
+			Message m=messageServiceImpl.getMessageBycommentId(comment.getCommentId());
+			if(m!=null){messageServiceImpl.deleteMessage(m);}
 			PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
 			pushInfo.setCommentNum(pushInfo.getCommentNum()-1);
 			pushInfoDaoImpl.updatePushInfo(pushInfo);

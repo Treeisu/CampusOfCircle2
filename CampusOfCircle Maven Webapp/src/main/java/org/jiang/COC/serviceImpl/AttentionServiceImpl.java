@@ -7,6 +7,7 @@ import java.util.List;
 import org.jiang.COC.daoImpl.AttentionDaoImpl;
 import org.jiang.COC.model.Attention;
 import org.jiang.COC.model.Fan;
+import org.jiang.COC.model.Message;
 import org.jiang.COC.model.UserAdviceNum;
 import org.jiang.COC.service.AttentionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,21 @@ public class AttentionServiceImpl implements AttentionService {
 	private AdviceServiceImpl adviceServiceImpl ;
 	@Autowired
 	private FanServiceImpl fanServiceImpl ;
-
+	@Autowired
+	private MessageServiceImpl messageServiceImpl ;
 	@Override
 	@Transactional
 	public void saveAttention(Attention attention) {
 		// TODO Auto-generated method stub
 		attentionDaoImpl.saveAttention(attention);
+		//添加一条mesasge记录
+		Message message=new Message();
+		message.setKindOperation(1);//1表示新粉丝种类操作
+		message.setAttentionId(attention.getAttentionId());
+		message.setMyUserId(attention.getToUserId());
+		message.setFromUserId(attention.getUserId());
+		message.setDate(attention.getCreateDate());			
+		messageServiceImpl.saveMessage(message);
 		//需要更新关注数量
 		UserAdviceNum userAdviceNum=adviceServiceImpl.findByUserId(attention.getUserId());
 		userAdviceNum.setAttentionNum(userAdviceNum.getAttentionNum()+1);
@@ -52,6 +62,8 @@ public class AttentionServiceImpl implements AttentionService {
 	public void deleteAttention(Attention attention) {
 		// TODO Auto-generated method stub
 		attentionDaoImpl.deleteAttention(attention);
+		Message m= messageServiceImpl.getMessageByattentionId(attention.getAttentionId());
+		if(m!=null){messageServiceImpl.deleteMessage(m);}
 		//更新对方粉丝表，顺便删除粉丝时fanservice会更新数量
 		Fan fan=fanServiceImpl.findByFromUIdANDUId(attention.getUserId(), attention.getToUserId());
 		if(fan !=null){

@@ -30,29 +30,32 @@ public class PraiseInfo implements Serializable {
 	private long userId;
     @Column(name = "praiseDate",length=20)
     private Date praiseDate;
-    @Column(name = "state")
-    private int state;
+    @Column(name = "messageId")
+    private long messageId;
     
     
 	
+	
+
+
 	public PraiseInfo(long praiseInfoId, long wbId, long userId,
-			Date praiseDate, int state) {
+			Date praiseDate, long messageId) {
 		super();
 		this.praiseInfoId = praiseInfoId;
 		this.wbId = wbId;
 		this.userId = userId;
 		this.praiseDate = praiseDate;
-		this.state = state;
+		this.messageId = messageId;
 	}
 
 
-	public int getState() {
-		return state;
+	public long getMessageId() {
+		return messageId;
 	}
 
 
-	public void setState(int state) {
-		this.state = state;
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
 	}
 
 
@@ -91,8 +94,11 @@ public class PraiseInfo implements Serializable {
 	public String toString() {
 		return "PraiseInfo [praiseInfoId=" + praiseInfoId + ", wbId=" + wbId
 				+ ", userId=" + userId + ", praiseDate=" + praiseDate
-				+ ", state=" + state + "]";
+				+ ", messageId=" + messageId + "]";
 	}
+
+
+
 	
 	
 	

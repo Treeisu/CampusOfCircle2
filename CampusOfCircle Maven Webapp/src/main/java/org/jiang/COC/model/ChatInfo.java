@@ -38,8 +38,8 @@ public class ChatInfo implements Serializable {
     private String chatContent;
     @Column(name = "createDate",length=20)
     private Date createDate;
-    @Column(name = "state")
-    private int state;
+    @Column(name = "messageId")
+    private long messageId;
 	
     
     
@@ -80,14 +80,16 @@ public class ChatInfo implements Serializable {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public int getState() {
-		return state;
+	
+	public long getMessageId() {
+		return messageId;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
 	}
+	
 	public ChatInfo(long id, long userId, long fromUserId, long toUserId,
-			String chatContent, Date createDate, int state) {
+			String chatContent, Date createDate, long messageId) {
 		super();
 		Id = id;
 		this.userId = userId;
@@ -95,7 +97,7 @@ public class ChatInfo implements Serializable {
 		this.toUserId = toUserId;
 		this.chatContent = chatContent;
 		this.createDate = createDate;
-		this.state = state;
+		this.messageId = messageId;
 	}
 	public ChatInfo() {
 		super();
@@ -104,9 +106,10 @@ public class ChatInfo implements Serializable {
 	public String toString() {
 		return "ChatInfo [Id=" + Id + ", userId=" + userId + ", fromUserId="
 				+ fromUserId + ", toUserId=" + toUserId + ", chatContent="
-				+ chatContent + ", createDate=" + createDate + ", state="
-				+ state + "]";
+				+ chatContent + ", createDate=" + createDate + ", messageId="
+				+ messageId + "]";
 	}
+	
 	
     
     

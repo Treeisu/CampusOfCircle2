@@ -34,31 +34,34 @@ public class TurnInfo implements Serializable {
 	private long lastWbId;//这个字段用来存储点赞的微博Id	
     @Column(name = "turnDate",length=20)
     private Date turnDate;
-    @Column(name = "state")
-    private int state;
+    @Column(name = "messageId")
+    private long messageId;
 	
 	
+
+
+
 
 
 	public TurnInfo(long turnInfoId, long nowWbId, long firstWbId,
-			long lastWbId, Date turnDate, int state) {
+			long lastWbId, Date turnDate, long messageId) {
 		super();
 		this.turnInfoId = turnInfoId;
 		this.nowWbId = nowWbId;
 		this.firstWbId = firstWbId;
 		this.lastWbId = lastWbId;
 		this.turnDate = turnDate;
-		this.state = state;
+		this.messageId = messageId;
 	}
 
 
-	public int getState() {
-		return state;
+	public long getMessageId() {
+		return messageId;
 	}
 
 
-	public void setState(int state) {
-		this.state = state;
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
 	}
 
 
@@ -121,8 +124,10 @@ public class TurnInfo implements Serializable {
 	public String toString() {
 		return "TurnInfo [turnInfoId=" + turnInfoId + ", nowWbId=" + nowWbId
 				+ ", firstWbId=" + firstWbId + ", lastWbId=" + lastWbId
-				+ ", turnDate=" + turnDate + ", state=" + state + "]";
+				+ ", turnDate=" + turnDate + ", messageId=" + messageId + "]";
 	}
+
+
 
 
 	

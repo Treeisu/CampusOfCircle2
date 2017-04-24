@@ -13,6 +13,7 @@ import org.jiang.COC.daoImpl.TurnDaoImpl;
 import org.jiang.COC.daoImpl.UserDaoImpl;
 import org.jiang.COC.model.CollectionInfo;
 import org.jiang.COC.model.Comment;
+import org.jiang.COC.model.Message;
 import org.jiang.COC.model.PraiseInfo;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.TurnInfo;
@@ -43,6 +44,8 @@ public class PushInfoServiceImpl implements PushInfoService {
 	private TurnDaoImpl turnDaoImpl;
 	@Autowired
 	private AdviceDaoImpl adviceDaoImpl;
+	@Autowired
+	private MessageServiceImpl messageServiceImpl;
 	
 	
 	
@@ -79,7 +82,16 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setFirstWbId(firstinfo.getWbId());
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
-				turnDaoImpl.saveTurn(turnInfo);		
+				turnDaoImpl.saveTurn(turnInfo);	
+				 //转发过后，设置操作表
+				 Message message=new Message();
+				 message.setKindOperation(3);//3表示转发种类操作
+				 message.setTurnId(turnInfo.getTurnInfoId());
+				 message.setDate(turnInfo.getTurnDate());
+				 message.setFromUserId(pushInfo.getUserId());
+				 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId());
+				 message.setWbId(pushInfo.getWbId());
+				 messageServiceImpl.saveMessage(message);			
 				UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
 				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
 				adviceDaoImpl.updateAdvice(userAdviceNum);								
@@ -97,7 +109,16 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setFirstWbId(firstinfo.getWbId());
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
-				turnDaoImpl.saveTurn(turnInfo);		
+				turnDaoImpl.saveTurn(turnInfo);	
+				 //转发过后，设置操作表
+				 Message message=new Message();
+				 message.setKindOperation(3);//3表示转发种类操作
+				 message.setTurnId(turnInfo.getTurnInfoId());
+				 message.setDate(turnInfo.getTurnDate());
+				 message.setFromUserId(pushInfo.getUserId());
+				 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId());
+				 message.setWbId(pushInfo.getWbId());
+				 messageServiceImpl.saveMessage(message);
 				UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
 				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
 				adviceDaoImpl.updateAdvice(userAdviceNum);
@@ -149,6 +170,8 @@ public class PushInfoServiceImpl implements PushInfoService {
 								pushInfoDaoImpl.updatePushInfo(push);//原微博数量-1
 							}
 							turnDaoImpl.deleteTurn(turnInfo);//转发记录删除
+							 Message m=messageServiceImpl.getMessageByturnId(turnInfo.getTurnInfoId());
+							 if(m!=null){messageServiceImpl.deleteMessage(m);}
 							UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
 							userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
 							adviceDaoImpl.updateAdvice(userAdviceNum);	
@@ -165,7 +188,9 @@ public class PushInfoServiceImpl implements PushInfoService {
 								pushlast.setTurnNum(pushlast.getTurnNum()-1);
 								pushInfoDaoImpl.updatePushInfo(pushlast);//原微博数量-1
 							}
-							turnDaoImpl.deleteTurn(turnInfo);	
+							turnDaoImpl.deleteTurn(turnInfo);
+							Message m=messageServiceImpl.getMessageByturnId(turnInfo.getTurnInfoId());
+							if(m!=null){messageServiceImpl.deleteMessage(m);}
 							UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
 							userAdviceNum.setWbNum(userAdviceNum.getWbNum()-1);
 							adviceDaoImpl.updateAdvice(userAdviceNum);							
@@ -259,12 +284,14 @@ public class PushInfoServiceImpl implements PushInfoService {
 	}
 
 	@Override
+	@Transactional
 	public void updatePushInfo(PushInfo pushInfo) {
 		// TODO Auto-generated method stub
 		pushInfoDaoImpl.updatePushInfo(pushInfo);
 	}
 
 	@Override
+	@Transactional
 	public List<PushInfo> findByuserId(long userId) {
 		// TODO Auto-generated method stub
 		List<PushInfo> list=pushInfoDaoImpl.findByuserId(userId);

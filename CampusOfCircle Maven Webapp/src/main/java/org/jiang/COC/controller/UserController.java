@@ -166,6 +166,14 @@ public class UserController {
 		 }
 
 	}
+	@RequestMapping(value="/getMessageNum")
+	@ResponseBody()
+	public User getMessageNum(HttpServletRequest request,HttpServletResponse response){
+		 String idstring=request.getParameter("userId");
+		 long userId=Long.parseLong(idstring);
+		 User u=userserviceImpl.getByUserId(userId);
+		 return u;
+	}
 	@RequestMapping(value="/exit")
 	public String exitUser(HttpServletRequest request,HttpServletResponse response){
 		HttpSession session=request.getSession();

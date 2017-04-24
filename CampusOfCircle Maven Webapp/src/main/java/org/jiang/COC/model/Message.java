@@ -44,6 +44,8 @@ public class Message implements Serializable {
 	private long commentId;
 	@Column(name = "praiseId",length=20)
 	private long praiseId;
+	@Column(name = "attentionId",length=20)
+	private long attentionId;
 	@Column(name = "turnId",length=20)
 	private long turnId;
 	@Column(name = "myUserId",length=20)
@@ -58,6 +60,24 @@ public class Message implements Serializable {
 	
 	
 	
+	public long getPraiseId() {
+		return praiseId;
+	}
+	public void setPraiseId(long praiseId) {
+		this.praiseId = praiseId;
+	}
+	public long getAttentionId() {
+		return attentionId;
+	}
+	public void setAttentionId(long attentionId) {
+		this.attentionId = attentionId;
+	}
+	public long getTurnId() {
+		return turnId;
+	}
+	public void setTurnId(long turnId) {
+		this.turnId = turnId;
+	}
 	public User getMyUser() {
 		return myUser;
 	}

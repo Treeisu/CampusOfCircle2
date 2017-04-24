@@ -20,6 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageDaoImpl messageDaoImpl ;
+	@Autowired
+	private CommentServiceImpl commentServiceImpl ;
+	@Autowired
+	private PushInfoServiceImpl pushInfoServiceImpl ;
+	@Autowired
+	private UserServiceImpl userServiceImpl ;
 
 	@Override
 	@Transactional
@@ -48,6 +54,23 @@ public class MessageServiceImpl implements MessageService {
 	public List<Message> findByMyUserId(long myUserId){
 		// TODO Auto-generated method stub
 		List<Message> list=messageDaoImpl.findByMyUserId(myUserId);
+		//设置相关信息
+		for(Message m:list){
+			if(m.getCommentId()!=0){
+				m.setComment(commentServiceImpl.getCommentBycommentId(m.getCommentId()));
+			}
+			if(m.getWbId()!=0){
+				m.setPush(pushInfoServiceImpl.getPushIfoBywbId(myUserId, m.getWbId()));
+			}
+			if(m.getFromUserId()!=0){
+				m.setFromUser(userServiceImpl.getByUserId(m.getFromUserId()));
+			}
+			if(m.getMyUserId()!=0){
+				m.setMyUser(userServiceImpl.getByUserId(m.getMyUserId()));
+			}
+			m.setState(1);
+			messageDaoImpl.updateMessage(m);
+		}
 		return list;
 		
 	}
@@ -71,7 +94,11 @@ public class MessageServiceImpl implements MessageService {
 	@Transactional
 	public List<Message> findNEW(long myUserId, long state) {
 		// TODO Auto-generated method stub
-		return messageDaoImpl.findNEW(myUserId, state);
+		List<Message> list=messageDaoImpl.findNEW(myUserId, state);
+		if(list.size()>0){
+			return list;
+		}
+		return null;
 	}
 
 	@Override
@@ -83,6 +110,54 @@ public class MessageServiceImpl implements MessageService {
 		}
 		return null;
 		
+	}
+
+	@Override
+	@Transactional
+	public Message getMessageByattentionId(long attentionId) {
+		// TODO Auto-generated method stub
+		List<Message> list=messageDaoImpl.getMessageByattentionId(attentionId);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}		
+	}
+
+	@Override
+	@Transactional
+	public Message getMessageBypraiseId(long praiseId) {
+		// TODO Auto-generated method stub
+		List<Message> list=messageDaoImpl.getMessageBypraiseId(praiseId);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}	
+	}
+
+	@Override
+	@Transactional
+	public Message getMessageByturnId(long turnId) {
+		// TODO Auto-generated method stub
+		List<Message> list=messageDaoImpl.getMessageByturnId(turnId);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}	
+	}
+
+	@Override
+	@Transactional
+	public Message getMessageBycommentId(long commentId) {
+		// TODO Auto-generated method stub
+		List<Message> list=messageDaoImpl.getMessageBycommentId(commentId);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
 	}
 
 

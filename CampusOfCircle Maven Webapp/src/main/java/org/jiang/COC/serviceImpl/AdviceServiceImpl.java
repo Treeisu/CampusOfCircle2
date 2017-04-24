@@ -53,12 +53,11 @@ public class AdviceServiceImpl implements AdviceService {
 		UserAdviceNum userAdviceNum=adviceDaoImpl.findByUserId(userId);
 		//设置消息通知
 		List<Message> list=messageServiceImpl.findNEW(userId, 0);
-		System.out.println(userId);
-		if(list.size()>0){
-			userAdviceNum.setSumNum(list.size());
-		}else {
+		if(list==null){
 			userAdviceNum.setSumNum(0);
-		}		
+		}else{
+			userAdviceNum.setSumNum(list.size());
+		}
 		return userAdviceNum;
 		
 	}

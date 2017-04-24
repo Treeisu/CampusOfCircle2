@@ -32,15 +32,16 @@ public class Fan implements Serializable {
     private long fromUserId;
     @Column(name = "createDate",length=20)
     private Date createDate;
-    @Column(name = "state")
-    private int state;
+    @Column(name = "messageId")
+    private long messageId;
     
     
-    public int getState() {
-		return state;
+   
+	public long getMessageId() {
+		return messageId;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
 	}
 	public long getId() {
 		return Id;
@@ -67,13 +68,15 @@ public class Fan implements Serializable {
 		this.createDate = createDate;
 	}
 	
-	public Fan(long id, long userId, long fromUserId, Date createDate, int state) {
+	
+	public Fan(long id, long userId, long fromUserId, Date createDate,
+			long messageId) {
 		super();
 		Id = id;
 		this.userId = userId;
 		this.fromUserId = fromUserId;
 		this.createDate = createDate;
-		this.state = state;
+		this.messageId = messageId;
 	}
 	public Fan() {
 		super();
@@ -81,9 +84,10 @@ public class Fan implements Serializable {
 	@Override
 	public String toString() {
 		return "Fan [Id=" + Id + ", userId=" + userId + ", fromUserId="
-				+ fromUserId + ", createDate=" + createDate + ", state="
-				+ state + "]";
+				+ fromUserId + ", createDate=" + createDate + ", messageId="
+				+ messageId + "]";
 	}
+	
 	
 	
 

@@ -74,8 +74,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="left" class='fleft' style="opacity: 0.6;margin-top: -20px;">
         <div id="left_nav_a" class=' list-group'>
             <a href="/CampusOfCircle/userIndexTo" class="list-group-item active" ><i class='icon icon-home'></i>&nbsp;&nbsp;首页</a>
-            <a href="" class="list-group-item" ><i class='icon icon-at'></i>&nbsp;&nbsp;提到我的<span class="badge" style="color: red;background-color: #C9EBF4;">9</span></a>
-            <a href="" class="list-group-item" ><i class='icon icon-comment'></i>&nbsp;&nbsp;评论<span class="badge" style="color: red;background-color: #C9EBF4;">6</span></a>
+            <c:if test="${user.userAdviceNum.sumNum>0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息<span class="badge" style="color: red;background-color: #C9EBF4;"><c:out value="${user.userAdviceNum.sumNum}"/></span></a></c:if>
+            <c:if test="${user.userAdviceNum.sumNum==0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息</a></c:if>
             <a href="" class="list-group-item" ><i class='icon icon-letter'></i>&nbsp;&nbsp;私信<span class="badge" style="color: red;background-color: #C9EBF4;">5</span></a>
             <a href="" class="list-group-item" ><i class='icon icon-keep'></i>&nbsp;&nbsp;收藏</a>
         </div>
@@ -103,26 +103,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--=====中间栏=====-->
 		<div id="middle" class='fleft'>
 			<div class="commentWrapDIV" style="margin-bottom: 20px;">
+			<c:if test="${messages.size()>0}">
+			<c:forEach var="message" items="${messages}">
 				<div class="commentDIV" >
 					<div class="media">
-						<a class="pull-left" href="#"><img class="media-object" src="img/CoCBackground1.png" style="width:40px;height:40px"></a>
+						<p class="messageId" style="display: none"><c:out value="${message.id}"/></p>
+						<a class="pull-left" href="#"><img class="media-object" src="<c:out value="${message.fromUser.userImage}"/>" style="width:40px;height:40px"></a>
 						 <div class="media-body">
-						 	<h4 class="media-heading"><a class="name">张三：</a></h4>
-					 		<div>全方位深刻详解css3模块知识，经典案例分析，代码同步调试，让网页穿上绚丽装备！</div>
-					 		<div class="time" style="margin-top:5px;">2017-04-23 19:50</div>
-					 		<a class="pull-right" style="cursor: pointer; text-decoration:none;">回复</a><span class="pull-right" style="cursor: pointer;">&nbsp;|&nbsp;</span><a class="pull-right" style="cursor: pointer;text-decoration:none;">删除</a>
+						 	<h4 class="media-heading"><a class="name"><c:out value="${message.fromUser.userNickName}"/>：</a></h4>
+					 		<c:if test="${message.kindOperation==1}"><!-- 关注显示 -->
+					 			<div><c:out value="${message.fromUser.userNickName}"/>&nbsp;&nbsp; 成为了您的粉丝!</div>
+					 			<div class="time" style="margin-top:5px;"><fmt:formatDate value="${message.date}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+					 		</c:if>
+					 		<c:if test="${message.kindOperation!=1}"><!-- 点赞,转发，评论，显示 -->
+					 		<c:if test="${message.kindOperation==2}"><div class="text-success"><c:out value="${message.fromUser.userNickName}"/>&nbsp;&nbsp;闪亮地赞了您的动态！</div></c:if>
+					 		<c:if test="${message.kindOperation==3}"><div class="text-warning"><c:out value="${message.fromUser.userNickName}"/>&nbsp;&nbsp;转发了您的动态！</div></c:if>
+					 		<c:if test="${message.kindOperation==4}"><div class="text-warning"><c:out value="${message.comment.commentContent}"/></div></c:if>
+					 		<div class="time" style="margin-top:5px;"><fmt:formatDate value="${message.date}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+					 		<c:if test="${message.kindOperation==4}"><a class="pull-right" style="cursor: pointer; text-decoration:none;">回复</a><span class="pull-right" style="cursor: pointer;">&nbsp;|&nbsp;</span><a class="pull-right" style="cursor: pointer;text-decoration:none;">删除</a></c:if>
 					 		<div class="blogDIV" style="margin-top: 20px;border:1px solid #D7EEFB; background-color: #F1F7FA;">
 								<div class="media" style="margin: 15px 20px;">
+								<p class="messageId" style="display: none"><c:out value="${message.push.wbId}"/></p>
 									 <div class="media-body">
-									 	<h4 class="media-heading"><a class="name">姜小熙：</a></h4>
-								 		<div>全方位深刻详解css3模块知识，经典案例分析，代码同步调试，让网页穿上绚丽装备！</div>
+									 	<h4 class="media-heading"><a class="name"><c:out value="${message.myUser.userNickName}"/></a></h4>
+								 		<div><c:out value="${message.push.wbTextContent}"/></div>
 									 </div>
 								</div>
 							</div>
+							</c:if>
 						 </div>
 					</div>
 				</div>
-			</div>
+			</c:forEach>
+			</c:if>
+			<c:if test="${empty messages}">
+				<div style="margin-top:40px;border: dashed;">
+		    		<h3 class="text-center">您暂时没有任何的消息！</h3>
+		    	</div>
+			</c:if>
+			</div>			
+			
 		</div>
 	<!--=====中间栏end=====-->
 
@@ -461,6 +481,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/index_body.js"></script>
 	<script type="text/javascript" src="js/nav.js"></script>
+	<script type="text/javascript" src="js/message.js"></script>
 <script type="text/javascript">
 function setCaretPosition(ctrl, pos){
     if(ctrl.setSelectionRange)

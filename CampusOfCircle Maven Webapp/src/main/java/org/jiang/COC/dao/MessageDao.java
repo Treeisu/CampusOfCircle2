@@ -26,5 +26,9 @@ public interface MessageDao {
 	public List<Message> findByMyUserId(long myUserId);
 	public List<Message> findNEW(long myUserId,long state);
 	public List<Message> findTurn(long fromUserId,long kind,long wbId);
+	public List<Message> getMessageByattentionId(long attentionId);
+	public List<Message> getMessageBypraiseId(long praiseId);
+	public List<Message> getMessageByturnId(long turnId);
+	public List<Message> getMessageBycommentId(long commentId);
 	
 }

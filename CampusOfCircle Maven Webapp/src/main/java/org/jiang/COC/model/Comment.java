@@ -44,23 +44,25 @@ public class Comment implements Serializable {
     private String commentContent;
     @Column(name = "commentDate",length=20)
     private Date commentDate;
-    @Column(name = "state")
-    private int state;
+    @Column(name = "messageId")
+    private long messageId;
     
     
 	
-	public Comment(User commentUser, long commentId, long wbId, long userId,
-			long fromCommentId, String commentContent, Date commentDate,
-			int state) {
+	
+	public Comment(User commentUser, PushInfo belongBlog, long commentId,
+			long wbId, long userId, long fromCommentId, String commentContent,
+			Date commentDate, long messageId) {
 		super();
 		this.commentUser = commentUser;
+		this.belongBlog = belongBlog;
 		this.commentId = commentId;
 		this.wbId = wbId;
 		this.userId = userId;
 		this.fromCommentId = fromCommentId;
 		this.commentContent = commentContent;
 		this.commentDate = commentDate;
-		this.state = state;
+		this.messageId = messageId;
 	}
 	public Comment() {
 		super();
@@ -108,20 +110,29 @@ public class Comment implements Serializable {
 		this.commentDate = commentDate;
 	}
 	
-	public int getState() {
-		return state;
+	
+	public PushInfo getBelongBlog() {
+		return belongBlog;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setBelongBlog(PushInfo belongBlog) {
+		this.belongBlog = belongBlog;
+	}
+	public long getMessageId() {
+		return messageId;
+	}
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
 	}
 	@Override
 	public String toString() {
-		return "Comment [commentUser=" + commentUser + ", commentId="
-				+ commentId + ", wbId=" + wbId + ", userId=" + userId
-				+ ", fromCommentId=" + fromCommentId + ", commentContent="
-				+ commentContent + ", commentDate=" + commentDate + ", state="
-				+ state + "]";
+		return "Comment [commentUser=" + commentUser + ", belongBlog="
+				+ belongBlog + ", commentId=" + commentId + ", wbId=" + wbId
+				+ ", userId=" + userId + ", fromCommentId=" + fromCommentId
+				+ ", commentContent=" + commentContent + ", commentDate="
+				+ commentDate + ", messageId=" + messageId + "]";
 	}
+
+
 	
 	
     

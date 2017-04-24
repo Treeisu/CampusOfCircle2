@@ -12,14 +12,12 @@ import javax.servlet.http.HttpSession;
 import org.jiang.COC.common.UploadUtil;
 import org.jiang.COC.model.CollectionInfo;
 import org.jiang.COC.model.Comment;
-import org.jiang.COC.model.Message;
 import org.jiang.COC.model.PraiseInfo;
 import org.jiang.COC.model.PushInfo;
 import org.jiang.COC.model.User;
 import org.jiang.COC.serviceImpl.AttentionServiceImpl;
 import org.jiang.COC.serviceImpl.CollectionServiceImpl;
 import org.jiang.COC.serviceImpl.CommentServiceImpl;
-import org.jiang.COC.serviceImpl.MessageServiceImpl;
 import org.jiang.COC.serviceImpl.PraiseServiceImpl;
 import org.jiang.COC.serviceImpl.PushInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +44,6 @@ public class PushInfoController {
 	private CollectionServiceImpl collectionServiceImpl;
 	@Autowired
 	private AttentionServiceImpl attentionServiceImpl;
-	@Autowired
-	private MessageServiceImpl messageServiceImpl;
 		
 	@RequestMapping(value="/push")
 	public ModelAndView savepushInfo(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest muliRequest,
@@ -104,15 +100,7 @@ public class PushInfoController {
 		 long authorWbId=Long.parseLong(authorWebIdstr);
 		 pushInfo.setWbAuthorId(authorWbId);
 		 pushInfo.setWbTextContent(content);
-		 pushInfoServiceImpl.savePushInfo(pushInfo);
-		 //转发过后，设置操作表
-		 Message message=new Message();
-		 message.setKindOperation(3);//3表示转发种类操作
-		 message.setDate(pushInfo.getWbPushDate());
-		 message.setFromUserId(pushInfo.getUserId());
-		 message.setMyUserId(pushInfoServiceImpl.getPushIfoBywbId(user.getUserId(), authorWbId).getUserId());
-		 message.setWbId(pushInfo.getWbId());
-		 messageServiceImpl.saveMessage(message);
+		 pushInfoServiceImpl.savePushInfo(pushInfo);		
 		 //判断是否评论becomment
 		 String byComment=request.getParameter("becomment");
 		 System.out.println(byComment);
@@ -125,16 +113,7 @@ public class PushInfoController {
 				 comment.setCommentDate(new Date());
 				 comment.setUserId(user.getUserId());
 				 comment.setWbId(authorWbId);
-				 commentServiceImpl.saveComment(comment);
-				 Message message2=new Message();
-				 message2.setKindOperation(4);//4表示评论种类操作
-				 message2.setDate(comment.getCommentDate());
-				 message2.setFromUserId(comment.getUserId());
-				 message2.setMyUserId(pushInfoServiceImpl.getPushIfoBywbId(user.getUserId(), comment.getWbId()).getUserId());
-				 message2.setFromUserId(user.getUserId());
-				 message2.setWbId(pushInfo.getWbId());
-				 message2.setCommentId(comment.getCommentId());
-				 messageServiceImpl.saveMessage(message2);
+				 commentServiceImpl.saveComment(comment);				
 			 }
 		 }
 		 //进行查询
@@ -219,7 +198,6 @@ public class PushInfoController {
 		 if(push !=null){
 			 if(push.getUserId()==user.getUserId()){
 				 pushInfoServiceImpl.deleteBywbId(wbId);
-				 Message message= messageServiceImpl.findTurn(user.getUserId(), push.getWbId(), 3);
 				 sta=1;
 			 }			  
 		 }
@@ -337,14 +315,7 @@ public class PushInfoController {
 		 praiseInfo.setUserId(user.getUserId());
 		 praiseInfo.setWbId(wbId);
 		 praiseServiceImpl.savePraise(praiseInfo);
-		 //设置操作表
-		 Message message=new Message();
-		 message.setKindOperation(1);//3表示转发种类操作
-		 message.setDate(praiseInfo.getPraiseDate());
-		 message.setFromUserId(praiseInfo.getUserId());
-		 message.setMyUserId(pushInfoServiceImpl.getPushIfoBywbId(user.getUserId(),wbId).getUserId());
-		 message.setWbId(wbId);
-		 messageServiceImpl.saveMessage(message);
+		
 		 return 1;		 	
 	}
 	/**
@@ -356,7 +327,7 @@ public class PushInfoController {
 		 HttpSession session=request.getSession();
 		 User user=(User) session.getAttribute("user");
 		 String wbIdstring=request.getParameter("wbId");
-		 long wbId=Long.parseLong(wbIdstring);		 
+		 long wbId=Long.parseLong(wbIdstring);
 		 praiseServiceImpl.deletePraise(user.getUserId(), wbId);
 		 return 1;		 	
 	}
@@ -367,8 +338,7 @@ public class PushInfoController {
 	@ResponseBody
 	public int saveCollection(HttpServletRequest request,HttpServletResponse response){
 		 HttpSession session=request.getSession();
-		 User user=(User) session.getAttribute("user");
-		
+		 User user=(User) session.getAttribute("user");		
 		 String wbIdstring=request.getParameter("wbId");
 		 long wbId=Long.parseLong(wbIdstring);
 		 CollectionInfo collectionInfo=new CollectionInfo();
