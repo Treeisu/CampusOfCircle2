@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<p class="messageId" style="display: none"><c:out value="${message.messageId}"/></p>
 						<a class="pull-left" href="#"><img class="media-object" src="<c:out value="${message.fromUser.userImage}"/>" style="width:40px;height:40px"></a>
 						 <div class="media-body">
-						 	<h4 class="media-heading"><a class="name"><c:out value="${message.fromUser.userNickName}"/>：</a></h4>
+						 	<h4 class="media-heading"><a class="name messageFromUserName"><c:out value="${message.fromUser.userNickName}"/>：</a></h4>
 					 		<c:if test="${message.kindOperation==1}"><!-- 关注显示 -->
 					 			<div><c:out value="${message.fromUser.userNickName}"/>&nbsp;&nbsp; 成为了您的粉丝!</div>
 					 			<div class="time" style="margin-top:5px;"><fmt:formatDate value="${message.date}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
@@ -118,12 +118,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					 		<c:if test="${message.kindOperation!=1}"><!-- 点赞,转发，评论，显示 -->
 					 		<c:if test="${message.kindOperation==2}"><div class="text-success"><c:out value="${message.fromUser.userNickName}"/>&nbsp;&nbsp;闪亮地赞了您的动态！</div></c:if>
 					 		<c:if test="${message.kindOperation==3}"><div class="text-warning"><c:out value="${message.fromUser.userNickName}"/>&nbsp;&nbsp;转发了您的动态！</div></c:if>
-					 		<c:if test="${message.kindOperation==4}"><div class="text-warning"><c:out value="${message.comment.commentContent}"/></div></c:if>
+					 		<c:if test="${message.kindOperation==4}"><div class="text-warning commentContentThis"><c:out value="${message.comment.commentContent}"/></div></c:if>
 					 		<div class="time" style="margin-top:5px;"><fmt:formatDate value="${message.date}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-					 		<c:if test="${message.kindOperation==4}"><a class="pull-right" style="cursor: pointer; text-decoration:none;">回复</a><span class="pull-right" style="cursor: pointer;">&nbsp;|&nbsp;</span><a class="pull-right" style="cursor: pointer;text-decoration:none;">删除</a></c:if>
+					 		<c:if test="${message.kindOperation==4}">
+					 			<p class="commentIdThis" style="display: none"><c:out value="${message.comment.commentId}"/></p>
+					 			<a class="pull-right replycommentThis" style="cursor: pointer; text-decoration:none;">回复</a><span class="pull-right" style="cursor: pointer;">&nbsp;|&nbsp;</span><a class="pull-right delcommentThis" style="cursor: pointer;text-decoration:none;">删除</a>
+					 		</c:if>
 					 		<div class="blogDIV" style="margin-top: 20px;border:1px solid #D7EEFB; background-color: #F1F7FA;">
 								<div class="media" style="margin: 15px 20px;">
-								<p class="messageId" style="display: none"><c:out value="${message.push.wbId}"/></p>
+								<p class="messageWbId" style="display: none"><c:out value="${message.push.wbId}"/></p>
 									 <div class="media-body">
 									 	<h4 class="media-heading"><a class="name"><c:out value="${message.myUser.userNickName}"/></a></h4>
 								 		<div><c:out value="${message.push.wbTextContent}"/></div>
@@ -268,7 +271,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 </div>
  <!--==========创建分组弹框====已完成======-->
-
+<!--==========评论弹框=====已完成=====-->
+<div class="modal fade" id="commentModal" >
+		<div class="modal-dialog ">
+			<div class="modal-content"style="background-color: #E9F4F6;">
+				 <div class="modal-header">
+				 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only close"></span></button>
+				 	<h4 class="modal-title text-center">回复评论</h4>
+				 </div>
+				 <div class="modal-body">
+				 	<input type="text" name='name' id='gp-name' class="form-control"/>
+				 </div>
+			   	 <div class="modal-footer">
+			   	 	<input type="submit" class="btn btn-success" value="回复"/>
+			   	 	<button class="btn btn-default" data-dismiss="modal">取消</button>
+			   	 </div>
+			</div>
+		</div>
+</div>
+ <!--==========评论弹框====已完成======-->
  <!--==========删除分组弹框=====已完成=====-->
 <div class="modal fade" id="delete_group_modal">
 		<div class="modal-dialog ">

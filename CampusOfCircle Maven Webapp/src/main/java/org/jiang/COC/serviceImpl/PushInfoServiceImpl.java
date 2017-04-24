@@ -83,15 +83,17 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
 				turnDaoImpl.saveTurn(turnInfo);	
-				 //转发过后，设置操作表
-				 Message message=new Message();
-				 message.setKindOperation(3);//3表示转发种类操作
-				 message.setTurnId(turnInfo.getTurnInfoId());
-				 message.setDate(turnInfo.getTurnDate());
-				 message.setFromUserId(pushInfo.getUserId());
-				 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId());
-				 message.setWbId(pushInfo.getWbId());
-				 messageServiceImpl.saveMessage(message);			
+				if(pushInfo.getUserId()!=pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId()){
+					//转发过后，设置操作表
+					 Message message=new Message();
+					 message.setKindOperation(3);//3表示转发种类操作
+					 message.setTurnId(turnInfo.getTurnInfoId());
+					 message.setDate(turnInfo.getTurnDate());
+					 message.setFromUserId(pushInfo.getUserId());
+					 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId());
+					 message.setWbId(pushInfo.getWbId());
+					 messageServiceImpl.saveMessage(message);		
+				}	
 				UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
 				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
 				adviceDaoImpl.updateAdvice(userAdviceNum);								
@@ -110,15 +112,17 @@ public class PushInfoServiceImpl implements PushInfoService {
 				turnInfo.setLastWbId(lastinfo.getWbId());
 				turnInfo.setTurnDate(new Date());
 				turnDaoImpl.saveTurn(turnInfo);	
-				 //转发过后，设置操作表
-				 Message message=new Message();
-				 message.setKindOperation(3);//3表示转发种类操作
-				 message.setTurnId(turnInfo.getTurnInfoId());
-				 message.setDate(turnInfo.getTurnDate());
-				 message.setFromUserId(pushInfo.getUserId());
-				 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId());
-				 message.setWbId(pushInfo.getWbId());
-				 messageServiceImpl.saveMessage(message);
+				if(pushInfo.getUserId()!=pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId()){
+					//转发过后，设置操作表
+					 Message message=new Message();
+					 message.setKindOperation(3);//3表示转发种类操作
+					 message.setTurnId(turnInfo.getTurnInfoId());
+					 message.setDate(turnInfo.getTurnDate());
+					 message.setFromUserId(pushInfo.getUserId());
+					 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(turnInfo.getFirstWbId()).getUserId());
+					 message.setWbId(pushInfo.getWbId());
+					 messageServiceImpl.saveMessage(message);		
+				}
 				UserAdviceNum userAdviceNum= adviceDaoImpl.findByUserId(userId);
 				userAdviceNum.setWbNum(userAdviceNum.getWbNum()+1);
 				adviceDaoImpl.updateAdvice(userAdviceNum);
@@ -266,14 +270,14 @@ public class PushInfoServiceImpl implements PushInfoService {
 			}
 			//设置点赞状态
 			List<PraiseInfo> prasieInfos=prasieDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
-			if(prasieInfos !=null){
+			if(prasieInfos.size()>0){
 				blog.setPraiseState(1);
 			}else{
 				blog.setPraiseState(0);
 			}
 			//设置收藏状态
 			List<CollectionInfo> collectionInfos=collectionDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
-			if(collectionInfos !=null){
+			if(collectionInfos.size()>0){
 				blog.setCollectionState(1);
 			}else{
 				blog.setCollectionState(0);
@@ -308,20 +312,22 @@ public class PushInfoServiceImpl implements PushInfoService {
 			}
 			//设置点赞状态
 			List<PraiseInfo> prasieInfos=prasieDaoImpl.findBywbIdAnduserId(userId, blog.getWbId());
-			if(prasieInfos !=null){
+			
+			if(prasieInfos.size()>0){
 				blog.setPraiseState(1);
 			}else{
 				blog.setPraiseState(0);
 			}
 			//设置收藏状态
 			List<CollectionInfo> collectionInfos=collectionDaoImpl.findBywbIdAnduserId(userId, blog.getWbId());
-			if(collectionInfos !=null){
+			if(collectionInfos .size()>0){
 				blog.setCollectionState(1);
 			}else{
 				blog.setCollectionState(0);
 			}	
 			
 		}
+		
 		return list;
 	}
 

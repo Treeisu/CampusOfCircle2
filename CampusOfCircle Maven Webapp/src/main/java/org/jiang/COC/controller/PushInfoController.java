@@ -246,7 +246,6 @@ public class PushInfoController {
 	public Comment pushComment2(HttpServletRequest request,HttpServletResponse response){
 		 HttpSession session=request.getSession();
 		 User user=(User) session.getAttribute("user");
-		
 		 String wbIdstring=request.getParameter("wbId");
 		 long wbId=Long.parseLong(wbIdstring);
 		 String fromcommentIdstring=request.getParameter("fromcommentId");
@@ -258,7 +257,6 @@ public class PushInfoController {
 		 comment.setUserId(user.getUserId());
 		 comment.setWbId(wbId);
 		 comment.setFromCommentId(fromCommentId);
-		 comment.setCommentUser(user);
 		 commentServiceImpl.saveComment(comment);
 		 return comment;		 	
 	}
@@ -289,8 +287,8 @@ public class PushInfoController {
 		long commentId=Long.parseLong(commentIdstring);
 		String wbIdstring=request.getParameter("wbId");
 		long wbId=Long.parseLong(wbIdstring);
-		Comment comment=commentServiceImpl.getCommentBycommentId(commentId);	
-		if(comment !=null&&comment.getUserId()==user.getUserId()){
+		Comment comment=commentServiceImpl.getCommentBycommentId(commentId);
+		if(comment !=null){
 			commentServiceImpl.deleteComment(commentId);
 			PushInfo info= pushInfoServiceImpl.getPushIfoBywbId(user.getUserId(), wbId);
 			sta=(int) info.getCommentNum();

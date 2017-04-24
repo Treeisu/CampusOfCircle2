@@ -32,15 +32,17 @@ public class PraiseServiceImpl implements PraiseService {
 		// TODO Auto-generated method stub
 		long wbId=praiseInfo.getWbId();
 		praiseDaoImpl.savePraise(praiseInfo);
-		 //设置操作表
-		 Message message=new Message();
-		 message.setKindOperation(2);//2表示点赞种类操作
-		 message.setPraiseId(praiseInfo.getPraiseInfoId());
-		 message.setDate(praiseInfo.getPraiseDate());
-		 message.setFromUserId(praiseInfo.getUserId());
-		 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(praiseInfo.getWbId()).getUserId());
-		 message.setWbId(praiseInfo.getWbId());
-		 messageServiceImpl.saveMessage(message);
+		if(praiseInfo.getUserId()!=pushInfoDaoImpl.getPushIfoBywbId(praiseInfo.getWbId()).getUserId()){
+			//设置操作表
+			 Message message=new Message();
+			 message.setKindOperation(2);//2表示点赞种类操作
+			 message.setPraiseId(praiseInfo.getPraiseInfoId());
+			 message.setDate(praiseInfo.getPraiseDate());
+			 message.setFromUserId(praiseInfo.getUserId());
+			 message.setMyUserId(pushInfoDaoImpl.getPushIfoBywbId(praiseInfo.getWbId()).getUserId());
+			 message.setWbId(praiseInfo.getWbId());
+			 messageServiceImpl.saveMessage(message);
+		}		 
 		//数量+1
 		PushInfo pushInfo=pushInfoDaoImpl.getPushIfoBywbId(wbId);
 		pushInfo.setPraiseNum(pushInfo.getPraiseNum()+1);
