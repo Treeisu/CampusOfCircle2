@@ -25,6 +25,7 @@
 		<mvc:resources location="/resources/css/common" mapping="/css/common/**" />
 		<mvc:resources location="/resources/img/" mapping="/img/**" />
 		<mvc:resources location="/resources/headphotos/" mapping="/headphotos/**" />
+		<mvc:resources location="/resources/music/" mapping="/music/**" />
         <!--第三步：配置前缀和后缀，这样controller中return的跳转页面就可以直接写名字，并且不用加.jsp结尾-->
 		<!--controller中return的页面都会在/WEB-INF/jsp/*.jsp去寻找对应的jsp文件-->
     	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

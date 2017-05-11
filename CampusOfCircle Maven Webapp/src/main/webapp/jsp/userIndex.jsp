@@ -10,13 +10,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+  	
     <base href="<%=basePath%>">    
-    <title>CampusOfCircle-个人首页</title> 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>CampusOfCircle-个人首页</title>
 	<link href="css/common/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link type="text/css" rel="stylesheet" href="css/index_common.css">
     <link type="text/css" rel="stylesheet" href="css/index_modal.css">
     <link type="text/css" rel="stylesheet" href="css/index_body.css">
+    <embed hidden=true autostart=true loop=true src="music/first.mp3" > </embed>
   </head>
   
 <body>
@@ -75,8 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div id="left_nav_a" class=' list-group'>
             <a href="/CampusOfCircle/userIndexTo" class="list-group-item active" ><i class='icon icon-home'></i>&nbsp;&nbsp;首页</a>
             <c:if test="${user.userAdviceNum.sumNum>0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息<span class="badge" style="color: red;background-color: #C9EBF4;"><c:out value="${user.userAdviceNum.sumNum}"/></span></a></c:if>
-            <c:if test="${user.userAdviceNum.sumNum==0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息</a></c:if>
-            <a href="" class="list-group-item" ><i class='icon icon-letter'></i>&nbsp;&nbsp;私信<span class="badge" style="color: red;background-color: #C9EBF4;">5</span></a>
+            <c:if test="${user.userAdviceNum.sumNum==0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息</a></c:if>          
             <a href="" class="list-group-item" ><i class='icon icon-keep'></i>&nbsp;&nbsp;收藏</a>
         </div>
         <div class="group">

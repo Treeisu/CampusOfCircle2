@@ -1,6 +1,6 @@
 
 $(function(){
-	 var timer1=setInterval(messageMum,1000);
+	 var timer1=setInterval(messageMum,3000);
 	/**
 	 * 返回顶部
 	 */
@@ -755,6 +755,8 @@ $(function(){
 			});
 			//回复ajax
 			$('.weibo').find('.showcommentList').on('click','#sendcomment_btn',function(){
+				var userImage=$('#right').find('.user_face').children('dt').find('img').attr('src');
+				var userNickName=$('#right').find('.user_face').children('dd').text();
 				var showcommentListDIV_this=$(this).parents('.showcommentList');
 				var commen_contentDIV_this=$(this).parents('.commen_content_div');
 				var fromcommId=$(this).parents('.comment_all').find('#commentId_p_init').text();
@@ -772,13 +774,13 @@ $(function(){
 							 	var commentdiv1="<div class='comment_all' style='width:490px; margin-top: 5px;overflow: hidden;'><p id='commentId_p_init' style='display:none'>";
 								var commentId=Obj.commentId;
 								var commentdiv2="</p><div style='width: 30px; float: left;'><a class='comment_img'><img src='";
-								var commentImg=Obj.commentUser.userImage;
+								var commentImg=userImage;
 						    	var commentdiv3="' width='28' height='28'/></a></div><div class='commen_content_div' style='width: 460px;float: right;'><p id='commentuserId_p_init' style='display:none'>";
 						    	var commentUserId=Obj.userId;
 					    		var commentdiv4="</p><p id='formUserId_p_init' style='display:none'>";
 					    		var commentCommentId=Obj.fromCommentId;
 					    		var commentdiv5="</p><a class='commentname' style='text-decoration: none;float: left;'>";
-					    		var commentUserNickName=Obj.commentUser.userNickName;
+					    		var commentUserNickName=userNickName;
 					    		var commentdiv6=":</a><p>";
 					    		var commentContent=Obj.commentContent;
 					    		var commentdiv7=" </p><p class='comment_time'>";
