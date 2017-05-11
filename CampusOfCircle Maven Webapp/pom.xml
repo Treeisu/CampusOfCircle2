@@ -114,8 +114,8 @@
 		    <groupId>commons-pool</groupId>
 		    <artifactId>commons-pool</artifactId>
 		    <version>1.5.4</version>
-		</dependency>
-		<!-- spring使用日志文件依赖 -->
+		</dependency> 	
+		<!-- spring使用日志文件依赖 -->	
 		<dependency>
 		    <groupId>log4j</groupId>
 		    <artifactId>log4j</artifactId>
