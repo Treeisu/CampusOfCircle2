@@ -13,7 +13,6 @@
 		<!-- <param-value>/WEB-INF/applicationContext.xml</param-value> -->
 		<param-value>classpath*:spring.xml</param-value>
 	 </context-param>
- 
  <!-- 过滤器设置编码 -->
   <filter>
   	<filter-name>CharacterEncodingFilter</filter-name>
@@ -27,15 +26,16 @@
   			<param-value>true</param-value>
   		</init-param>
 	</filter>
-<!-- 过滤器设置编码 -->
-
-
-
-<!-- 此servlet拦截所有请求交给springMVC.XML处理 -->
+	<!-- 此servlet拦截所有请求交给springMVC.XML处理 -->
 	<filter-mapping>
 	  <filter-name>CharacterEncodingFilter</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
+<!-- 过滤器设置编码 -->	
+	
+	
+	
+	
   <servlet>
 		<servlet-name>springMVC</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

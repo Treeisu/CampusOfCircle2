@@ -58,6 +58,13 @@ public class CollectionServiceImpl implements CollectionService {
 		}
 	}
 
+	@Override
+	@Transactional
+	public List<Long> findwbIdByuserId(long userId) {
+		// TODO Auto-generated method stub
+		return collectionDaoImpl.findByuserId(userId);
+	}
+
 	
 
 }

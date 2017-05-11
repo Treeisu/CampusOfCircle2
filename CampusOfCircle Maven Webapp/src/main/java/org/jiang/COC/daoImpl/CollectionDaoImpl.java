@@ -69,4 +69,19 @@ public class CollectionDaoImpl implements CollectionDao {
 	}
 
 
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Long> findByuserId(long userId) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="select wbId from CollectionInfo where userId = :myUserId";
+		Query query=session.createQuery(hql);
+		query.setParameter("myUserId", userId);
+		List<Long> list=query.list();
+		return list;
+	}
+
+
 }

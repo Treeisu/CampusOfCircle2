@@ -21,5 +21,6 @@ public interface PushInfoService {
 	public List<PushInfo> findByuserId(long userId);
 	public void deleteBywbId(long wbId);
 	public PushInfo getPushIfoBywbId(long uid,long wbId);
+	public List<PushInfo> getPushIfosBywbIds(long uid,List<Long> wbIds);
 
 }

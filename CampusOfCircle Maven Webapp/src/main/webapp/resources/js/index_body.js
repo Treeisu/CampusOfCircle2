@@ -1,6 +1,10 @@
 
 $(function(){
+<<<<<<< HEAD
 	 var timer1=setInterval(messageMum,3000);
+=======
+//	 var timer1=setInterval(messageMum,1000);
+>>>>>>> branch 'master' of https://github.com/Treeisu/CampusOfCircle.git
 	/**
 	 * 返回顶部
 	 */
@@ -211,7 +215,7 @@ $(function(){
 			var userId=$('#userId_navbar').text();
 			$.ajax({
 				type : 'post',
-				url : "attention/getFans",
+				url : "blog/getGroupBlogs",
 				dataType : "json",
 				data : {"userId":userId},
 				success :function (data){
@@ -222,8 +226,24 @@ $(function(){
 				}		
 			});
 		});
-		
-		
+		/**
+		 * 查看收藏的微博
+		 */
+		$('#left').find('.collectionLeftList').click(function(){
+			var userId=$('#userId_navbar').text();
+			$.ajax({
+				type : 'post',
+				url : "blog/getCollectionBlog",
+				dataType : "json",
+				data : {"userId":userId},
+				success :function (data){
+					var Obj=eval(data);
+					if(Obj==1){
+						window.location.href='/CampusOfCircle/userIndexTo2';
+					}								
+				}		
+			});
+		});
 		
 		
 		

@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <ul class="nav navbar-nav" id="head_mycollapse_ul">
                 <li class=" one"><i class="ui-center"></i><a href="/CampusOfCircle/jsp/userSingle.jsp">个人圈</a></li>
                 <li class="two"><i class="ui-home"></i><a href="/CampusOfCircle/userIndexTo">校园圈</a></li>
-                <li class="three"><i class="ui-friends"></i><a href="#">消息</a></li>
+                <li class="three"><i class="ui-friends"></i><a href="/CampusOfCircle/jsp/message.jsp">消息</a></li>
                 <li class="five"><i class="ui-dress"></i><a href="#setTheme_modal" data-toggle="modal">主题</a></li>
                 <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
                 <li class="seven"> <input type="text" class="form-control" placeholder="搜索用户/动态/校园"><span class="search"></span></li>
@@ -76,7 +76,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <a href="/CampusOfCircle/userIndexTo" class="list-group-item active" ><i class='icon icon-home'></i>&nbsp;&nbsp;首页</a>
             <c:if test="${user.userAdviceNum.sumNum>0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息<span class="badge" style="color: red;background-color: #C9EBF4;"><c:out value="${user.userAdviceNum.sumNum}"/></span></a></c:if>
             <c:if test="${user.userAdviceNum.sumNum==0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息</a></c:if>
+<<<<<<< HEAD
             <a href="" class="list-group-item" ><i class='icon icon-keep'></i>&nbsp;&nbsp;收藏</a>
+=======
+            <a href="" class="list-group-item collectionLeftList" ><i class='icon icon-keep'></i>&nbsp;&nbsp;收藏</a>
+>>>>>>> branch 'master' of https://github.com/Treeisu/CampusOfCircle.git
         </div>
         <div class="group">
             <fieldset><legend style="color: #8B8B85; font-weight: 300;text-align: center;">我的分组</legend></fieldset>

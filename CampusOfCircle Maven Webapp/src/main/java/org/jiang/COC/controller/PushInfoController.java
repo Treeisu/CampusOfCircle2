@@ -185,7 +185,17 @@ public class PushInfoController {
 		return datalist;
 		 
 	}
-	
+	@RequestMapping(value="/getCollectionBlog")
+	@ResponseBody
+	public int getCollectionBlog(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 User user=(User) session.getAttribute("user");
+		 long userId=user.getUserId();
+		 List<Long> wbIds=collectionServiceImpl.findwbIdByuserId(userId);
+		 List<PushInfo> datalist=pushInfoServiceImpl.getPushIfosBywbIds(userId, wbIds);
+		 session.setAttribute("blogs", datalist);
+		return 1; 
+	}
 	@RequestMapping(value="/del")
 	@ResponseBody
 	public int delete(HttpServletRequest request,HttpServletResponse response){

@@ -41,4 +41,11 @@
 				<value>classpath:mypath.properties</value>
 			</property>
 		</bean>
+		<mvc:interceptors>  
+	        <mvc:interceptor>  
+	            <mvc:mapping path="/*"/>
+	            <bean class="org.jiang.COC.common.Intercepter1"></bean>  
+	        </mvc:interceptor>  
+    	</mvc:interceptors>
+		
 </beans>

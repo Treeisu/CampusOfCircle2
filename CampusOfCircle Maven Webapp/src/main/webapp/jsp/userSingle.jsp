@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <ul class="nav navbar-nav" id="head_mycollapse_ul">
                 <li class=" one"><i class="ui-center"></i><a href="/CampusOfCircle/jsp/userSingle.jsp">个人圈</a></li>
                 <li class="two"><i class="ui-home"></i><a href="/CampusOfCircle/userIndexTo">校园圈</a></li>
-                <li class="three"><i class="ui-friends"></i><a href="#">消息</a></li>
+                <li class="three"><i class="ui-friends"></i><a href="/CampusOfCircle/jsp/message.jsp">消息</a></li>
                 <li class="five"><i class="ui-dress"></i><a href="#setTheme_modal" data-toggle="modal">主题</a></li>
                 <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
                 <li class="seven"> <input type="text" class="form-control" placeholder="搜索用户/动态/校园"><span class="search"></span></li>

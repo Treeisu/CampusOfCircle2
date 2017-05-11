@@ -331,6 +331,44 @@ public class PushInfoServiceImpl implements PushInfoService {
 		return list;
 	}
 
+	@Override
+	@Transactional
+	public List<PushInfo> getPushIfosBywbIds(long uid, List<Long> wbIds) {
+		// TODO Auto-generated method stub
+				List<PushInfo> list=pushInfoDaoImpl.getPushIfoBywbIds(wbIds);
+				for( PushInfo blog:list){
+					//设置发布者信息
+					User user=userDaoImpl.getUserById(blog.getUserId());
+					if(user !=null){
+						blog.setUser(user);
+					}
+					//设置转发init微博信息
+					PushInfo initPushInfo=pushInfoDaoImpl.getPushIfoBywbId(blog.getWbAuthorId());			
+					if(initPushInfo !=null){
+						User inituser=userDaoImpl.getUserById(initPushInfo.getUserId());
+						initPushInfo.setUser(inituser);
+						blog.setInitPushInfo(initPushInfo);
+					}
+					//设置点赞状态
+					List<PraiseInfo> prasieInfos=prasieDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
+					if(prasieInfos.size()!=0){
+						blog.setPraiseState(1);//已赞
+					}else{
+						blog.setPraiseState(0);//未赞
+					}
+					//设置收藏状态
+					List<CollectionInfo> collectionInfos=collectionDaoImpl.findBywbIdAnduserId(uid, blog.getWbId());
+					if(collectionInfos.size()!=0){
+						blog.setCollectionState(1);//已收藏
+					}else{
+						blog.setCollectionState(0);//未收藏
+					}	
+					
+				}
+				System.out.println(list);
+				return list;
+	}
+
 	
 
 }

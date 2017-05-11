@@ -75,6 +75,19 @@ public class PushInfoDaoImpl implements PushInfoDao {
 		List<PushInfo> list=query.list();
 		return list;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<PushInfo> getPushIfoBywbIds(List<Long> list) {
+		// TODO Auto-generated method stub
+		session=sessionFactory.getCurrentSession();
+		String hql="from PushInfo where wbId in(:mywbIds) order by wbPushDate desc";
+		Query query=session.createQuery(hql);
+		query.setParameterList("mywbIds", list);
+		List<PushInfo> wblist=query.list();
+		return wblist;
+	}
 	
 
 	
