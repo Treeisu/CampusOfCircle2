@@ -76,13 +76,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div id="left_nav_a" class=' list-group'>
             <a href="/CampusOfCircle/userIndexTo" class="list-group-item active" ><i class='icon icon-home'></i>&nbsp;&nbsp;首页</a>
             <c:if test="${user.userAdviceNum.sumNum>0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息<span class="badge" style="color: red;background-color: #C9EBF4;"><c:out value="${user.userAdviceNum.sumNum}"/></span></a></c:if>
-<<<<<<< HEAD
             <c:if test="${user.userAdviceNum.sumNum==0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息</a></c:if>          
             <a href="" class="list-group-item" ><i class='icon icon-keep'></i>&nbsp;&nbsp;收藏</a>
-=======
             <c:if test="${user.userAdviceNum.sumNum==0}"><a href="" class="list-group-item messageLeftList" ><i class='icon icon-comment'></i>&nbsp;&nbsp;消息</a></c:if>
             <a href="" class="list-group-item collectionLeftList" ><i class='icon icon-keep'></i>&nbsp;&nbsp;收藏</a>
->>>>>>> branch 'master' of https://github.com/Treeisu/CampusOfCircle.git
         </div>
         <div class="group">
             <fieldset><legend style="color: #8B8B85; font-weight: 300;text-align: center;">我的分组</legend></fieldset>

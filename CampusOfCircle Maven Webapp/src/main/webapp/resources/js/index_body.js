@@ -1,10 +1,7 @@
 
 $(function(){
-<<<<<<< HEAD
-	 var timer1=setInterval(messageMum,3000);
-=======
+//	 var timer1=setInterval(messageMum,5000);
 //	 var timer1=setInterval(messageMum,1000);
->>>>>>> branch 'master' of https://github.com/Treeisu/CampusOfCircle.git
 	/**
 	 * 返回顶部
 	 */
@@ -215,7 +212,7 @@ $(function(){
 			var userId=$('#userId_navbar').text();
 			$.ajax({
 				type : 'post',
-				url : "blog/getGroupBlogs",
+				url : "attention/getFans",
 				dataType : "json",
 				data : {"userId":userId},
 				success :function (data){
